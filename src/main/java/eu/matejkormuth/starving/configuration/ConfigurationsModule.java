@@ -65,6 +65,11 @@ public class ConfigurationsModule extends Module {
      * @return loaded or newly created configuration
      */
     public YamlConfiguration loadOrCreate(String name) {
+        // Fix name if needed.
+        if(!name.endsWith(".yaml")) {
+            name += ".yaml";
+        }
+
         if (Files.exists(basePath.resolve(name))) {
             return YamlConfiguration.loadConfiguration(basePath.resolve(name).toFile());
         } else {
@@ -79,6 +84,11 @@ public class ConfigurationsModule extends Module {
      * @param configuration configuration object
      */
     public void save(String name, YamlConfiguration configuration) {
+        // Fix name if needed.
+        if(!name.endsWith(".yaml")) {
+            name += ".yaml";
+        }
+
         try {
             configuration.save(basePath.resolve(name).toFile());
         } catch (IOException e) {
