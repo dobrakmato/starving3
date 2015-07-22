@@ -31,6 +31,8 @@ import net.minecraft.server.v1_8_R2.BiomeBase;
 import net.minecraft.server.v1_8_R2.EntityInsentient;
 import net.minecraft.server.v1_8_R2.EntityTypes;
 import net.minecraft.server.v1_8_R2.EntityZombie;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;
@@ -40,12 +42,16 @@ import java.util.Map;
 @NMSHooks(version = "v1_8_R2")
 public class Patcher {
 
+    private static final Logger log = LoggerFactory.getLogger(Patcher.class);
+
     public void patchAll() {
         patchZombies();
     }
 
     private void patchZombies() {
+        log.info("Patching Zombie in EntityTypes class.");
         patchEntity(Zombie.class, "Zombie", 54);
+        log.info("Patching Zombie in BiomeBase class.");
         patchBiomeBase(EntityZombie.class, Zombie.class);
     }
 
@@ -65,7 +71,7 @@ public class Patcher {
                     }
                     monsterSpawnList.add(new BiomeBase.BiomeMeta(entityClass, 100, 4, 4));
                 } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                    log.error("Can't patch Zombie to BiomeBase!", e);
                 }
             }
         }
@@ -90,7 +96,7 @@ public class Patcher {
             return f.get(object);
         } catch (NoSuchFieldException | SecurityException
                 | IllegalArgumentException | IllegalAccessException e) {
-            e.printStackTrace();
+            log.error("Can't get field {} of class {} on object {} because: {}!", fieldName, clazz.getName(), object, e);
             return null;
         }
 

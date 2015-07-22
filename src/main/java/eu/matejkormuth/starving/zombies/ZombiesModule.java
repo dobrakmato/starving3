@@ -27,6 +27,7 @@
 package eu.matejkormuth.starving.zombies;
 
 import eu.matejkormuth.starving.Module;
+import eu.matejkormuth.starving.zombies.spawning.ZombieSpawnListener;
 
 public class ZombiesModule extends Module {
     
@@ -35,7 +36,8 @@ public class ZombiesModule extends Module {
         // Here we need to patch in custom zombies.
         new Patcher().patchAll();
 
-        // TODO: We also need to patch BiomeBase to enable spawning of this customized zombies.
+        // Initialize listeners.
+        listener(new ZombieSpawnListener());
     }
 
     @Override

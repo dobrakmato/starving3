@@ -2,17 +2,17 @@
  * Starving - Bukkit API server mod with Zombies.
  * Copyright (c) 2015, Matej Kormuth <http://www.github.com/dobrakmato>
  * All rights reserved.
- *
+ * <p>
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
- *
+ * <p>
  * 1. Redistributions of source code must retain the above copyright notice, this
  * list of conditions and the following disclaimer.
- *
+ * <p>
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation and/or
  * other materials provided with the distribution.
- *
+ * <p>
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -28,6 +28,7 @@ package eu.matejkormuth.starving.zombies;
 
 import eu.matejkormuth.starving.main.NMSHooks;
 import eu.matejkormuth.starving.zombies.behavior.goals.PathfinderGoalNearestFOVVisibleAttackableTarget;
+import eu.matejkormuth.starving.zombies.groups.ZombieGroup;
 import net.minecraft.server.v1_8_R2.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -50,9 +51,22 @@ public class Zombie extends EntityZombie {
     private static final IAttribute movementSpeed = GenericAttributes.d;
     private static final IAttribute attackDamage = GenericAttributes.e;
 
+    // Current group.
+    private ZombieGroup group;
+
+    /**
+     * Calling this constructor spawns custom zombie. No other calls are needed.
+     *
+     * @param spawnLocation spawn location of this zombie
+     */
     public Zombie(Location spawnLocation) {
         super(((CraftWorld) spawnLocation.getWorld()).getHandle());
-        Bukkit.broadcastMessage("Created Zombie #" + this.getId());
+
+        // Make zombie fireproof.
+        this.fireProof = true;
+
+        // Disable despawning of this zombie.
+        this.persistent = true;
 
         // Set attribute values.
         setAttributes();
@@ -125,4 +139,18 @@ public class Zombie extends EntityZombie {
         Bukkit.broadcastMessage(" Zombie attributes set.");
     }
 
+
+    // These method provides non-NMS way to easily access position of Zombie.
+
+    public double getX() {
+        return this.locX;
+    }
+
+    public double getY() {
+        return this.locY;
+    }
+
+    public double getZ() {
+        return this.locZ;
+    }
 }
