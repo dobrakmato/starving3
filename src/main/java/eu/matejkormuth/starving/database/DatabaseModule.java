@@ -2,17 +2,17 @@
  * Starving - Bukkit API server mod with Zombies.
  * Copyright (c) 2015, Matej Kormuth <http://www.github.com/dobrakmato>
  * All rights reserved.
- *
+ * <p>
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
- *
+ * <p>
  * 1. Redistributions of source code must retain the above copyright notice, this
  * list of conditions and the following disclaimer.
- *
+ * <p>
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation and/or
  * other materials provided with the distribution.
- *
+ * <p>
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -26,10 +26,14 @@
  */
 package eu.matejkormuth.starving.database;
 
+import com.avaje.ebean.EbeanServer;
 import eu.matejkormuth.starving.Dependency;
 import eu.matejkormuth.starving.Module;
+import eu.matejkormuth.starving.PluginAccessor;
 import eu.matejkormuth.starving.configuration.ConfigurationsModule;
 import org.bukkit.configuration.file.YamlConfiguration;
+
+import javax.persistence.PersistenceException;
 
 public class DatabaseModule extends Module {
 
@@ -37,14 +41,37 @@ public class DatabaseModule extends Module {
     private ConfigurationsModule configurationsModule;
 
     private YamlConfiguration configuration;
-    
+
+    // Database.
+    private EbeanServer ebean;
+
     @Override
     public void onEnable() {
         configuration = configurationsModule.loadOrCreate("database");
+
+        setupDatabase();
+    }
+
+    private void setupDatabase() {
+        this.ebean = new PluginAccessor(this).getPlugin().getDatabase();
+        if (this.ebean == null) {
+            throw new IllegalStateException("Server did not provided instance to database! Check your configuration.");
+        }
+
+        // Regsiter all beans
+        try {
+            this.ebean.find(Object.class).findRowCount();
+        } catch (PersistenceException e) {
+            throw new Error("Things are fucked up...");
+        }
     }
 
     @Override
     public void onDisable() {
         configurationsModule.save("database", configuration);
+    }
+
+    public EbeanServer getEbean() {
+        return ebean;
     }
 }

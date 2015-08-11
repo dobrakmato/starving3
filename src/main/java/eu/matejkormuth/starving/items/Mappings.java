@@ -3,7 +3,7 @@ package eu.matejkormuth.starving.items;
 // This file is part of Starving 2.0 project.
 // This file was automatically generated.
 // Changes to this file wont be preserved!
-// Generated at: 22.7.2015 21:40
+// Generated at: 23.7.2015 0:05
 // This file is licensed under GPL-3.
 // Starving: <http://github.com/dobrakmato/mcRPG>
 

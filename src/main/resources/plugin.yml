@@ -8,6 +8,8 @@ description: ${project.description}
 author: Matej Kormuth
 # Main class that extends JavaPlugin.
 main: ${project.mainClass}
+# Database module requires this to be set to true.
+database: true
 
 # Commands.
 commands:

@@ -48,7 +48,7 @@ public abstract class Module {
     private static final Logger log = LoggerFactory.getLogger(Module.class);
 
     // Reference to JavaPlugin.
-    private static final Plugin plugin = Bukkit.getPluginManager().getPlugin("Starving");
+    static final Plugin plugin = Bukkit.getPluginManager().getPlugin("Starving");
 
     // List of dependency modules.
     private final List<Class<? extends Module>> dependencies = new ArrayList<>();
