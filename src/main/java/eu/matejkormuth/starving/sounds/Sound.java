@@ -26,17 +26,14 @@
  */
 package eu.matejkormuth.starving.sounds;
 
-import eu.matejkormuth.starving.nms.NMS;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public class Sound {
 
-    private final NMS nms;
     private final String name;
 
-    protected Sound(NMS nms, String name) {
-        this.nms = nms;
+    protected Sound(String name) {
         this.name = name;
     }
 
@@ -45,6 +42,7 @@ public class Sound {
     }
 
     public void play(Player player, Location location, float volume, float pitch) {
-        nms.playNamedSoundEffect(player, getName(), location, volume, pitch);
+        // Bukkit, fix this, pls.
+        player.playSound(location, getName(), volume, pitch);
     }
 }

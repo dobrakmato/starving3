@@ -27,19 +27,18 @@
 package eu.matejkormuth.starving.sounds.ambient;
 
 
-import eu.matejkormuth.starving.nms.NMS;
 import eu.matejkormuth.starving.sounds.Sound;
 
 public class RepeatingSound extends Sound {
 
-    protected RepeatingSound(NMS nms, String name) {
-        super(nms, name);
+    protected RepeatingSound(String name) {
+        super(name);
     }
 
-    public static RepeatingSound[] create(NMS nms, String... sounds) {
+    public static RepeatingSound[] create(String... sounds) {
         RepeatingSound[] rSounds = new RepeatingSound[sounds.length];
         for (int i = 0; i < sounds.length; i++) {
-            rSounds[i] = new RepeatingSound(nms, sounds[i]);
+            rSounds[i] = new RepeatingSound(sounds[i]);
         }
         return rSounds;
     }

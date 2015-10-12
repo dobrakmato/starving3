@@ -27,7 +27,6 @@
 package eu.matejkormuth.starving.sounds.ambient;
 
 
-import eu.matejkormuth.starving.nms.NMS;
 import eu.matejkormuth.starving.sounds.Sound;
 
 public class RandomSound extends Sound {
@@ -35,8 +34,8 @@ public class RandomSound extends Sound {
     private String name;
     private float chance;
 
-    public RandomSound(NMS nms, String name, float chance) {
-        super(nms, name);
+    public RandomSound(String name, float chance) {
+        super(name);
         this.chance = chance;
     }
 

@@ -26,14 +26,9 @@
  */
 package eu.matejkormuth.starving.sounds;
 
-import eu.matejkormuth.starving.Dependency;
 import eu.matejkormuth.starving.Module;
-import eu.matejkormuth.starving.nms.NMSModule;
 
 public class SoundsModule extends Module {
-
-    @Dependency
-    private NMSModule nmsModule;
 
     @Override
     public void onEnable() {
@@ -46,6 +41,6 @@ public class SoundsModule extends Module {
     }
 
     public Sound createSound(String name) {
-        return new Sound(nmsModule.getNms(), name);
+        return new Sound(name);
     }
 }

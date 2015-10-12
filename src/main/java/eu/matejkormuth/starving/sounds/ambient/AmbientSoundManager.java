@@ -56,13 +56,13 @@ public class AmbientSoundManager {
 
         // Init atmospheres.
         WOODS = new Atmosphere("base", 9000, new RepeatingSound[]{
-                new RepeatingSound(nms, "ambient.birdsonly")}, NO_RANDOM);
+                new RepeatingSound("ambient.birdsonly")}, NO_RANDOM);
         CRICKETS = new Atmosphere("crickets", 12750, new RepeatingSound[]{
-                new RepeatingSound(nms, "ambient.crickets")}, NO_RANDOM);
+                new RepeatingSound("ambient.crickets")}, NO_RANDOM);
         CAVE = new Atmosphere("cave", 9000, new RepeatingSound[]{
-                new RepeatingSound(nms, "ambient.cave")}, NO_RANDOM);
+                new RepeatingSound("ambient.cave")}, NO_RANDOM);
         INTERIOR = new Atmosphere("interior", 5000, new RepeatingSound[]{
-                new RepeatingSound(nms, "ambient.sum")}, NO_RANDOM);
+                new RepeatingSound("ambient.sum")}, NO_RANDOM);
 
         // Schedule tasks.
         RepeatingTask.of(this::updateChannels).schedule(1L);
