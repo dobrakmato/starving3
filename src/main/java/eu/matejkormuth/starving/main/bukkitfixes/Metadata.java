@@ -26,13 +26,13 @@
  */
 package eu.matejkormuth.starving.main.bukkitfixes;
 
-import org.bukkit.Bukkit;
+import eu.matejkormuth.bmboot.facades.Container;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 
 public class Metadata implements MetadataValue {
 
-    private static final Plugin plugin = Bukkit.getPluginManager().getPlugin("Starving");
+    private static final Plugin plugin = Container.get(Plugin.class);
 
     private Object value;
 

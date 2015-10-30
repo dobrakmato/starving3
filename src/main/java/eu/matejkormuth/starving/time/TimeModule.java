@@ -26,7 +26,7 @@
  */
 package eu.matejkormuth.starving.time;
 
-import eu.matejkormuth.starving.Module;
+import eu.matejkormuth.bmboot.internal.Module;
 import eu.matejkormuth.starving.time.listeners.TimeSetCommandListener;
 import eu.matejkormuth.starving.time.tasks.TimeCorrectionTask;
 

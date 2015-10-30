@@ -26,8 +26,8 @@
  */
 package eu.matejkormuth.starving.configuration;
 
-import eu.matejkormuth.starving.Dependency;
-import eu.matejkormuth.starving.Module;
+import eu.matejkormuth.bmboot.Dependency;
+import eu.matejkormuth.bmboot.internal.Module;
 import eu.matejkormuth.starving.filestorage.FileStorageModule;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.slf4j.Logger;

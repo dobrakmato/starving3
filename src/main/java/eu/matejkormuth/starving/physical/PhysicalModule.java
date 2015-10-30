@@ -26,7 +26,7 @@
  */
 package eu.matejkormuth.starving.physical;
 
-import eu.matejkormuth.starving.Module;
+import eu.matejkormuth.bmboot.internal.Module;
 import eu.matejkormuth.starving.physical.listeners.CancelPointEffectDamageListener;
 
 public class PhysicalModule extends Module {

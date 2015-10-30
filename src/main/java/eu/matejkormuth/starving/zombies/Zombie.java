@@ -2,17 +2,17 @@
  * Starving - Bukkit API server mod with Zombies.
  * Copyright (c) 2015, Matej Kormuth <http://www.github.com/dobrakmato>
  * All rights reserved.
- * <p>
+ *
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
- * <p>
+ *
  * 1. Redistributions of source code must retain the above copyright notice, this
  * list of conditions and the following disclaimer.
- * <p>
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation and/or
  * other materials provided with the distribution.
- * <p>
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -29,16 +29,16 @@ package eu.matejkormuth.starving.zombies;
 import eu.matejkormuth.starving.main.NMSHooks;
 import eu.matejkormuth.starving.zombies.behavior.goals.PathfinderGoalNearestFOVVisibleAttackableTarget;
 import eu.matejkormuth.starving.zombies.groups.ZombieGroup;
-import net.minecraft.server.v1_8_R2.*;
+import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R2.util.UnsafeList;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.util.UnsafeList;
 
 import java.lang.reflect.Field;
 import java.util.Random;
 
-@NMSHooks(version = "v1_8_R2")
+@NMSHooks(version = "v1_8_R3")
 public class Zombie extends EntityZombie {
 
     // Random instance.
@@ -46,10 +46,10 @@ public class Zombie extends EntityZombie {
 
     // Attributes.
     private static final IAttribute maxHealth = GenericAttributes.maxHealth;
-    private static final IAttribute followRange = GenericAttributes.b;
+    private static final IAttribute followRange = GenericAttributes.FOLLOW_RANGE;
     private static final IAttribute knockbackResitence = GenericAttributes.c;
-    private static final IAttribute movementSpeed = GenericAttributes.d;
-    private static final IAttribute attackDamage = GenericAttributes.e;
+    private static final IAttribute movementSpeed = GenericAttributes.MOVEMENT_SPEED;
+    private static final IAttribute attackDamage = GenericAttributes.ATTACK_DAMAGE;
 
     // Current group.
     private ZombieGroup group;

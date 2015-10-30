@@ -26,7 +26,7 @@
  */
 package eu.matejkormuth.starving.rockets;
 
-import eu.matejkormuth.starving.Module;
+import eu.matejkormuth.bmboot.internal.Module;
 
 public class RocketsModule extends Module {
 

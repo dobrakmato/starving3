@@ -26,6 +26,7 @@
  */
 package eu.matejkormuth.starving.main;
 
+import eu.matejkormuth.bmboot.facades.Container;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
@@ -35,7 +36,7 @@ import org.bukkit.plugin.Plugin;
 public abstract class DelayedTask implements Runnable {
 
     // Reference to plugin.
-    private static final Plugin plugin = Bukkit.getPluginManager().getPlugin("Starving");
+    private static final Plugin plugin = Container.get(Plugin.class);
 
     /**
      * Constructs DelayedTask of specified runnable / method reference.

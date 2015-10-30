@@ -26,27 +26,18 @@
  */
 package eu.matejkormuth.starving.zombies.behavior.goals;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+import eu.matejkormuth.starving.main.NMSHooks;
+import net.minecraft.server.v1_8_R3.*;
+import org.bukkit.craftbukkit.v1_8_R3.TrigMath;
+import org.bukkit.event.entity.EntityTargetEvent;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import eu.matejkormuth.starving.main.NMSHooks;
-import org.bukkit.craftbukkit.v1_8_R2.TrigMath;
-import org.bukkit.event.entity.EntityTargetEvent;
-
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-
-import net.minecraft.server.v1_8_R2.AxisAlignedBB;
-import net.minecraft.server.v1_8_R2.Entity;
-import net.minecraft.server.v1_8_R2.EntityCreature;
-import net.minecraft.server.v1_8_R2.EntityHuman;
-import net.minecraft.server.v1_8_R2.EntityLiving;
-import net.minecraft.server.v1_8_R2.EntityPlayer;
-import net.minecraft.server.v1_8_R2.IEntitySelector;
-import net.minecraft.server.v1_8_R2.PathfinderGoalTarget;
-
-@NMSHooks(version = "v1_8_R2")
+@NMSHooks(version = "v1_8_R3")
 public class PathfinderGoalNearestFOVVisibleAttackableTarget<T extends EntityLiving> extends PathfinderGoalTarget {
     // Type of target entity.
     protected final Class<T> targetEntityClass;

@@ -26,8 +26,8 @@
  */
 package eu.matejkormuth.starving.localities;
 
-import eu.matejkormuth.starving.Dependency;
-import eu.matejkormuth.starving.Module;
+import eu.matejkormuth.bmboot.Dependency;
+import eu.matejkormuth.bmboot.internal.Module;
 import eu.matejkormuth.starving.localities.listeners.PVPListener;
 import eu.matejkormuth.starving.localities.tasks.LocalityWatcher;
 import eu.matejkormuth.starving.main.Time;

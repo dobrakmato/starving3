@@ -38,14 +38,14 @@ import eu.matejkormuth.starving.nms.NMS;
 import eu.matejkormuth.starving.nms.NMSModule;
 import eu.matejkormuth.starving.sounds.Sound;
 import eu.matejkormuth.starving.sounds.SoundsModule;
-import net.minecraft.server.v1_8_R2.AxisAlignedBB;
-import net.minecraft.server.v1_8_R2.MovingObjectPosition;
-import net.minecraft.server.v1_8_R2.Vec3D;
+import net.minecraft.server.v1_8_R3.AxisAlignedBB;
+import net.minecraft.server.v1_8_R3.MovingObjectPosition;
+import net.minecraft.server.v1_8_R3.Vec3D;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftLivingEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -56,7 +56,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
-@NMSHooks(version = "v1_8_R2")
+@NMSHooks(version = "v1_8_R3")
 public abstract class Firearm extends Item {
     protected static final Vector HALF_VECTOR = new Vector(0.5, 0.5, 0.5);
 

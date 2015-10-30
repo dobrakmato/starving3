@@ -1,6 +1,7 @@
 {
-  "name": "${project.name}",
-  "version": "${project.version}",
+  "name": "${plugin.name}",
+  "version": "${plugin.version}",
+  "author": "${plugin.author}",
   "modules": [
     "eu.matejkormuth.starving.achievements.AchievementsModule",
     "eu.matejkormuth.starving.chat.ChatModule",
@@ -23,6 +24,7 @@
     "eu.matejkormuth.starving.npc.NpcModule",
     "eu.matejkormuth.starving.particles.ParticlesModule",
     "eu.matejkormuth.starving.persistence.PersistenceModule",
+    "eu.matejkormuth.starving.physical.PhysicalModule",
     "eu.matejkormuth.starving.remoteconnections.RemoteConnectionsModule",
     "eu.matejkormuth.starving.resourcepacks.ResourcePacksModule",
     "eu.matejkormuth.starving.rockets.RocketsModule",
@@ -36,6 +38,6 @@
     "eu.matejkormuth.starving.warps.WarpsModule",
     "eu.matejkormuth.starving.weather.WeatherModule",
     "eu.matejkormuth.starving.worldgen.WorldGenModule",
-    "eu.matejkormuth.starving.zombies.ZombiesModule",
+    "eu.matejkormuth.starving.zombies.ZombiesModule"
   ]
 }

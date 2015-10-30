@@ -26,7 +26,7 @@
  */
 package eu.matejkormuth.starving.chemistry;
 
-import eu.matejkormuth.starving.Module;
+import eu.matejkormuth.bmboot.internal.Module;
 
 public class ChemistryModule extends Module {
     

@@ -26,8 +26,8 @@
  */
 package eu.matejkormuth.starving.sounds.ambient;
 
-import eu.matejkormuth.starving.Dependency;
-import eu.matejkormuth.starving.Module;
+import eu.matejkormuth.bmboot.Dependency;
+import eu.matejkormuth.bmboot.internal.Module;
 import eu.matejkormuth.starving.nms.NMSModule;
 import eu.matejkormuth.starving.sounds.ambient.listeners.PlayerListener;
 

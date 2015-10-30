@@ -26,8 +26,8 @@
  */
 package eu.matejkormuth.starving.items;
 
-import eu.matejkormuth.starving.Dependency;
-import eu.matejkormuth.starving.Module;
+import eu.matejkormuth.bmboot.Dependency;
+import eu.matejkormuth.bmboot.internal.Module;
 import eu.matejkormuth.starving.commands.CommandsModule;
 import eu.matejkormuth.starving.items.commands.ItemInvCommandExecutor;
 import eu.matejkormuth.starving.items.listeners.PlayerDropRewriteListener;

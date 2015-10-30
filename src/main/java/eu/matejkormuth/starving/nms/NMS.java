@@ -28,20 +28,20 @@ package eu.matejkormuth.starving.nms;
 
 import eu.matejkormuth.starving.localities.Locality;
 import eu.matejkormuth.starving.main.NMSHooks;
-import net.minecraft.server.v1_8_R2.*;
+import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Field;
 import java.util.Random;
 
-@NMSHooks(version = "v1_8_R2")
+@NMSHooks(version = "v1_8_R3")
 public class NMS {
     private Random random = new Random();
 
@@ -117,14 +117,16 @@ public class NMS {
                 .forEach(player -> sendPacket(player, new PacketPlayOutAnimation(((CraftEntity) entity).getHandle(), animationId)));
     }
 
-    public static void sendAnimation(net.minecraft.server.v1_8_R2.Entity entity, int animationId) {
+    @NMSHooks(version = "v1_8_R3")
+    public static void sendAnimation(net.minecraft.server.v1_8_R3.Entity entity, int animationId) {
         Bukkit.getOnlinePlayers()
                 .stream()
                 .filter(player -> player.getLocation().distanceSquared(entity.getBukkitEntity().getLocation()) < 1024)
                 .forEach(player -> sendPacket(player, new PacketPlayOutAnimation(entity, animationId)));
     }
 
-    public static net.minecraft.server.v1_8_R2.World getNMSWorld(World world) {
+    @NMSHooks(version = "v1_8_R3")
+    public static net.minecraft.server.v1_8_R3.World getNMSWorld(World world) {
         return ((CraftWorld) world).getHandle();
     }
 

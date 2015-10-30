@@ -26,8 +26,7 @@
  */
 package eu.matejkormuth.starving.zombies;
 
-import eu.matejkormuth.starving.Module;
-import eu.matejkormuth.starving.zombies.spawning.ZombieSpawnListener;
+import eu.matejkormuth.bmboot.internal.Module;
 
 public class ZombiesModule extends Module {
     
@@ -37,7 +36,7 @@ public class ZombiesModule extends Module {
         new Patcher().patchAll();
 
         // Initialize listeners.
-        listener(new ZombieSpawnListener());
+        // listener(new ZombieSpawnListener());
     }
 
     @Override

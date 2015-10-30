@@ -26,7 +26,7 @@
  */
 package eu.matejkormuth.starving.rollbacker;
 
-import eu.matejkormuth.starving.Module;
+import eu.matejkormuth.bmboot.internal.Module;
 import eu.matejkormuth.starving.rollbacker.listeners.ChunkLoadRollbackListener;
 
 public class RollbackerModule extends Module {

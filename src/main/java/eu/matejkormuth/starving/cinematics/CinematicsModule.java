@@ -26,8 +26,8 @@
  */
 package eu.matejkormuth.starving.cinematics;
 
-import eu.matejkormuth.starving.Dependency;
-import eu.matejkormuth.starving.Module;
+import eu.matejkormuth.bmboot.Dependency;
+import eu.matejkormuth.bmboot.internal.Module;
 import eu.matejkormuth.starving.cinematics.v4.V4Cinematics;
 import eu.matejkormuth.starving.filestorage.FileStorageModule;
 

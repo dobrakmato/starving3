@@ -26,6 +26,8 @@
  */
 package eu.matejkormuth.starving;
 
+import eu.matejkormuth.bmboot.Dependency;
+import eu.matejkormuth.bmboot.internal.Module;
 import org.junit.Test;
 import org.reflections.Reflections;
 

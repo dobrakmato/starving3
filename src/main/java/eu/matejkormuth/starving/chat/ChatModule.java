@@ -26,7 +26,7 @@
  */
 package eu.matejkormuth.starving.chat;
 
-import eu.matejkormuth.starving.Module;
+import eu.matejkormuth.bmboot.internal.Module;
 import eu.matejkormuth.starving.chat.listeners.NameMatchPopListener;
 
 public class ChatModule extends Module {

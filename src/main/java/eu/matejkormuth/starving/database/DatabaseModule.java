@@ -2,17 +2,17 @@
  * Starving - Bukkit API server mod with Zombies.
  * Copyright (c) 2015, Matej Kormuth <http://www.github.com/dobrakmato>
  * All rights reserved.
- * <p>
+ *
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
- * <p>
+ *
  * 1. Redistributions of source code must retain the above copyright notice, this
  * list of conditions and the following disclaimer.
- * <p>
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation and/or
  * other materials provided with the distribution.
- * <p>
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -27,11 +27,12 @@
 package eu.matejkormuth.starving.database;
 
 import com.avaje.ebean.EbeanServer;
-import eu.matejkormuth.starving.Dependency;
-import eu.matejkormuth.starving.Module;
-import eu.matejkormuth.starving.PluginAccessor;
+import eu.matejkormuth.bmboot.Dependency;
+import eu.matejkormuth.bmboot.facades.Container;
+import eu.matejkormuth.bmboot.internal.Module;
 import eu.matejkormuth.starving.configuration.ConfigurationsModule;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
 
 import javax.persistence.PersistenceException;
 
@@ -53,7 +54,7 @@ public class DatabaseModule extends Module {
     }
 
     private void setupDatabase() {
-        this.ebean = new PluginAccessor(this).getPlugin().getDatabase();
+        this.ebean = Container.get(Plugin.class).getDatabase();
         if (this.ebean == null) {
             throw new IllegalStateException("Server did not provided instance to database! Check your configuration.");
         }

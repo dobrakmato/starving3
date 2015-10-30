@@ -41,6 +41,7 @@ public class Sound {
         return name;
     }
 
+    @SuppressWarnings("deprecation")
     public void play(Player player, Location location, float volume, float pitch) {
         // Bukkit, fix this, pls.
         player.playSound(location, getName(), volume, pitch);

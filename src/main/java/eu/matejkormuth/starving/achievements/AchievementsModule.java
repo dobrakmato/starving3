@@ -26,7 +26,7 @@
  */
 package eu.matejkormuth.starving.achievements;
 
-import eu.matejkormuth.starving.Module;
+import eu.matejkormuth.bmboot.internal.Module;
 import eu.matejkormuth.starving.achievements.death.Atlantis;
 import eu.matejkormuth.starving.achievements.death.Dynamite;
 import eu.matejkormuth.starving.achievements.death.FindingClownfish;

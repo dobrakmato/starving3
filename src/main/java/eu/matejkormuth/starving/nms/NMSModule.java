@@ -26,7 +26,7 @@
  */
 package eu.matejkormuth.starving.nms;
 
-import eu.matejkormuth.starving.Module;
+import eu.matejkormuth.bmboot.internal.Module;
 import eu.matejkormuth.starving.main.NMSHooks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

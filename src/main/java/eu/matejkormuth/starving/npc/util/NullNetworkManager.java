@@ -29,23 +29,21 @@ package eu.matejkormuth.starving.npc.util;
 import eu.matejkormuth.starving.main.NMSHooks;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.concurrent.GenericFutureListener;
+import net.minecraft.server.v1_8_R3.*;
 
+import javax.crypto.SecretKey;
 import java.lang.reflect.Field;
 import java.net.SocketAddress;
 
-import javax.crypto.SecretKey;
 
-import net.minecraft.server.v1_8_R2.*;
-
-
-@NMSHooks(version = "v1_8_R2")
+@NMSHooks(version = "v1_8_R3")
 public class NullNetworkManager extends NetworkManager {
 
     private static final Field CHANNEL;
     private static final Field ADDRESS;
     static {
         try {
-            
+
             // i in 1_8_R1
             // k in 1_8_R2
             CHANNEL = NetworkManager.class
@@ -53,7 +51,7 @@ public class NullNetworkManager extends NetworkManager {
             if (!CHANNEL.isAccessible()) {
                 CHANNEL.setAccessible(true);
             }
-            
+
             // j in 1_8_R1
             // l in 1_8_R2
             ADDRESS = NetworkManager.class

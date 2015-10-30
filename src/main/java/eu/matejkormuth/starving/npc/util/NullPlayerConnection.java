@@ -26,44 +26,14 @@
  */
 package eu.matejkormuth.starving.npc.util;
 
+import eu.matejkormuth.starving.main.NMSHooks;
+import net.minecraft.server.v1_8_R3.*;
+import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+
 import java.util.Set;
 
-import eu.matejkormuth.starving.main.NMSHooks;
-import net.minecraft.server.v1_8_R2.EntityPlayer;
-import net.minecraft.server.v1_8_R2.EnumProtocolDirection;
-import net.minecraft.server.v1_8_R2.IChatBaseComponent;
-import net.minecraft.server.v1_8_R2.MinecraftServer;
-import net.minecraft.server.v1_8_R2.NetworkManager;
-import net.minecraft.server.v1_8_R2.Packet;
-import net.minecraft.server.v1_8_R2.PacketPlayInAbilities;
-import net.minecraft.server.v1_8_R2.PacketPlayInArmAnimation;
-import net.minecraft.server.v1_8_R2.PacketPlayInBlockDig;
-import net.minecraft.server.v1_8_R2.PacketPlayInBlockPlace;
-import net.minecraft.server.v1_8_R2.PacketPlayInChat;
-import net.minecraft.server.v1_8_R2.PacketPlayInClientCommand;
-import net.minecraft.server.v1_8_R2.PacketPlayInCloseWindow;
-import net.minecraft.server.v1_8_R2.PacketPlayInCustomPayload;
-import net.minecraft.server.v1_8_R2.PacketPlayInEnchantItem;
-import net.minecraft.server.v1_8_R2.PacketPlayInEntityAction;
-import net.minecraft.server.v1_8_R2.PacketPlayInFlying;
-import net.minecraft.server.v1_8_R2.PacketPlayInHeldItemSlot;
-import net.minecraft.server.v1_8_R2.PacketPlayInKeepAlive;
-import net.minecraft.server.v1_8_R2.PacketPlayInResourcePackStatus;
-import net.minecraft.server.v1_8_R2.PacketPlayInSetCreativeSlot;
-import net.minecraft.server.v1_8_R2.PacketPlayInSettings;
-import net.minecraft.server.v1_8_R2.PacketPlayInSpectate;
-import net.minecraft.server.v1_8_R2.PacketPlayInSteerVehicle;
-import net.minecraft.server.v1_8_R2.PacketPlayInTabComplete;
-import net.minecraft.server.v1_8_R2.PacketPlayInTransaction;
-import net.minecraft.server.v1_8_R2.PacketPlayInUpdateSign;
-import net.minecraft.server.v1_8_R2.PacketPlayInUseEntity;
-import net.minecraft.server.v1_8_R2.PacketPlayInWindowClick;
-import net.minecraft.server.v1_8_R2.PlayerConnection;
-
-import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
-
-@NMSHooks(version = "v1_8_R2")
+@NMSHooks(version = "v1_8_R3")
 public class NullPlayerConnection extends PlayerConnection {
 
     public NullPlayerConnection(MinecraftServer minecraftServer,
@@ -113,7 +83,6 @@ public class NullPlayerConnection extends PlayerConnection {
     }
 
     @SuppressWarnings("rawtypes")
-    @Override
     public void teleport(Location dest, Set set) {
     }
 

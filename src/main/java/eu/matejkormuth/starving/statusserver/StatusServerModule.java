@@ -26,7 +26,7 @@
  */
 package eu.matejkormuth.starving.statusserver;
 
-import eu.matejkormuth.starving.Module;
+import eu.matejkormuth.bmboot.internal.Module;
 
 import java.io.IOException;
 

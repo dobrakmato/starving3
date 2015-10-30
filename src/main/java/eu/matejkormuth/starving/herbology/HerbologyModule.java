@@ -26,7 +26,7 @@
  */
 package eu.matejkormuth.starving.herbology;
 
-import eu.matejkormuth.starving.Module;
+import eu.matejkormuth.bmboot.internal.Module;
 
 public class HerbologyModule extends Module {
     

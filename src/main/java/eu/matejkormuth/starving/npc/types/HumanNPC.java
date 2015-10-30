@@ -36,12 +36,12 @@ import eu.matejkormuth.starving.npc.behaviours.base.BehaviourHolder;
 import eu.matejkormuth.starving.npc.util.NullNetworkManager;
 import eu.matejkormuth.starving.npc.util.NullPlayerConnection;
 import eu.matejkormuth.starving.npc.util.NullSocket;
-import net.minecraft.server.v1_8_R2.*;
-import net.minecraft.server.v1_8_R2.WorldSettings.EnumGamemode;
+import net.minecraft.server.v1_8_R3.*;
+import net.minecraft.server.v1_8_R3.WorldSettings.EnumGamemode;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R2.inventory.CraftInventoryPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftInventoryPlayer;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.PlayerInventory;
@@ -52,7 +52,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 
-@NMSHooks(version = "v1_8_R2")
+@NMSHooks(version = "v1_8_R3")
 public class HumanNPC extends EntityPlayer implements NPC {
 
     private static final Logger log = LoggerFactory.getLogger(HumanNPC.class);
@@ -214,7 +214,6 @@ public class HumanNPC extends EntityPlayer implements NPC {
         this.setYawPitch(yaw, pitch);
     }
 
-    @Override
     public boolean v() {
         return false;
     }

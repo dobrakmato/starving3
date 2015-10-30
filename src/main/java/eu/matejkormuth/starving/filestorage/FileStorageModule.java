@@ -26,8 +26,8 @@
  */
 package eu.matejkormuth.starving.filestorage;
 
-import eu.matejkormuth.starving.Module;
-import org.bukkit.Bukkit;
+import eu.matejkormuth.bmboot.facades.Container;
+import eu.matejkormuth.bmboot.internal.Module;
 import org.bukkit.plugin.Plugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +44,7 @@ public class FileStorageModule extends Module {
 
     private static final Logger log = LoggerFactory.getLogger(FileStorageModule.class);
 
-    private Plugin plugin = Bukkit.getPluginManager().getPlugin("Starving");
+    private Plugin plugin = Container.get(Plugin.class);
     private Path dataFolder;
 
     @Override

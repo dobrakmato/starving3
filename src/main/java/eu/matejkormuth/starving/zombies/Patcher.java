@@ -27,10 +27,10 @@
 package eu.matejkormuth.starving.zombies;
 
 import eu.matejkormuth.starving.main.NMSHooks;
-import net.minecraft.server.v1_8_R2.BiomeBase;
-import net.minecraft.server.v1_8_R2.EntityInsentient;
-import net.minecraft.server.v1_8_R2.EntityTypes;
-import net.minecraft.server.v1_8_R2.EntityZombie;
+import net.minecraft.server.v1_8_R3.BiomeBase;
+import net.minecraft.server.v1_8_R3.EntityInsentient;
+import net.minecraft.server.v1_8_R3.EntityTypes;
+import net.minecraft.server.v1_8_R3.EntityZombie;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +39,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-@NMSHooks(version = "v1_8_R2")
+@NMSHooks(version = "v1_8_R3")
 public class Patcher {
 
     private static final Logger log = LoggerFactory.getLogger(Patcher.class);
@@ -55,6 +55,7 @@ public class Patcher {
         patchBiomeBase(EntityZombie.class, Zombie.class);
     }
 
+    @SuppressWarnings("unchecked")
     private void patchBiomeBase(Class<? extends EntityInsentient> previousEntityClass, Class<? extends EntityInsentient> entityClass) {
         for (Field f : BiomeBase.class.getDeclaredFields()) {
             if (f.getType().equals(BiomeBase.class)) {

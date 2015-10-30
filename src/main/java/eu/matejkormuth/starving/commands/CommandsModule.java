@@ -26,14 +26,14 @@
  */
 package eu.matejkormuth.starving.commands;
 
-import eu.matejkormuth.starving.Module;
+import eu.matejkormuth.bmboot.internal.Module;
 import eu.matejkormuth.starving.main.NMSHooks;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_8_R2.CraftServer;
+import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
 
 /**
  * This module provides nice way to dynamically create and register commands in Bukkit. It also provides some useful
@@ -57,7 +57,7 @@ public class CommandsModule extends Module {
 
     }
 
-    @NMSHooks(version = "v1_8_R2")
+    @NMSHooks(version = "v1_8_R3")
     private CommandMap acquireCommandMap() {
         CraftServer craftServer = (CraftServer) Bukkit.getServer();
         return craftServer.getCommandMap();

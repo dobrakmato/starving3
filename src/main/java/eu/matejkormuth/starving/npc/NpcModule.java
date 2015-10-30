@@ -26,7 +26,7 @@
  */
 package eu.matejkormuth.starving.npc;
 
-import eu.matejkormuth.starving.Module;
+import eu.matejkormuth.bmboot.internal.Module;
 
 public class NpcModule extends Module {
     

@@ -26,8 +26,8 @@
  */
 package eu.matejkormuth.starving.resourcepacks;
 
-import eu.matejkormuth.starving.Dependency;
-import eu.matejkormuth.starving.Module;
+import eu.matejkormuth.bmboot.Dependency;
+import eu.matejkormuth.bmboot.internal.Module;
 import eu.matejkormuth.starving.commands.CommandsModule;
 import eu.matejkormuth.starving.resourcepacks.commands.RpCommandExecutor;
 import eu.matejkormuth.starving.resourcepacks.listeners.PlayerJoinListener;

@@ -105,6 +105,7 @@ public class ProjectileHitListener extends AbstractPersistable implements Listen
         spawnParticles.schedule(Time.ofTicks(1).toLongTicks());
     }
 
+    @SuppressWarnings("deprecation")
     private void onMolotovHit(ProjectileHitEvent event) {
         // Get block where collision happened.
         Block b = event.getEntity().getLocation().getBlock();

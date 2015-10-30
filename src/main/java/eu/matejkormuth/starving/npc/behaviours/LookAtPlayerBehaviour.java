@@ -26,12 +26,13 @@
  */
 package eu.matejkormuth.starving.npc.behaviours;
 
+import eu.matejkormuth.starving.main.NMSHooks;
 import eu.matejkormuth.starving.npc.behaviours.base.AbstractBehaviour;
 import eu.matejkormuth.starving.persistence.Persist;
-import org.bukkit.craftbukkit.v1_8_R2.TrigMath;
+import org.bukkit.craftbukkit.v1_8_R3.TrigMath;
 import org.bukkit.entity.Player;
 
-
+@NMSHooks(version = "v1_8_R3")
 public class LookAtPlayerBehaviour extends AbstractBehaviour {
 
     @Persist(key = "MAX_FOLLOW_DIST")
