@@ -24,7 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package eu.matejkormuth.starving.rockets;
 
 import com.darkblade12.particleeffect.ParticleEffect;
@@ -43,7 +42,7 @@ public class Rocket {
 
     private static final double BASE_DMG = 10D;
     private static final float ROCKET_PARTICLES_RANDOMDIR_COEF = 0.1f;
-    private static final float VELOCITY_MUL = 1.12f;
+    private static final float VELOCITY_MUL = 1f;//1.12f;
     private static final ItemStack ROCKET_ITEM = new ItemStack(Material.SAND);
     private static final int MAX_LIFETIME = 20 * 10;
     private static final int MAX_Y = 384;
@@ -64,22 +63,18 @@ public class Rocket {
     public Rocket(Player shooter, Location loc, Vector direction) {
         this.shooter = shooter;
         this.loc = loc;
-        this.lastLoc = loc.subtract(0.5, 0.5, 0.5);
+        this.lastLoc = loc.clone().subtract(0.5, 0.5, 0.5);
         this.vel = direction.normalize().multiply(VELOCITY_MUL);
 
-        // Clear pitch and yaw from location.
-        loc.setYaw(0);
-        loc.setPitch(0);
-
-        this.rocket = (ArmorStand) loc.getWorld().spawnEntity(loc,
-                EntityType.ARMOR_STAND);
+        this.rocket = (ArmorStand) loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
         this.rocket.setGravity(false);
         this.rocket.setBasePlate(false);
         this.rocket.setVisible(false);
         this.rocket.setHelmet(ROCKET_ITEM);
+
         // Use head pose for rocket rotation.
-        this.rocket.setHeadPose(new EulerAngle(direction.getX(),
-                direction.getY(), direction.getZ()));
+        this.rocket.setHeadPose(new EulerAngle(Math.toRadians(shooter.getEyeLocation().getPitch()),
+                Math.toRadians(shooter.getEyeLocation().getYaw()), 0)); //new EulerAngle(direction.getX(), direction.getY(), direction.getZ())
 
         // Play launch sound effect.
         this.loc.getWorld().playSound(this.loc, Sound.FIREWORK_LAUNCH, 1, 0);

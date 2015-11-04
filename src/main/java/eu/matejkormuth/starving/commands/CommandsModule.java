@@ -34,6 +34,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This module provides nice way to dynamically create and register commands in Bukkit. It also provides some useful
@@ -42,6 +44,8 @@ import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
  * @see CommandFilters
  */
 public class CommandsModule extends Module {
+
+    private static final Logger log = LoggerFactory.getLogger(CommandsModule.class);
 
     private CommandMap commandMap;
     private String fallbackPrefix = "starving";
@@ -70,6 +74,7 @@ public class CommandsModule extends Module {
      * @param executor executor of the new command
      */
     public void register(String name, CommandExecutor executor) {
+        log.info("Registering command {} with executor {}.", name, executor);
         commandMap.register(fallbackPrefix, new DynamicCommand(name, executor));
     }
 

@@ -26,6 +26,7 @@
  */
 package eu.matejkormuth.starving.items.explosives;
 
+import eu.matejkormuth.bukkit.Actions;
 import eu.matejkormuth.starving.items.Category;
 import eu.matejkormuth.starving.items.InteractResult;
 import eu.matejkormuth.starving.items.Mappings;
@@ -34,12 +35,11 @@ import eu.matejkormuth.starving.items.base.Item;
 import eu.matejkormuth.starving.rockets.Rocket;
 import eu.matejkormuth.starving.rockets.RocketUniverse;
 import eu.matejkormuth.starving.rockets.RocketsModule;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
-
-import eu.matejkormuth.bukkit.Actions;
 
 public class RPG7 extends Item {
 
@@ -55,10 +55,13 @@ public class RPG7 extends Item {
 
     @Override
     public InteractResult onInteract(Player player, Action action,
-            Block clickedBlock, BlockFace clickedFace) {
+                                     Block clickedBlock, BlockFace clickedFace) {
         if (Actions.isRightClick(action)) {
-            mainUniverse.addRocket(new Rocket(player, player.getEyeLocation(),
-                    player.getEyeLocation().getDirection()));
+            Location spawnLocation = player.getEyeLocation();
+            spawnLocation.setPitch(0);
+            spawnLocation.setYaw(0);
+
+            mainUniverse.addRocket(new Rocket(player, spawnLocation, player.getEyeLocation().getDirection()));
         }
         return super.onInteract(player, action, clickedBlock, clickedFace);
     }

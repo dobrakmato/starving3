@@ -43,10 +43,15 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.Arrays;
 
 public abstract class Item extends ItemBase {
+    /**
+     * By Minecraft :-).
+     */
+    private static final int DEFAULT_MAX_STACK_AMOUNT = 64;
+
     private Rarity rarity = Rarity.COMMON;
-    private Category category;
-    private int maxStackAmount;
-    private String description;
+    private Category category = Category.UNCATEGORIZED;
+    private int maxStackAmount = DEFAULT_MAX_STACK_AMOUNT;
+    private String description = "default description";
 
     // private float resistanceChange = 0.0f; // damage resistance in percents
     // private float biteProbabiltyChange = 00.0f;
@@ -106,8 +111,7 @@ public abstract class Item extends ItemBase {
 
         // Append description.
         ItemMeta meta = is.getItemMeta();
-        meta.getLore().addAll(Arrays.asList(
-                WordUtils.wrap(this.description, 20, "\n" + ChatColor.DARK_PURPLE, false).split("\n")));
+        meta.setLore(Arrays.asList(WordUtils.wrap(this.description, 20, "\n" + ChatColor.DARK_PURPLE, false).split("\n")));
         is.setItemMeta(meta);
         return is;
     }

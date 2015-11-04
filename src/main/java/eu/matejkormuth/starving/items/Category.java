@@ -40,5 +40,6 @@ public enum Category {
     MILITARY,
     MISCELLANEOUS,
     MEDICAL,
-    RANGED
+    RANGED,
+    UNCATEGORIZED;
 }

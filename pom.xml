@@ -52,7 +52,7 @@
         <dependency>
             <groupId>eu.matejkormuth</groupId>
             <artifactId>bukkit-essentials</artifactId>
-            <version>1.8.3</version>
+            <version>1.8.8</version>
         </dependency>
         <!-- This one is available at matejkormuth-repo. -->
         <dependency>
@@ -90,6 +90,10 @@
     </dependencies>
 
     <repositories>
+        <repository>
+            <id>pexel-repo</id>
+            <url>http://repo.pexel.eu</url>
+        </repository>
         <repository>
             <id>matejkormuth-repo</id>
             <url>http://repo.matejkormuth.eu</url>
