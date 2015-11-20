@@ -2,17 +2,17 @@
  * Starving - Bukkit API server mod with Zombies.
  * Copyright (c) 2015, Matej Kormuth <http://www.github.com/dobrakmato>
  * All rights reserved.
- *
+ * <p>
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
- *
+ * <p>
  * 1. Redistributions of source code must retain the above copyright notice, this
  * list of conditions and the following disclaimer.
- *
+ * <p>
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation and/or
  * other materials provided with the distribution.
- *
+ * <p>
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -24,40 +24,41 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.matejkormuth.starving.mappings.api.files;
+package eu.matejkormuth.starving.database;
 
-import eu.matejkormuth.starving.mappings.api.JsonMappingFile;
-import eu.matejkormuth.starving.mappings.api.Mapping;
-import eu.matejkormuth.starving.mappings.api.Type;
-import org.bukkit.Material;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.Random;
+import javax.persistence.Table;
 
-public class JsonMappingFileTest {
+@Table(name = "not_implemented")
+public abstract class Entity {
 
-    public static final int AMOUNT = 5;
-    public static Random random = new Random();
+    /**
+     * Most important static variable in the world! This holds all meta information
+     * about this entity. It works like class-local static information holder. For
+     * each class it holds the same information about all instances of the same type.
+     * <p>
+     * This line must be in all subclasses!!!
+     */
+    public static final EntityData db = EntityData.create();
+    protected static final Logger log = LoggerFactory.getLogger(db.getEntityClass());
 
-    @Test
-    @Ignore
-    public void testToJson() {
-        JsonMappingFile jsonMappingFile = new JsonMappingFile();
-        Mapping[] arr = new Mapping[AMOUNT];
-        for (int i = 0; i < AMOUNT; i++) {
-            arr[i] = genMapping();
-        }
-        jsonMappingFile.setMappings(arr);
-        System.out.println(jsonMappingFile.toJson());
+    // Dirty flag.
+    private boolean dirty = false;
+
+    /**
+     * Returns whether this instance of entity is dirty or not.
+     */
+    public boolean isDirty() {
+        return dirty;
     }
 
-    private Mapping genMapping() {
-        Material material = Material.values()[random.nextInt(Material.values().length)];
-        String key = Integer.toHexString(random.nextInt());
-        int data = random.nextInt(4);
-        Type type = random.nextBoolean() ? Type.BLOCK : Type.ITEM;
-        int durability = 0;
-        return new Mapping(key, material, data, type, durability);
+    /**
+     * Flags this instance as dirty.
+     */
+    public void setDirty() {
+        this.dirty = true;
     }
+
 }

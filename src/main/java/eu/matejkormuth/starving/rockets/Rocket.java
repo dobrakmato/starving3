@@ -42,7 +42,7 @@ public class Rocket {
 
     private static final double BASE_DMG = 10D;
     private static final float ROCKET_PARTICLES_RANDOMDIR_COEF = 0.1f;
-    private static final float VELOCITY_MUL = 1f;//1.12f;
+    private static final float VELOCITY_MUL = 1f; //1.0f //1.12f;
     private static final ItemStack ROCKET_ITEM = new ItemStack(Material.SAND);
     private static final int MAX_LIFETIME = 20 * 10;
     private static final int MAX_Y = 384;
@@ -93,7 +93,7 @@ public class Rocket {
         }
 
         // Check for collisions.
-        if (collisionSolver.collided(this.lastLoc, this.loc)) {
+        if (collisionSolver.collided(this.lastLoc.clone().add(0.5, 1.66, 0.5), this.loc.clone().add(0.5, 1.66, 0.5))) {
             this.explode();
             this.remove();
         }
@@ -114,7 +114,7 @@ public class Rocket {
             double offsetZ = (Math.random() - 0.5f)
                     * ROCKET_PARTICLES_RANDOMDIR_COEF;
             ParticleEffect.FIREWORKS_SPARK.display(dir.add(new Vector(offsetX,
-                            offsetY, offsetZ)), 0.5f, this.loc,
+                            offsetY, offsetZ)), 0.5f, this.loc.clone().add(0.5, 1.66, 0.5),
                     Double.MAX_VALUE);
         }
     }

@@ -30,5 +30,5 @@ package eu.matejkormuth.starving.rpg;
  * Enumeration of all upgradable skills.
  */
 public enum Skills {
-    WEAPONS_USE, FIREARMS_USE, AGILITY, RESISTENCE, JUMPING;
+    WEAPONS_USE, FIREARMS_USE, AGILITY, RESISTANCE, JUMPING;
 }

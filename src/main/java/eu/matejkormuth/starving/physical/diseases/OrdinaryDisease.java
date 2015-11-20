@@ -27,7 +27,7 @@
 package eu.matejkormuth.starving.physical.diseases;
 
 import eu.matejkormuth.starving.physical.Disease;
-import eu.matejkormuth.starving.physical.temperature.modifiers.IncrementTemperatureModifer;
+import eu.matejkormuth.starving.physical.temperature.modifiers.IncrementTemperatureModifier;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -35,7 +35,7 @@ import org.bukkit.potion.PotionEffectType;
 public class OrdinaryDisease extends Disease {
 
     public OrdinaryDisease() {
-        super(new IncrementTemperatureModifer(TEMPERATURE_MODIFIER_NAME, .0020f));
+        super(new IncrementTemperatureModifier(TEMPERATURE_MODIFIER_NAME, .0020f));
     }
 
     @Override

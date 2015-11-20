@@ -30,5 +30,5 @@ package eu.matejkormuth.starving.cities;
  * Enumeration that holds all city types.
  */
 public enum CityType {
-    ABANDONED, POPULATED;
+    ABANDONED, POPULATED
 }

@@ -28,6 +28,8 @@ package eu.matejkormuth.starving.cinematics.v4;
 
 import eu.matejkormuth.starving.cinematics.v4.streams.V4InputStream;
 import eu.matejkormuth.starving.cinematics.v4.streams.V4OutputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -37,11 +39,13 @@ import java.io.IOException;
 
 public class V4Writer {
 
+    private static final Logger log = LoggerFactory.getLogger(V4Writer.class);
+
     public static void save(V4Clip clip, File file) {
         try {
             clip.writeTo(new V4OutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Can't save V4Clip!", e);
         }
     }
 
@@ -51,7 +55,7 @@ public class V4Writer {
             clip.readFrom(new V4InputStream(new FileInputStream(file)));
             return clip;
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Can't load V4Clip!", e);
         }
         return null;
     }

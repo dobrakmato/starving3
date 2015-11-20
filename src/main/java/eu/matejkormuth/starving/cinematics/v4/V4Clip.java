@@ -51,7 +51,7 @@ public class V4Clip implements Clip, V4Serializable {
         }
 
         throw new RuntimeException(
-                "Specified frame is not compatibile with V4Clip.");
+                "Specified frame is not compatible with V4Clip.");
     }
 
     @Override
@@ -87,7 +87,7 @@ public class V4Clip implements Clip, V4Serializable {
         this.frameRate = os.readInt();
         // Read frame count.
         short frameCount = os.readShort();
-        this.frames = new ArrayList<V4Frame>(frameCount);
+        this.frames = new ArrayList<>(frameCount);
         // Read frames.
         for (int i = 0; i < frameCount; i++) {
             V4Frame frame = new V4Frame();

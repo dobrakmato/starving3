@@ -24,40 +24,18 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.matejkormuth.starving.mappings.api.files;
+package eu.matejkormuth.starving.database;
 
-import eu.matejkormuth.starving.mappings.api.JsonMappingFile;
-import eu.matejkormuth.starving.mappings.api.Mapping;
-import eu.matejkormuth.starving.mappings.api.Type;
-import org.bukkit.Material;
-import org.junit.Ignore;
-import org.junit.Test;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
-import java.util.Random;
+public class Database {
 
-public class JsonMappingFileTest {
+    private Connection connection;
 
-    public static final int AMOUNT = 5;
-    public static Random random = new Random();
-
-    @Test
-    @Ignore
-    public void testToJson() {
-        JsonMappingFile jsonMappingFile = new JsonMappingFile();
-        Mapping[] arr = new Mapping[AMOUNT];
-        for (int i = 0; i < AMOUNT; i++) {
-            arr[i] = genMapping();
-        }
-        jsonMappingFile.setMappings(arr);
-        System.out.println(jsonMappingFile.toJson());
+    public Database(String url, String user, String password) throws SQLException {
+        connection = DriverManager.getConnection(url, user, password);
     }
 
-    private Mapping genMapping() {
-        Material material = Material.values()[random.nextInt(Material.values().length)];
-        String key = Integer.toHexString(random.nextInt());
-        int data = random.nextInt(4);
-        Type type = random.nextBoolean() ? Type.BLOCK : Type.ITEM;
-        int durability = 0;
-        return new Mapping(key, material, data, type, durability);
-    }
 }

@@ -26,11 +26,11 @@
  */
 package eu.matejkormuth.starving.time.tasks;
 
-import java.util.List;
-
 import eu.matejkormuth.starving.main.RepeatingTask;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+
+import java.util.List;
 
 public class TimeCorrectionTask extends RepeatingTask {
     private final List<World> worlds;
@@ -59,7 +59,7 @@ public class TimeCorrectionTask extends RepeatingTask {
         return this.fullTime;
     }
 
-    public void vanllaSetMoveTime(long time) {
+    public void vanillaSetMoveTime(long time) {
         for (World w : this.worlds) {
             w.setTime(time);
         }

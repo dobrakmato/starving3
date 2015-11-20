@@ -29,13 +29,9 @@ package eu.matejkormuth.starving.loot.lootitems;
 import eu.matejkormuth.starving.items.Category;
 import eu.matejkormuth.starving.items.ItemManager;
 import eu.matejkormuth.starving.items.Rarity;
-import eu.matejkormuth.starving.items.base.Item;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 /**
  * Represents random loot item that has at least category or rarity specified.
@@ -98,14 +94,14 @@ public class CategoryLootItem implements LootItem {
     }
 
     private ItemStack find(Category category, Rarity rarity) {
-        List<Item> itemsMeetingCriteria = itemManager.getItems()
+        return itemManager.getItems()
                 .stream()
                 .filter(item -> item.getCategory() == category)
                 .filter(item -> item.getRarity() == rarity)
-                .collect(Collectors.toCollection(ArrayList::new));
-
-        return itemsMeetingCriteria.get(
-                random.nextInt(itemsMeetingCriteria.size())).toItemStack();
+                .limit(1)
+                .findFirst()
+                .get()
+                .toItemStack();
     }
 
 }

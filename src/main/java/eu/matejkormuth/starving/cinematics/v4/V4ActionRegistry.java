@@ -42,8 +42,8 @@ public class V4ActionRegistry {
     private static Map<Class<? extends AbstractAction>, Byte> classes;
 
     public V4ActionRegistry() {
-        actions = new HashMap<Byte, Constructor<? extends AbstractAction>>();
-        classes = new HashMap<Class<? extends AbstractAction>, Byte>();
+        actions = new HashMap<>();
+        classes = new HashMap<>();
         register();
     }
 

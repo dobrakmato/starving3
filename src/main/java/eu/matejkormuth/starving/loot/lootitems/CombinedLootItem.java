@@ -26,13 +26,9 @@
  */
 package eu.matejkormuth.starving.loot.lootitems;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-
 import org.bukkit.inventory.ItemStack;
+
+import java.util.*;
 
 /**
  * Combines more LootItem-s to one. Calling will choose one random child
@@ -44,7 +40,7 @@ public class CombinedLootItem implements LootItem {
     private List<LootItem> lootItems;
 
     public CombinedLootItem() {
-        this.lootItems = new ArrayList<LootItem>();
+        this.lootItems = new ArrayList<>();
     }
 
     public int size() {

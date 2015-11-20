@@ -26,25 +26,29 @@
  */
 package eu.matejkormuth.starving.database;
 
-import com.avaje.ebean.EbeanServer;
 import eu.matejkormuth.bmboot.Dependency;
-import eu.matejkormuth.bmboot.facades.Container;
 import eu.matejkormuth.bmboot.internal.Module;
 import eu.matejkormuth.starving.configuration.ConfigurationsModule;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.persistence.PersistenceException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseModule extends Module {
+
+    private static final Logger log = LoggerFactory.getLogger(DatabaseModule.class);
 
     @Dependency
     private ConfigurationsModule configurationsModule;
 
     private YamlConfiguration configuration;
 
-    // Database.
-    private EbeanServer ebean;
+    // Database connection.
+    private Database database;
+    // All registered entities.
 
     @Override
     public void onEnable() {
@@ -54,16 +58,22 @@ public class DatabaseModule extends Module {
     }
 
     private void setupDatabase() {
-        this.ebean = Container.get(Plugin.class).getDatabase();
-        if (this.ebean == null) {
-            throw new IllegalStateException("Server did not provided instance to database! Check your configuration.");
+        try {
+            database = new Database(configuration.getString("url"), configuration.getString("user"),
+                    configuration.getString("password"));
+        } catch (SQLException e) {
+            log.error("Can't connect to database!", e);
         }
 
-        // Regsiter all beans
-        try {
-            this.ebean.find(Object.class).findRowCount();
-        } catch (PersistenceException e) {
-            throw new Error("Things are fucked up...");
+        List<Class<? extends Entity>> entityRegister = new ArrayList<>();
+        EntityRegister.collectTo(entityRegister);
+        // Trigger <clinit>s to initialize entityDatas.
+        for (Class<? extends Entity> entityClass : entityRegister) {
+            try {
+                entityClass.getDeclaredField("data").get(null);
+            } catch (IllegalAccessException | NoSuchFieldException e) {
+                log.error("Can't trigger <clinit> on " + entityClass.getName(), e);
+            }
         }
     }
 
@@ -72,7 +82,5 @@ public class DatabaseModule extends Module {
         configurationsModule.save("database", configuration);
     }
 
-    public EbeanServer getEbean() {
-        return ebean;
-    }
+
 }

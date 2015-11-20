@@ -30,7 +30,7 @@ import org.bukkit.inventory.ItemStack;
 
 /**
  * Represents item that is spawned as a loot. You can get ItemStack by calling
- * ItemStack. The returned item stack needen't to be the same each time method
+ * ItemStack. The returned item stack needn't to be the same each time method
  * is called.
  */
 public interface LootItem {

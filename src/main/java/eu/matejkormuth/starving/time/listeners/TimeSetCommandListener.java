@@ -56,7 +56,7 @@ public class TimeSetCommandListener implements Listener {
                 time = Integer.valueOf(parts[2]);
             }
 
-            timeCorrectionTask.vanllaSetMoveTime(time);
+            timeCorrectionTask.vanillaSetMoveTime(time);
             event.getPlayer().sendMessage(ChatColor.GREEN + "Time set!");
         }
     }

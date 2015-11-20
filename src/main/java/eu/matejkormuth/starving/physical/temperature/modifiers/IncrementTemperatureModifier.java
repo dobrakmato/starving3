@@ -28,15 +28,15 @@ package eu.matejkormuth.starving.physical.temperature.modifiers;
 
 import eu.matejkormuth.starving.physical.temperature.TemperatureModifier;
 
-public class IncrementTemperatureModifer implements TemperatureModifier {
+public class IncrementTemperatureModifier implements TemperatureModifier {
     private final String name;
     private double increment;
 
-    public IncrementTemperatureModifer(String name) {
+    public IncrementTemperatureModifier(String name) {
         this.name = name;
     }
 
-    public IncrementTemperatureModifer(String name, double multiplier) {
+    public IncrementTemperatureModifier(String name, double multiplier) {
         this.name = name;
         this.increment = multiplier;
     }
