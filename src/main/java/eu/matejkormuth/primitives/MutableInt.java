@@ -24,19 +24,28 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.matejkormuth.starving.missions;
+package eu.matejkormuth.primitives;
 
-import org.bukkit.entity.Player;
+public class MutableInt {
+    int value;
 
-/**
- * Represents reward given for completing mission.
- */
-public interface Reward {
-    /**
-     * Gives reward to specified player.
-     * 
-     * @param player
-     *            player to give reward to
-     */
-    void giveTo(Player player);
+    public MutableInt(int i) {
+        this.value = i;
+    }
+
+    public int get() {
+        return value;
+    }
+
+    public void set(int value) {
+        this.value = value;
+    }
+
+    public void increment() {
+        this.value++;
+    }
+
+    public void decrement() {
+        this.value--;
+    }
 }
