@@ -26,17 +26,64 @@
  */
 package eu.matejkormuth.starving.missions;
 
+import eu.matejkormuth.bmboot.Dependency;
 import eu.matejkormuth.bmboot.internal.Module;
+import eu.matejkormuth.starving.cinematics.CinematicsModule;
+import eu.matejkormuth.starving.filestorage.FileStorageModule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MissionsModule extends Module {
-    
+
+    private static final Logger log = LoggerFactory.getLogger(MissionsModule.class);
+
+    @Dependency
+    private CinematicsModule cinematicsModule;
+
+    @Dependency
+    private FileStorageModule fileStorageModule;
+
+    /**
+     * Map of all missions.
+     */
+    private Map<Integer, Mission> allMissions = new HashMap<>();
+
     @Override
     public void onEnable() {
+        StorageFactory.fileStorageModule = fileStorageModule;
 
+        log.info("Trying to initialize all Alpha missions...");
+        AlphaMissions.init(this);
     }
 
     @Override
     public void onDisable() {
+        StorageFactory.fileStorageModule = null;
+    }
 
+    public CinematicsModule getCinematicsModule() {
+        return cinematicsModule;
+    }
+
+    /**
+     * Adds specific mission to game.
+     *
+     * @param mission mission to add
+     */
+    public void addMission(@Nonnull Mission mission) {
+        if (allMissions.containsKey(mission.getId())) {
+            log.error("Mission ID must be unique! Mission with specific id is already registered!");
+            log.error(" Tried to register: {} with id {}.", mission.getName(), mission.getId());
+            log.error(" Already registered: {} with id {}.", allMissions.get(mission.getId()).getName(),
+                    allMissions.get(mission.getId()).getId());
+            log.error("Mission {} was not registered!", mission.getName());
+            return;
+        }
+
+        allMissions.put(mission.getId(), mission);
     }
 }

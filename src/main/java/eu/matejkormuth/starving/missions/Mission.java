@@ -26,76 +26,106 @@
  */
 package eu.matejkormuth.starving.missions;
 
+import eu.matejkormuth.starving.main.Named;
+import eu.matejkormuth.starving.missions.storage.PlayerMissionContext;
+import eu.matejkormuth.starving.missions.traits.OnCompletedTrait;
+import eu.matejkormuth.starving.traits.Trait;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Delegate;
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Mission {
-    private final String id;
-    private final String name;
-    private final String description;
+public class Mission implements Completable, Named {
 
-    private final List<Mission> requiredCompleted;
-    private final List<Goal> missionGoals;
-    private final List<Reward> missionRewards;
+    @Getter
+    @Setter
+    private String name;
 
-    public Mission(String id, String name, String description,
-            List<Mission> requiredCompleted, List<Goal> missionGoals,
-            List<Reward> missionRewards) {
-        this.id = id;
+    /**
+     * Add on completed listener support.
+     */
+    @Delegate
+    private OnCompletedTrait completedTrait = Trait.of(OnCompletedTrait.class);
+
+    /**
+     * List of all mission goals.
+     */
+    private final List<Goal> goals = new ArrayList<>();
+
+    /**
+     * Id of this mission.
+     */
+    private final int id;
+
+    /**
+     * Creates new mission instance with specified name and  unique id.
+     *
+     * @param name mission name
+     * @param id   mission unique id
+     */
+    public Mission(String name, int id) {
         this.name = name;
-        this.description = description;
-        this.requiredCompleted = requiredCompleted;
-        this.missionGoals = missionGoals;
-        this.missionRewards = missionRewards;
+        this.id = id;
     }
 
-    public boolean canStart(MissionPlayerContext ctx) {
-        for (Mission m : requiredCompleted) {
-            if (!m.isCompleted(ctx)) {
-                return false;
-            }
-        }
-        return true;
+    /**
+     * Adds specific goal to this mission.
+     *
+     * @param goal goal to add
+     */
+    public void addGoal(Goal goal) {
+        this.goals.add(goal);
     }
 
-    public boolean isCompleted(MissionPlayerContext ctx) {
-        // First check storage.
-        if (ctx.isCompleted(this)) {
-            return true;
-        }
-
-        // Check mission goals.
-        for (Goal g : missionGoals) {
-            if (!g.isCompleted(ctx)) {
-                return false;
-            }
-        }
-
-        // Mission is completed, save it.
-        ctx.setCompleted(this, true);
-        return true;
+    /**
+     * Returns internal list of all goals in this mission.
+     *
+     * @return list of all goal in this mission
+     */
+    public List<Goal> getGoals() {
+        return goals;
     }
 
-    public String getDescription() {
-        return description;
+    @Override
+    public void complete(Player player) {
+        PlayerMissionContext ctx = new PlayerMissionContext(player, this);
+
+        // Mark mission in context storage.
+        ctx.getMissionStorage().set("completed", true);
+        // Execute trait.
+        this.complete0(ctx);
     }
 
-    public String getId() {
-        return id;
+    @Override
+    public void onCompleted(PlayerMissionContext context) {
+        // Do not require to implement.
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public void start(Player player) {
+        // Do not require to implement.
     }
 
-    public List<Goal> getMissionGoals() {
-        return missionGoals;
+    @Override
+    public void onStarted(PlayerMissionContext context) {
+        // Do not require to implement.
     }
 
-    public List<Reward> getMissionRewards() {
-        return missionRewards;
+    @Override
+    public boolean isCompleted(PlayerMissionContext context) {
+        // If value does not exists, following call returns false.
+        return context.getMissionStorage().getBoolean("completed");
     }
 
-    public List<Mission> getRequiredCompleted() {
-        return requiredCompleted;
+    /**
+     * Returns identifier of this mission.
+     *
+     * @return unique identifier of this mission
+     */
+    public int getId() {
+        return this.id;
     }
 }

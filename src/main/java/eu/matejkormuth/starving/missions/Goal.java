@@ -26,53 +26,100 @@
  */
 package eu.matejkormuth.starving.missions;
 
-import java.util.List;
+import eu.matejkormuth.starving.main.Named;
+import eu.matejkormuth.starving.missions.storage.PlayerMissionContext;
+import eu.matejkormuth.starving.missions.traits.OnCompletedTrait;
+import eu.matejkormuth.starving.traits.Trait;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Delegate;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
-public abstract class Goal {
-    private final Mission parentMission;
-    private final String id;
-    private final List<Goal> requiredGoals;
+import javax.annotation.Nullable;
 
-    public Goal(Mission parent, String id, List<Goal> requiredGoals) {
-        this.parentMission = parent;
-        this.id = id;
-        this.requiredGoals = requiredGoals;
+public abstract class Goal implements Completable, Named {
+
+    @Getter
+    @Setter
+    private String name;
+
+    /**
+     * The location of this goal. Can be used to display arrows or to
+     * find path from player's position to this goal and display it
+     * later on map.
+     */
+    @Setter
+    private Location targetLocation;
+
+    /**
+     * The mission this goal belongs to.
+     */
+    private final Mission mission;
+
+    /**
+     * Add on completed listener support.
+     */
+    @Delegate
+    private OnCompletedTrait completedTrait = Trait.of(OnCompletedTrait.class);
+
+    /**
+     * Creates new goal with specified name for specific mission.
+     *
+     * @param name    name of new goal
+     * @param mission parent mission of new goal
+     */
+    public Goal(String name, Mission mission) {
+        this.name = name;
+        this.mission = mission;
     }
 
-    public boolean isCompleted(MissionPlayerContext ctx) {
-        // Query first mission storage.
-        if (ctx.isCompleted(this)) {
-            return true;
-        }
+    @Override
+    public void complete(Player player) {
+        PlayerMissionContext ctx = new PlayerMissionContext(player, this.mission);
+        // Mark mission in context storage.
+        ctx.getMissionStorage().set("completed", true);
+        // Execute trait.
+        this.complete0(ctx);
+    }
 
-        // Check
-        boolean completed = this.checkConditions(ctx);
-        // If it is completed, save that to mission storage.
-        if (completed) {
-            ctx.setCompleted(this, completed);
-        }
+    @Override
+    public void onCompleted(PlayerMissionContext context) {
+        // Do not require to implement.
+    }
 
-        return completed;
+    @Override
+    public void start(Player player) {
+        // Do not require to implement.
+    }
+
+    @Override
+    public void onStarted(PlayerMissionContext context) {
+        // Do not require to implement.
+    }
+
+    @Override
+    public boolean isCompleted(PlayerMissionContext context) {
+        // dunno...
+        throw new RuntimeException("Please do not call this method. Thanks :))");
     }
 
     /**
-     * Should check if conditions for goal completion are met.
-     * 
-     * @param ctx
-     *            context to provide access to mission storage
-     * @return whether the conditions are met
+     * Returns the mission this goal belongs to.
+     *
+     * @return mission of this goal
      */
-    public abstract boolean checkConditions(MissionPlayerContext ctx);
-
-    public Mission getParentMission() {
-        return parentMission;
+    public Mission getMission() {
+        return mission;
     }
 
-    public List<Goal> getPreviousGoals() {
-        return requiredGoals;
-    }
-
-    public String getId() {
-        return id;
+    /**
+     * Returns the location of target of this goal. May be null.
+     *
+     * @return null of target location of this goal
+     */
+    @Nullable
+    public Location getTargetLocation() {
+        return targetLocation;
     }
 }
