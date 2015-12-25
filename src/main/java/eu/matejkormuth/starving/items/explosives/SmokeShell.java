@@ -32,6 +32,7 @@ import eu.matejkormuth.starving.items.Rarity;
 import eu.matejkormuth.starving.items.base.Item;
 import eu.matejkormuth.starving.main.bukkitfixes.FlagMetadataValue;
 import eu.matejkormuth.starving.sounds.Sound;
+import eu.matejkormuth.starving.sounds.Sounds;
 import eu.matejkormuth.starving.sounds.SoundsModule;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -57,8 +58,8 @@ public class SmokeShell extends Item {
         this.setMaxStackAmount(8);
         this.setRarity(Rarity.UNCOMMON);
 
-        soundThrow = soundsModule.createSound("explosives.smokeshell.throw");
-        soundBreak = soundsModule.createSound("explosives.smokeshell.break");
+        soundThrow = Sounds.SMOKESHELL_THROW;
+        soundBreak = Sounds.SMOKESHELL_BREAK;
     }
 
     @Override

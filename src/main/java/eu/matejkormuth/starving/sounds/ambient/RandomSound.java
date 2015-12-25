@@ -28,6 +28,7 @@ package eu.matejkormuth.starving.sounds.ambient;
 
 
 import eu.matejkormuth.starving.sounds.Sound;
+import eu.matejkormuth.starving.sounds.SoundType;
 
 public class RandomSound extends Sound {
 
@@ -35,7 +36,7 @@ public class RandomSound extends Sound {
     private float chance;
 
     public RandomSound(String name, float chance) {
-        super(name);
+        super(name, SoundType.AMBIENT);
         this.chance = chance;
     }
 

@@ -32,6 +32,7 @@ import eu.matejkormuth.starving.items.Mapping;
 import eu.matejkormuth.starving.items.Mappings;
 import eu.matejkormuth.starving.items.base.Firearm;
 import eu.matejkormuth.starving.nms.NMSModule;
+import eu.matejkormuth.starving.sounds.Sounds;
 import eu.matejkormuth.starving.sounds.SoundsModule;
 
 public class AK47 extends Firearm {
@@ -50,5 +51,8 @@ public class AK47 extends Firearm {
         this.setProjectileSpeed(2.1f);
         this.setRecoil(0.5f);
         this.setReloadTime(40);
+
+        this.fireSound = Sounds.AK47_FIRE;
+        this.reloadSound = Sounds.AK47_RELOAD;
     }
 }

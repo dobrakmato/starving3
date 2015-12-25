@@ -26,32 +26,12 @@
  */
 package eu.matejkormuth.starving.sounds;
 
-import eu.matejkormuth.bmboot.Dependency;
-import eu.matejkormuth.bmboot.internal.Module;
-import eu.matejkormuth.starving.nms.NMSModule;
-import lombok.experimental.Delegate;
-
-public class SoundsModule extends Module {
-
-    @Dependency
-    private NMSModule nmsModule;
-
-    @Delegate
-    private SoundProcessor soundProcessor;
-
-    @Override
-    public void onEnable() {
-        soundProcessor = new SoundProcessor(nmsModule.getNms());
-
-        Sound.module = this;
-    }
-
-    @Override
-    public void onDisable() {
-        Sound.module = null;
-    }
-
-    public SoundProcessor getSoundProcessor() {
-        return soundProcessor;
-    }
+/**
+ * Represents server-side categorization of sound effects.
+ */
+public enum SoundCategory {
+    /**
+     * Default category.
+     */
+    UNCATEGORIZED
 }

@@ -33,6 +33,7 @@ import eu.matejkormuth.starving.items.Rarity;
 import eu.matejkormuth.starving.items.base.Item;
 import eu.matejkormuth.starving.main.bukkitfixes.FlagMetadataValue;
 import eu.matejkormuth.starving.sounds.Sound;
+import eu.matejkormuth.starving.sounds.Sounds;
 import eu.matejkormuth.starving.sounds.SoundsModule;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -52,8 +53,8 @@ public class Molotov extends Item {
         this.setMaxStackAmount(8);
         // TODO: Category.
 
-        soundThrow = soundsModule.createSound("explosives.molotov.throw");
-        soundBreak = soundsModule.createSound("explosives.molotov.break");
+        soundThrow = Sounds.MOLOTOV_THROW;
+        soundBreak = Sounds.MOLOTOV_BREAK;
     }
 
     @Override

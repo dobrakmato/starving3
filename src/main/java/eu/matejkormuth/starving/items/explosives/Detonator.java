@@ -29,6 +29,7 @@ package eu.matejkormuth.starving.items.explosives;
 import eu.matejkormuth.starving.items.Mappings;
 import eu.matejkormuth.starving.items.base.Item;
 
+// TODO: Same item as C4.
 public class Detonator extends Item {
     public Detonator() {
         super(Mappings.DETONATOR, "Detonator");

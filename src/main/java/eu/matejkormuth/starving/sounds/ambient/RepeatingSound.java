@@ -28,11 +28,12 @@ package eu.matejkormuth.starving.sounds.ambient;
 
 
 import eu.matejkormuth.starving.sounds.Sound;
+import eu.matejkormuth.starving.sounds.SoundType;
 
 public class RepeatingSound extends Sound {
 
     protected RepeatingSound(String name) {
-        super(name);
+        super(name, SoundType.AMBIENT);
     }
 
     public static RepeatingSound[] create(String... sounds) {

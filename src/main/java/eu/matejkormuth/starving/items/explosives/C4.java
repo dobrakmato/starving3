@@ -34,6 +34,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 
+// TODO: Same item as Detonator.
 public class C4 extends Item {
     public C4() {
         super(Mappings.C4, "C4");

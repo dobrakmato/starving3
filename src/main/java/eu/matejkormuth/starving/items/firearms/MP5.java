@@ -32,6 +32,7 @@ import eu.matejkormuth.starving.items.Mapping;
 import eu.matejkormuth.starving.items.Mappings;
 import eu.matejkormuth.starving.items.base.Firearm;
 import eu.matejkormuth.starving.nms.NMSModule;
+import eu.matejkormuth.starving.sounds.Sounds;
 import eu.matejkormuth.starving.sounds.SoundsModule;
 
 public class MP5 extends Firearm {
@@ -51,5 +52,8 @@ public class MP5 extends Firearm {
         this.setProjectileSpeed(3.5f);
         this.setRecoil(0.35f);
         this.setReloadTime(60);
+
+        this.fireSound = Sounds.MP5_FIRE;
+        this.reloadSound = Sounds.MP5_RELOAD;
     }
 }

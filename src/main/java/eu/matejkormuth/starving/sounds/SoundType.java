@@ -26,32 +26,27 @@
  */
 package eu.matejkormuth.starving.sounds;
 
-import eu.matejkormuth.bmboot.Dependency;
-import eu.matejkormuth.bmboot.internal.Module;
-import eu.matejkormuth.starving.nms.NMSModule;
-import lombok.experimental.Delegate;
+/**
+ * Represents internal sound types.
+ */
+public enum SoundType {
+    /**
+     * Single, short sound like explosion, firing the gun, etc...
+     */
+    SINGLE,
 
-public class SoundsModule extends Module {
+    /**
+     * Sound used in ambient sound effects. Repeated.
+     */
+    AMBIENT,
 
-    @Dependency
-    private NMSModule nmsModule;
+    /**
+     * Game music.
+     */
+    MUSIC,
 
-    @Delegate
-    private SoundProcessor soundProcessor;
-
-    @Override
-    public void onEnable() {
-        soundProcessor = new SoundProcessor(nmsModule.getNms());
-
-        Sound.module = this;
-    }
-
-    @Override
-    public void onDisable() {
-        Sound.module = null;
-    }
-
-    public SoundProcessor getSoundProcessor() {
-        return soundProcessor;
-    }
+    /**
+     * Game voice acting.
+     */
+    VOICE
 }

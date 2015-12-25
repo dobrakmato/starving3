@@ -26,24 +26,117 @@
  */
 package eu.matejkormuth.starving.sounds;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.Wither;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+@Data
+@ToString
+@EqualsAndHashCode
+@RequiredArgsConstructor
 public class Sound {
 
+    /**
+     * Reference to sound module to allow sounds to play.
+     */
+    static SoundsModule module;
+
+    /**
+     * Internal name of currently played sound effect.
+     */
     private final String name;
 
-    protected Sound(String name) {
+    /**
+     * Volume of played sound.
+     */
+    @Wither
+    private float volume = 1;
+
+    /**
+     * Pitch of played sound.
+     */
+    @Wither
+    private float pitch = 1;
+
+    /**
+     * Maximum hearing distance of this sound.
+     */
+    @Wither
+    private float maxHearingDistance = 64f;
+
+    /**
+     * Category of played sound.
+     */
+    private SoundCategory category = SoundCategory.UNCATEGORIZED;
+
+    /**
+     * Type of sound.
+     */
+    private final SoundType type;
+
+    // Required by withers.
+    private Sound(String name, float volume, float pitch, float maxHearingDistance, SoundCategory category, SoundType type) {
         this.name = name;
+        this.volume = volume;
+        this.pitch = pitch;
+        this.maxHearingDistance = maxHearingDistance;
+        this.category = category;
+        this.type = type;
     }
 
-    public String getName() {
-        return name;
+    /**
+     * Plays this sound for all players.
+     *
+     * @param location location of this sound
+     */
+    public void play(Location location) {
+        module.playSound(this, location);
     }
 
-    @SuppressWarnings("deprecation")
-    public void play(Player player, Location location, float volume, float pitch) {
-        // Bukkit, fix this, pls.
-        player.playSound(location, getName(), volume, pitch);
+    /**
+     * Plays this sound for specified player.
+     *
+     * @param location location of this sound
+     * @param player   player to play this sound to
+     */
+    public void play(Location location, Player player) {
+        module.playSound(this, player, location);
+    }
+
+    /**
+     * Plays this sound using vanilla methods for volume and pitch.
+     *
+     * @param location location of sound
+     */
+    public void playRaw(Location location) {
+        module.playSoundRaw(this, location);
+    }
+
+    /**
+     * Plays this sound using vanilla methods for volume and pitch.
+     *
+     * @param location location of sound
+     * @param player   player to play this sound to
+     */
+    public void playRaw(Location location, Player player) {
+        module.playSoundRawFor(this, player, location);
+    }
+
+    /**
+     * Plays this sound using vanilla methods for volume and pitch with specified parameters.
+     *
+     * @param p        player to play sound to
+     * @param location location of sound
+     * @param volume   volume of sound
+     * @param pitch    pitch of sound
+     * @deprecated Use withers and play() method.
+     */
+    @Deprecated
+    public void play(Player p, Location location, float volume, float pitch) {
+        new Sound(this.name, volume, pitch, 16f, this.category, this.type).playRaw(location, p);
     }
 }

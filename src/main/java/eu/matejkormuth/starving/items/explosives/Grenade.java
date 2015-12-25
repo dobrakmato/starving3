@@ -35,6 +35,7 @@ import eu.matejkormuth.starving.items.base.Item;
 import eu.matejkormuth.starving.main.DelayedTask;
 import eu.matejkormuth.starving.main.Time;
 import eu.matejkormuth.starving.sounds.Sound;
+import eu.matejkormuth.starving.sounds.Sounds;
 import eu.matejkormuth.starving.sounds.SoundsModule;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -54,8 +55,8 @@ public class Grenade extends Item {
         this.setRarity(Rarity.RARE);
         // TODO: Category.
 
-        throwSound = soundsModule.createSound("pyrotechnics.grenade.throw");
-        explodeSound = soundsModule.createSound("pyrotechnics.grenade.explode");
+        throwSound = Sounds.GRENADE_THROW;
+        explodeSound = Sounds.GRENADE_EXPLODE;
     }
 
     @Override

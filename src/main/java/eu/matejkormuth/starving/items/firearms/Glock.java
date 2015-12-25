@@ -32,6 +32,7 @@ import eu.matejkormuth.starving.items.Mapping;
 import eu.matejkormuth.starving.items.Mappings;
 import eu.matejkormuth.starving.items.base.Firearm;
 import eu.matejkormuth.starving.nms.NMSModule;
+import eu.matejkormuth.starving.sounds.Sounds;
 import eu.matejkormuth.starving.sounds.SoundsModule;
 
 public class Glock extends Firearm {
@@ -51,5 +52,8 @@ public class Glock extends Firearm {
         this.setProjectileSpeed(3.1f);
         this.setRecoil(0.25f);
         this.setReloadTime(20);
+
+        this.fireSound = Sounds.GLOCK_FIRE;
+        this.reloadSound = Sounds.GLOCK_RELOAD;
     }
 }

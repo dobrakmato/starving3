@@ -46,7 +46,7 @@ public class NMS {
     private Random random = new Random();
 
     // Allow access only trough NMSModule.
-    NMS(){
+    NMS() {
     }
 
     public void playNamedSoundEffectMaxVolume(Player player, String soundEffectName, Location location) {

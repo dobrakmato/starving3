@@ -33,6 +33,7 @@ import eu.matejkormuth.starving.items.Mapping;
 import eu.matejkormuth.starving.items.Mappings;
 import eu.matejkormuth.starving.items.base.Firearm;
 import eu.matejkormuth.starving.nms.NMSModule;
+import eu.matejkormuth.starving.sounds.Sounds;
 import eu.matejkormuth.starving.sounds.SoundsModule;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
@@ -57,6 +58,9 @@ public class Mossberg500 extends Firearm {
         this.setProjectileSpeed(2f);
         this.setRecoil(0.6f);
         this.setReloadTime(40);
+
+        this.fireSound = Sounds.MOSSBERG500_FIRE;
+        this.reloadSound = Sounds.MOSSBERG500_RELOAD;
     }
 
     @Override

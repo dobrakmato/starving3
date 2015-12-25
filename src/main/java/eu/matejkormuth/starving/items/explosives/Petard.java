@@ -36,6 +36,7 @@ import eu.matejkormuth.starving.items.base.Item;
 import eu.matejkormuth.starving.main.RepeatingTask;
 import eu.matejkormuth.starving.main.Time;
 import eu.matejkormuth.starving.sounds.Sound;
+import eu.matejkormuth.starving.sounds.Sounds;
 import eu.matejkormuth.starving.sounds.SoundsModule;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -52,8 +53,8 @@ public class Petard extends Item {
     public Petard(SoundsModule soundsModule) {
         super(Mappings.PETARD, "Petard");
 
-        soundBurn = soundsModule.createSound("pyrotechnics.petard.burn");
-        soundExplode = soundsModule.createSound("pyrotechnics.petard.burn");
+        soundBurn = Sounds.PETARD_BURN;
+        soundExplode = Sounds.PETARD_BURN;
     }
 
     @Override

@@ -34,6 +34,7 @@ import eu.matejkormuth.starving.nms.NMSModule;
 import eu.matejkormuth.starving.persistence.AbstractPersistable;
 import eu.matejkormuth.starving.persistence.Persist;
 import eu.matejkormuth.starving.sounds.Sound;
+import eu.matejkormuth.starving.sounds.Sounds;
 import eu.matejkormuth.starving.sounds.SoundsModule;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -57,8 +58,8 @@ public class ProjectileHitListener extends AbstractPersistable implements Listen
     private NMS nms;
 
     public ProjectileHitListener(SoundsModule soundsModule, NMSModule nmsModule) {
-        soundSmokeShellBurn = soundsModule.createSound("pyrotechnics.smokeshell.burn");
-        soundMolotovBreak = soundsModule.createSound("explosives.molotov.break");
+        soundSmokeShellBurn = Sounds.SMOKESHELL_BURN;
+        soundMolotovBreak = Sounds.MOLOTOV_BREAK;
         nms = nmsModule.getNms();
     }
 

@@ -32,6 +32,7 @@ import eu.matejkormuth.starving.items.Mapping;
 import eu.matejkormuth.starving.items.Mappings;
 import eu.matejkormuth.starving.items.base.Firearm;
 import eu.matejkormuth.starving.nms.NMSModule;
+import eu.matejkormuth.starving.sounds.Sounds;
 import eu.matejkormuth.starving.sounds.SoundsModule;
 
 public class NickyAnaconda extends Firearm {
@@ -50,7 +51,10 @@ public class NickyAnaconda extends Firearm {
         this.setScopedInaccurancy(0.01f);
         this.setNoiseLevel(0.5f);
         this.setProjectileSpeed(3f);
-        this.setRecoil(0.6f);
+        this.setRecoil(6000.6f); //0.6f
         this.setReloadTime(20);
+
+        this.fireSound = Sounds.NICKY_ANACONDA_FIRE;
+        this.reloadSound = Sounds.NICKY_ANACONDA_RELOAD;
     }
 }

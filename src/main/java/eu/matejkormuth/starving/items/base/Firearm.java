@@ -73,8 +73,8 @@ public abstract class Firearm extends Item {
     private float scopedInaccurancy = 0.2f;
     private float recoil = 0.5f;
 
-    private final Sound reloadSound;
-    private final Sound fireSound;
+    protected Sound reloadSound;
+    protected Sound fireSound;
 
     private final NMS nms;
     private final FirearmTransformer firearmTransformer;
@@ -87,12 +87,6 @@ public abstract class Firearm extends Item {
         this.setCategory(Category.FIREARMS);
         this.setRarity(Rarity.UNCOMMON);
         this.setMaxStackAmount(1);
-
-        // Setup sounds.
-        this.reloadSound = soundsModule.createSound("firearms." + soundSourceClass
-                .getSimpleName().toLowerCase() + ".reload");
-        this.fireSound = soundsModule.createSound("firearms." + soundSourceClass
-                .getSimpleName().toLowerCase() + ".fire");
     }
 
     protected void setAmmoType(AmmunitionType ammoType) {
@@ -365,20 +359,17 @@ public abstract class Firearm extends Item {
     }
 
     protected void playFireSound(Player player) {
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            this.getFireSound().play(p, player.getLocation(), 2, 1);
-        }
+        this.fireSound.play(player.getEyeLocation());
     }
 
     protected void playReloadSound(Player player) {
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            this.getReloadSound().play(p, player.getLocation(), 2, 1);
-        }
+        this.reloadSound.play(player.getEyeLocation());
     }
 
     protected void makeRecoil(Player player, Vector projectileVelocity) {
         Vector recoil = projectileVelocity
                 .multiply(-0.01f);
+        recoil.add(player.getVelocity());
         recoil.setY(player
                 .getVelocity()
                 .getY());

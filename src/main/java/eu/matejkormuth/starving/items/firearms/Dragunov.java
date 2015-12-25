@@ -32,6 +32,7 @@ import eu.matejkormuth.starving.items.Mapping;
 import eu.matejkormuth.starving.items.Mappings;
 import eu.matejkormuth.starving.items.base.Firearm;
 import eu.matejkormuth.starving.nms.NMSModule;
+import eu.matejkormuth.starving.sounds.Sounds;
 import eu.matejkormuth.starving.sounds.SoundsModule;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -53,6 +54,9 @@ public class Dragunov extends Firearm {
         this.setProjectileSpeed(4f);
         this.setRecoil(1);
         this.setReloadTime(100);
+
+        this.fireSound = Sounds.DRAGUNOV_FIRE;
+        this.reloadSound = Sounds.DRAGUNOV_RELOAD;
     }
 
     @Override
