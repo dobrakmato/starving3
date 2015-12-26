@@ -29,6 +29,7 @@ package eu.matejkormuth.starving.items.melee;
 import eu.matejkormuth.starving.items.Mappings;
 import eu.matejkormuth.starving.items.Rarity;
 import eu.matejkormuth.starving.items.base.MeleeWeapon;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
@@ -41,13 +42,25 @@ public class Knife extends MeleeWeapon {
     }
 
     @Override
+    public void onInteractWith(Player player, Entity entity) {
+        super.onInteractWith(player, entity);
+        if (entity instanceof LivingEntity) {
+            float yawDiff = Math.abs(player.getEyeLocation().getYaw() - entity.getLocation().getYaw());
+            if (Math.abs(yawDiff) < 90f) {
+                // This is insta-kill from behind.
+                super.onAttack(player, (LivingEntity) entity, 20);
+            }
+        }
+    }
+
+    @Override
     public void onAttack(Player damager, LivingEntity entity, double damage) {
         // If player is behind the zombie, he get 20 HP damage bonus.
 
         // Calculate difference in yaw.
         float yawDiff = Math.abs(damager.getEyeLocation().getYaw() - entity.getLocation().getYaw());
 
-        if (Math.abs(yawDiff) < 15f) {
+        if (Math.abs(yawDiff) < 90f) {
             // This is insta-kill from behind.
             super.onAttack(damager, entity, 20);
         } else {

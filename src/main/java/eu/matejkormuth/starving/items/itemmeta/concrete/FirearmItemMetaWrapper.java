@@ -36,6 +36,10 @@ public class FirearmItemMetaWrapper extends ItemMetaWrapper {
     private static final String FOREGRIP_KEY = "Foregrip";
     private static final String SILENCER_KEY = "Silencer";
     private static final String AMMO_KEY = "Ammo";
+    private static final String FIRE_MODE = "Mode";
+
+    public static final String FIRE_MODE_SINGLE = "Single";
+    public static final String FIRE_MODE_BRUST = "Brust";
 
     public FirearmItemMetaWrapper(ItemStack stack) {
         super(stack);
@@ -75,5 +79,17 @@ public class FirearmItemMetaWrapper extends ItemMetaWrapper {
 
     public void setScope(boolean scope) {
         this.valueHandler.set(SCOPE_KEY, scope);
+    }
+
+    public boolean isBrust() {
+        return this.valueHandler.get(FIRE_MODE).equals(FIRE_MODE_BRUST);
+    }
+
+    public String getFireMode() {
+        return this.valueHandler.get(FIRE_MODE);
+    }
+
+    public void setFireMode(String fireMode) {
+        this.valueHandler.set(FIRE_MODE, fireMode);
     }
 }

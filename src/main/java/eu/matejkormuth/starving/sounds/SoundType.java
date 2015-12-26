@@ -36,6 +36,11 @@ public enum SoundType {
     SINGLE,
 
     /**
+     * Single, longer sound like guitar sound.
+     */
+    SINGLE_LONG,
+
+    /**
      * Sound used in ambient sound effects. Repeated.
      */
     AMBIENT,

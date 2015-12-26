@@ -26,29 +26,47 @@
  */
 package eu.matejkormuth.starving.items.melee;
 
+import eu.matejkormuth.bukkit.Actions;
+import eu.matejkormuth.starving.items.InteractResult;
 import eu.matejkormuth.starving.items.Mappings;
-import eu.matejkormuth.starving.items.Rarity;
 import eu.matejkormuth.starving.items.base.MeleeWeapon;
 import eu.matejkormuth.starving.sounds.Sounds;
+import org.bukkit.Sound;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.Action;
 
-public class WoodenStickWithMetalRods extends MeleeWeapon {
+public class Guitar extends MeleeWeapon {
+    public Guitar() {
+        super(Mappings.GUITAR, "Guitar", 7, 5);
+    }
 
-    public WoodenStickWithMetalRods() {
-        super(Mappings.WOODENSTICKWITHMETALRODS, "Wooden stick with metal rods", 7, 35);
-        this.setRarity(Rarity.RARE);
+    @Override
+    public InteractResult onInteract(Player player, Action action, Block clickedBlock, BlockFace clickedFace) {
+        if (Actions.isRightClick(action)) {
+            Sounds.GUITAR_PLAY.play(player.getEyeLocation());
+        }
+        return super.onInteract(player, action, clickedBlock, clickedFace);
+    }
+
+    @Override
+    public void onInteractWith(Player player, Entity entity) {
+        super.onInteractWith(player, entity);
+        Sounds.GUITAR_PLAY.play(player.getEyeLocation());
     }
 
     @Override
     public void onAttack(Player damager, LivingEntity entity, double damage) {
         super.onAttack(damager, entity, damage);
-        Sounds.WOODEN_STICK_RODS_HIT.play(entity.getEyeLocation());
+        Sounds.GUITAR_HIT.play(entity.getEyeLocation());
     }
 
     @Override
     public void onItemBreak(Player damager) {
-        super.onItemBreak(damager);
-        Sounds.WOODEN_STICK_RODS_BREAK.play(damager.getEyeLocation());
+        Sounds.GUITAR_BREAK.play(damager.getEyeLocation());
+        damager.getWorld().playSound(damager.getEyeLocation(), Sound.ITEM_BREAK, 1, 1);
     }
 }

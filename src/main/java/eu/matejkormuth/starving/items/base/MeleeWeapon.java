@@ -26,12 +26,18 @@
  */
 package eu.matejkormuth.starving.items.base;
 
+import eu.matejkormuth.bukkit.Actions;
 import eu.matejkormuth.starving.items.Category;
+import eu.matejkormuth.starving.items.InteractResult;
 import eu.matejkormuth.starving.items.Mapping;
 import eu.matejkormuth.starving.main.DelayedTask;
 import eu.matejkormuth.starving.main.Time;
+import eu.matejkormuth.starving.sounds.Sounds;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.Action;
 
 public abstract class MeleeWeapon extends Item {
 
@@ -49,6 +55,15 @@ public abstract class MeleeWeapon extends Item {
         this.setMaxStackAmount(1);
     }
 
+    @Override
+    public InteractResult onInteract(Player player, Action action, Block clickedBlock, BlockFace clickedFace) {
+        if (Actions.isLeftClick(action)) {
+            Sounds.HAND_SWING.play(player.getEyeLocation());
+        }
+
+        return super.onInteract(player, action, clickedBlock, clickedFace);
+    }
+
     public void onAttack(Player damager, LivingEntity entity, double damage) {
         entity.damage(baseDmg);
 
@@ -59,12 +74,18 @@ public abstract class MeleeWeapon extends Item {
         short itemDurability = damager.getItemInHand().getDurability();
 
         if (itemDurability > this.itemStack.getType().getMaxDurability()) {
+            // Trigger possible events.
+            this.onItemBreak(damager);
             // Remove item.
             DelayedTask.of(() -> damager.setItemInHand(null)).schedule(Time.ofTicks(5));
 
         } else {
             damager.getItemInHand().setDurability((short) (itemDurability + this.useDurabilityDecrement));
         }
+    }
+
+    public void onItemBreak(Player damager) {
+
     }
 
     public int getUses() {

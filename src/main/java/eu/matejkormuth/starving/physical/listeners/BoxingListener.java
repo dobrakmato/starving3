@@ -26,22 +26,18 @@
  */
 package eu.matejkormuth.starving.physical.listeners;
 
-import org.bukkit.entity.EntityType;
+import eu.matejkormuth.starving.sounds.Sounds;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-public class CancelPointEffectDamageListener implements Listener {
+public class BoxingListener implements Listener {
 
     @EventHandler
-    private void onDamage(final EntityDamageEvent event) {
-        if(event.getEntityType() == EntityType.PLAYER) {
-            // Cancel damage cause by potion (sickness) and wither (infectedness).
-            if(event.getCause() == EntityDamageEvent.DamageCause.POISON ||
-                    event.getCause() == EntityDamageEvent.DamageCause.WITHER) {
-                // Cancel it.
-                event.setCancelled(true);
-            }
+    private void onPlayerDamagedPlayer(final EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
+            Sounds.HAND_HIT.play(((Player) event.getEntity()).getEyeLocation());
         }
     }
 }

@@ -29,6 +29,10 @@ package eu.matejkormuth.starving.items.melee;
 import eu.matejkormuth.starving.items.Mappings;
 import eu.matejkormuth.starving.items.Rarity;
 import eu.matejkormuth.starving.items.base.MeleeWeapon;
+import eu.matejkormuth.starving.sounds.Sounds;
+import org.bukkit.Sound;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 
 public class Machete extends MeleeWeapon {
 
@@ -38,4 +42,15 @@ public class Machete extends MeleeWeapon {
         this.setMaxStackAmount(1);
     }
 
+    @Override
+    public void onAttack(Player damager, LivingEntity entity, double damage) {
+        super.onAttack(damager, entity, damage);
+        Sounds.MACHETE_HIT.play(entity.getEyeLocation());
+    }
+
+    @Override
+    public void onItemBreak(Player damager) {
+        super.onItemBreak(damager);
+        damager.getWorld().playSound(damager.getEyeLocation(), Sound.ITEM_BREAK, 1, 1);
+    }
 }

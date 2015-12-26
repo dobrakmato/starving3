@@ -2,17 +2,17 @@
  * Starving - Bukkit API server mod with Zombies.
  * Copyright (c) 2015, Matej Kormuth <http://www.github.com/dobrakmato>
  * All rights reserved.
- *
+ * <p>
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
- *
+ * <p>
  * 1. Redistributions of source code must retain the above copyright notice, this
  * list of conditions and the following disclaimer.
- *
+ * <p>
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation and/or
  * other materials provided with the distribution.
- *
+ * <p>
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -29,6 +29,7 @@ package eu.matejkormuth.starving.items.base;
 import com.darkblade12.particleeffect.ParticleEffect;
 import eu.matejkormuth.bukkit.Actions;
 import eu.matejkormuth.starving.items.*;
+import eu.matejkormuth.starving.items.firearms.Dragunov;
 import eu.matejkormuth.starving.items.itemmeta.concrete.FirearmItemMetaWrapper;
 import eu.matejkormuth.starving.items.transformers.FirearmTransformer;
 import eu.matejkormuth.starving.main.DelayedTask;
@@ -41,7 +42,10 @@ import eu.matejkormuth.starving.sounds.SoundsModule;
 import net.minecraft.server.v1_8_R3.AxisAlignedBB;
 import net.minecraft.server.v1_8_R3.MovingObjectPosition;
 import net.minecraft.server.v1_8_R3.Vec3D;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
@@ -171,24 +175,60 @@ public abstract class Firearm extends Item {
 
     @Override
     public void onInteractWith(Player player, Entity entity) {
-        this.doFire(player);
+        FirearmItemMetaWrapper wrapper = new FirearmItemMetaWrapper(player.getItemInHand());
+        if (wrapper.isBrust()) {
+            // Brust mode.
+            doFire(player, wrapper);
+            DelayedTask.of(() -> doFire(player, wrapper)).schedule(Time.ofTicks(2));
+            DelayedTask.of(() -> doFire(player, wrapper)).schedule(Time.ofTicks(4));
+            //DelayedTask.of(() -> doFire(player, wrapper)).schedule(Time.ofTicks(6));
+        } else {
+            // Single shot.
+            doFire(player, wrapper);
+        }
     }
 
     @Override
     public InteractResult onInteract(Player player, Action action,
                                      Block clickedBlock, BlockFace clickedFace) {
         if (action == Action.RIGHT_CLICK_AIR) {
-            doFire(player);
+            FirearmItemMetaWrapper wrapper = new FirearmItemMetaWrapper(player.getItemInHand());
+            // Check mode.
+            if (wrapper.isBrust()) {
+                // Brust mode.
+                doFire(player, wrapper);
+                DelayedTask.of(() -> doFire(player, wrapper)).schedule(Time.ofTicks(2));
+                DelayedTask.of(() -> doFire(player, wrapper)).schedule(Time.ofTicks(4));
+                //DelayedTask.of(() -> doFire(player, wrapper)).schedule(Time.ofTicks(6));
+            } else {
+                // Single shot.
+                doFire(player, wrapper);
+            }
         } else if (Actions.isLeftClick(action)) {
-            ItemStack is = player.getItemInHand();
-            toggleScope(player, is);
+            FirearmItemMetaWrapper wrapper = new FirearmItemMetaWrapper(player.getItemInHand());
+
+            // Mode switching.
+            if (player.isSneaking()) {
+                if (wrapper.isBrust()) {
+                    wrapper.setFireMode(FirearmItemMetaWrapper.FIRE_MODE_SINGLE);
+                } else {
+                    wrapper.setFireMode(FirearmItemMetaWrapper.FIRE_MODE_BRUST);
+                }
+                ItemStack is = player.getItemInHand();
+                wrapper.apply(is);
+                nms.sendAboveActionBarMessage(player, ChatColor.YELLOW.toString() + "Fire mode: " + wrapper.getFireMode());
+            } else {
+                // Just scope the gun.
+                ItemStack is = player.getItemInHand();
+                toggleScope(player, is);
+            }
         }
         return InteractResult.useNone();
     }
 
-    private void doFire(Player player) {
+    private void doFire(Player player, FirearmItemMetaWrapper wrapper) {
         ItemStack is = player.getItemInHand();
-        FirearmItemMetaWrapper wrapper = new FirearmItemMetaWrapper(is);
+
 
         Vector projectileVelocity = computeAndFire(player);
 
@@ -293,7 +333,11 @@ public abstract class Firearm extends Item {
                         e.damage(9999999D);
                         // TODO: Improve particle effect on headshot.
                     } else {
-                        e.damage(4);
+                        if (this instanceof Dragunov) {
+                            e.damage(19D);
+                        } else {
+                            e.damage(4);
+                        }
                     }
 
                     // Simulate blood on blocks.
@@ -422,6 +466,7 @@ public abstract class Firearm extends Item {
         FirearmItemMetaWrapper wrapper = new FirearmItemMetaWrapper(raw);
         wrapper.setCurrentAmmo(this
                 .getClipSize());
+        wrapper.setFireMode(FirearmItemMetaWrapper.FIRE_MODE_SINGLE);
         wrapper.apply(raw);
         return raw;
     }

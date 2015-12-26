@@ -34,9 +34,14 @@ public final class Sounds {
     }
 
     // Random items.
-    public static final Sound GUITAR_PLAY = new Sound("guitar.play", SoundType.SINGLE);
-    public static final Sound GUITAR_HIT = new Sound("guitar.hit", SoundType.SINGLE);
-    public static final Sound GUITAR_BREAK = new Sound("guitar.break", SoundType.SINGLE);
+    public static final Sound GUITAR_PLAY = new Sound("guitar.play", 16f, SoundType.SINGLE_LONG);
+    public static final Sound GUITAR_HIT = new Sound("guitar.hit", 16f, SoundType.SINGLE);
+    public static final Sound GUITAR_BREAK = new Sound("guitar.break", 16f, SoundType.SINGLE);
+
+    public static final Sound GUITAR_SONG1 = new Sound("guitar.song1", SoundType.SINGLE_LONG);
+    public static final Sound GUITAR_SONG2 = new Sound("guitar.song2", SoundType.SINGLE_LONG);
+    public static final Sound GUITAR_SONG3 = new Sound("guitar.song3", SoundType.SINGLE_LONG);
+    public static final Sound GUITAR_SONG4 = new Sound("guitar.song4", SoundType.SINGLE_LONG);
 
     // Explosives.
     public static final Sound C4_EXPLODE = new Sound("explosives.c4.explode", SoundType.SINGLE);
@@ -82,5 +87,26 @@ public final class Sounds {
 
     public static final Sound REVOLVER_FIRE = new Sound("firearms.revolver.fire", SoundType.SINGLE);
     public static final Sound REVOLVER_RELOAD = new Sound("firearms.revolver.reload", SoundType.SINGLE);
+
+    // Flamethrower.
+    public static final Sound FLAMETHROWER_START = new Sound("flamethrower.start", 24f, SoundType.SINGLE);
+    public static final Sound FLAMETHROWER_LOOP = new Sound("flamethrower.loop", 24f, SoundType.SINGLE);
+    public static final Sound FLAMETHROWER_END = new Sound("flamethrower.end", 24f, SoundType.SINGLE);
+
+    // Melee.
+    public static final Sound WOODEN_STICK_HIT = new Sound("melee.stick.hit", 16f, SoundType.SINGLE);
+    public static final Sound WOODEN_STICK_BREAK = new Sound("melee.stick.break", 16f, SoundType.SINGLE);
+
+    public static final Sound WOODEN_STICK_RODS_HIT = new Sound("melee.stickrods.hit", 16f, SoundType.SINGLE);
+    public static final Sound WOODEN_STICK_RODS_BREAK = new Sound("melee.stickrods.break", 16f, SoundType.SINGLE);
+
+    public static final Sound WOODEN_STICK_RODS_KNIVES_HIT = new Sound("melee.stickknives.hit", 16f, SoundType.SINGLE);
+    public static final Sound WOODEN_STICK_RODS_KNIVES_BREAK = new Sound("melee.stickknives.break", 16f, SoundType.SINGLE);
+
+    public static final Sound MACHETE_HIT = new Sound("melee.machete.hit", 32f, SoundType.SINGLE);
+
+    // Boxing.
+    public static final Sound HAND_HIT = new Sound("melee.hand.hit", 16f, SoundType.SINGLE);
+    public static final Sound HAND_SWING = new Sound("melee.hand.swing", 8f, SoundType.SINGLE);
 
 }

@@ -29,6 +29,9 @@ package eu.matejkormuth.starving.items.melee;
 import eu.matejkormuth.starving.items.Mappings;
 import eu.matejkormuth.starving.items.Rarity;
 import eu.matejkormuth.starving.items.base.MeleeWeapon;
+import eu.matejkormuth.starving.sounds.Sounds;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 
 public class WoodenStick extends MeleeWeapon {
 
@@ -38,4 +41,15 @@ public class WoodenStick extends MeleeWeapon {
         this.setMaxStackAmount(3);
     }
 
+    @Override
+    public void onAttack(Player damager, LivingEntity entity, double damage) {
+        super.onAttack(damager, entity, damage);
+        Sounds.WOODEN_STICK_HIT.play(entity.getEyeLocation());
+    }
+
+    @Override
+    public void onItemBreak(Player damager) {
+        super.onItemBreak(damager);
+        Sounds.WOODEN_STICK_BREAK.play(damager.getEyeLocation());
+    }
 }

@@ -24,26 +24,17 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.matejkormuth.starving.physical;
+package eu.matejkormuth.starving.sounds.emmiters;
 
-import eu.matejkormuth.bmboot.internal.Module;
-import eu.matejkormuth.starving.physical.listeners.BoxingListener;
-import eu.matejkormuth.starving.physical.listeners.CancelPotionEffectDamageListener;
-import eu.matejkormuth.starving.physical.listeners.SprintListener;
+import eu.matejkormuth.starving.sounds.Sound;
+import lombok.Data;
+import org.bukkit.Location;
 
-public class PhysicalModule extends Module {
+@Data
+public class SoundEmmiter {
+
+    private Location location;
+    private Sound sound;
 
 
-    @Override
-    public void onEnable() {
-        // Initialize listeners.
-        listener(new CancelPotionEffectDamageListener());
-        listener(new SprintListener());
-        listener(new BoxingListener());
-    }
-
-    @Override
-    public void onDisable() {
-
-    }
 }

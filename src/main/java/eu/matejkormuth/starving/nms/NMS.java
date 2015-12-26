@@ -31,7 +31,7 @@ import eu.matejkormuth.starving.main.NMSHooks;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
@@ -39,6 +39,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 @NMSHooks(version = "v1_8_R3")
@@ -57,7 +59,16 @@ public class NMS {
         sendPacket(player, new PacketPlayOutResourcePackSend(url, sha1lower40chars));
     }
 
+    /**
+     * Material on which the break or blood effects may not be displayed.
+     */
+    private List<Material> badMaterials = Arrays.asList(Material.LONG_GRASS, Material.LEAVES, Material.LEAVES_2, Material.AIR);
+
     public void displayMaterialBreak(Location loc) {
+        if (badMaterials.contains(loc.getBlock().getType())) {
+            return;
+        }
+
         Bukkit.getOnlinePlayers()
                 .stream()
                 .filter(p -> p.getLocation().distanceSquared(loc) < 16384)
@@ -65,6 +76,10 @@ public class NMS {
     }
 
     public void displayBloodEffects(Location loc) {
+        if (badMaterials.contains(loc.getBlock().getType())) {
+            return;
+        }
+
         Bukkit.getOnlinePlayers()
                 .stream()
                 .filter(p -> p.getLocation().distanceSquared(loc) < 16384)
@@ -126,7 +141,7 @@ public class NMS {
     }
 
     @NMSHooks(version = "v1_8_R3")
-    public static net.minecraft.server.v1_8_R3.World getNMSWorld(World world) {
+    public static net.minecraft.server.v1_8_R3.World getNMSWorld(org.bukkit.World world) {
         return ((CraftWorld) world).getHandle();
     }
 

@@ -29,6 +29,7 @@ package eu.matejkormuth.starving.items;
 import eu.matejkormuth.bmboot.Dependency;
 import eu.matejkormuth.bmboot.internal.Module;
 import eu.matejkormuth.starving.commands.CommandsModule;
+import eu.matejkormuth.starving.items.commands.ItemCommandExecutor;
 import eu.matejkormuth.starving.items.commands.ItemInvCommandExecutor;
 import eu.matejkormuth.starving.items.listeners.PlayerDropRewriteListener;
 import eu.matejkormuth.starving.items.listeners.ProjectileHitListener;
@@ -61,6 +62,7 @@ public class ItemsModule extends Module {
 
         // Initialize commands.
         commandsModule.command("itemsinv", new ItemInvCommandExecutor(itemManager));
+        commandsModule.command("item", new ItemCommandExecutor(itemManager));
     }
 
     @Override

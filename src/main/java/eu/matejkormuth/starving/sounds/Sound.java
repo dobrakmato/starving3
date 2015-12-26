@@ -78,6 +78,12 @@ public class Sound {
      */
     private final SoundType type;
 
+    public Sound(String name, float maxHearingDistance, SoundType type) {
+        this.name = name;
+        this.maxHearingDistance = maxHearingDistance;
+        this.type = type;
+    }
+
     // Required by withers.
     private Sound(String name, float volume, float pitch, float maxHearingDistance, SoundCategory category, SoundType type) {
         this.name = name;

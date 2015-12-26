@@ -133,6 +133,7 @@ public class ItemManager implements Listener {
         this.register(new Petard(soundsModule));
         this.register(new RPG7(rocketsModule));
         this.register(new SmokeShell(soundsModule));
+        this.register(new Flamethrower());
     }
 
     private void registerMelee() {
@@ -145,6 +146,7 @@ public class ItemManager implements Listener {
         this.register(new WoodenStickWithMetalRodsAndKnife());
         this.register(new Axe());
         this.register(new Machete());
+        this.register(new Guitar());
     }
 
     private void registerFood() {
@@ -185,12 +187,12 @@ public class ItemManager implements Listener {
     private void registerFirearms() {
         // Unscoped variations.
         this.register(new AK47(this, soundsModule, nmsModule));
-        this.register(new Glock(this, soundsModule, nmsModule));
+        this.register(new Glock(this, soundsModule, nmsModule)); //
         this.register(new Dragunov(this, soundsModule, nmsModule));
-        this.register(new M16(this, soundsModule, nmsModule));
+        this.register(new M16(this, soundsModule, nmsModule)); //
         this.register(new Mossberg500(this, soundsModule, nmsModule));
         this.register(new MP5(this, soundsModule, nmsModule));
-        this.register(new Revolver(this, soundsModule, nmsModule));
+        this.register(new Revolver(this, soundsModule, nmsModule)); //
         this.register(new NickyAnaconda(this, soundsModule, nmsModule));
 
         // Scoped variations.

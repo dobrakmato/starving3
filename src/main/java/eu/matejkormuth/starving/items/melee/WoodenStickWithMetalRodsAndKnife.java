@@ -29,6 +29,9 @@ package eu.matejkormuth.starving.items.melee;
 import eu.matejkormuth.starving.items.Mappings;
 import eu.matejkormuth.starving.items.Rarity;
 import eu.matejkormuth.starving.items.base.MeleeWeapon;
+import eu.matejkormuth.starving.sounds.Sounds;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 
 public class WoodenStickWithMetalRodsAndKnife extends MeleeWeapon {
 
@@ -37,4 +40,15 @@ public class WoodenStickWithMetalRodsAndKnife extends MeleeWeapon {
         this.setRarity(Rarity.RARE);
     }
 
+    @Override
+    public void onAttack(Player damager, LivingEntity entity, double damage) {
+        super.onAttack(damager, entity, damage);
+        Sounds.WOODEN_STICK_RODS_KNIVES_HIT.play(entity.getEyeLocation());
+    }
+
+    @Override
+    public void onItemBreak(Player damager) {
+        super.onItemBreak(damager);
+        Sounds.WOODEN_STICK_RODS_KNIVES_BREAK.play(damager.getEyeLocation());
+    }
 }

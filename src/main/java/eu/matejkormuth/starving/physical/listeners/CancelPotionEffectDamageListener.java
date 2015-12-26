@@ -24,26 +24,24 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.matejkormuth.starving.physical;
+package eu.matejkormuth.starving.physical.listeners;
 
-import eu.matejkormuth.bmboot.internal.Module;
-import eu.matejkormuth.starving.physical.listeners.BoxingListener;
-import eu.matejkormuth.starving.physical.listeners.CancelPotionEffectDamageListener;
-import eu.matejkormuth.starving.physical.listeners.SprintListener;
+import org.bukkit.entity.EntityType;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 
-public class PhysicalModule extends Module {
+public class CancelPotionEffectDamageListener implements Listener {
 
-
-    @Override
-    public void onEnable() {
-        // Initialize listeners.
-        listener(new CancelPotionEffectDamageListener());
-        listener(new SprintListener());
-        listener(new BoxingListener());
-    }
-
-    @Override
-    public void onDisable() {
-
+    @EventHandler
+    private void onDamage(final EntityDamageEvent event) {
+        if(event.getEntityType() == EntityType.PLAYER) {
+            // Cancel damage cause by potion (sickness) and wither (infectedness).
+            if(event.getCause() == EntityDamageEvent.DamageCause.POISON ||
+                    event.getCause() == EntityDamageEvent.DamageCause.WITHER) {
+                // Cancel it.
+                event.setCancelled(true);
+            }
+        }
     }
 }
