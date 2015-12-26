@@ -82,3 +82,5 @@
 "C4" -> DOUBLE_STEP:6
 "Detonator" -> BONE:0
 "Petard" -> SUGAR:0
+"Guitar" -> WOOD_HOE:0
+"Flamethrower" -> GOLD_INGOT:0

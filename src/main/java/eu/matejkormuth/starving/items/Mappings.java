@@ -3,7 +3,7 @@ package eu.matejkormuth.starving.items;
 // This file is part of Starving 2.0 project.
 // This file was automatically generated.
 // Changes to this file wont be preserved!
-// Generated at: 20.11.2015 16:03
+// Generated at: 26.12.2015 21:44
 // This file is licensed under GPL-3.
 // Starving: <http://github.com/dobrakmato/mcRPG>
 
@@ -181,5 +181,9 @@ public class Mappings {
     public static final Mapping DETONATOR = new Mapping(Material.BONE, 0);
     // "Petard" -> SUGAR:0
     public static final Mapping PETARD = new Mapping(Material.SUGAR, 0);
+    // "Guitar" -> WOOD_HOE:0
+    public static final Mapping GUITAR = new Mapping(Material.WOOD_HOE, 0);
+    // "Flamethrower" -> GOLD_INGOT:0
+    public static final Mapping FLAMETHROWER = new Mapping(Material.GOLD_INGOT, 0);
 }
 
