@@ -147,7 +147,7 @@ public class SoundProcessor {
         // TODO: Different sounds from distance?
 
         // Actually play the sound for this player.
-        this.nms.playNamedSoundEffect(player, sound.getName(), location.clone().add(from),
+        this.nms.playNamedSoundEffect(player, sound.getName(), player.getEyeLocation().clone().add(from),
                 volume + (1f / DEFAULT_MAX_HEARING_DISTANCE), pitch);
     }
 }

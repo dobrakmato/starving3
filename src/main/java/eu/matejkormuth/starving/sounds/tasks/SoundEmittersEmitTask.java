@@ -24,17 +24,27 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.matejkormuth.starving.sounds.emmiters;
+package eu.matejkormuth.starving.sounds.tasks;
 
-import eu.matejkormuth.starving.sounds.Sound;
-import lombok.Data;
-import org.bukkit.Location;
+import eu.matejkormuth.bmboot.facades.Container;
+import eu.matejkormuth.starving.main.RepeatingTask;
+import eu.matejkormuth.starving.sounds.SoundsModule;
+import eu.matejkormuth.starving.sounds.emitters.SoundEmitter;
 
-@Data
-public class SoundEmmiter {
+public class SoundEmittersEmitTask extends RepeatingTask {
 
-    private Location location;
-    private Sound sound;
+    private final SoundsModule soundsModule;
 
+    public SoundEmittersEmitTask() {
+        this.soundsModule = Container.get(SoundsModule.class);
+    }
 
+    @Override
+    public void run() {
+        this.soundsModule
+                .getEmitters()
+                .stream()
+                .filter(SoundEmitter::shouldEmit)
+                .forEach(eu.matejkormuth.starving.sounds.emitters.SoundEmitter::emit);
+    }
 }

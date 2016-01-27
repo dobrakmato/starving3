@@ -26,6 +26,7 @@
  */
 package eu.matejkormuth.starving.sounds.ambient;
 
+import eu.matejkormuth.bukkit.Blocks;
 import eu.matejkormuth.starving.main.RepeatingTask;
 import eu.matejkormuth.starving.nms.NMS;
 import org.bukkit.block.Block;
@@ -49,6 +50,7 @@ public class AmbientSoundManager {
     private Atmosphere CRICKETS;
     private Atmosphere CAVE;
     private Atmosphere INTERIOR;
+    private Atmosphere OCEAN;
 
     public AmbientSoundManager(NMS nms) {
         this.nms = nms;
@@ -63,6 +65,8 @@ public class AmbientSoundManager {
                 new RepeatingSound("ambient.cave")}, NO_RANDOM);
         INTERIOR = new Atmosphere("interior", 5000, new RepeatingSound[]{
                 new RepeatingSound("ambient.sum")}, NO_RANDOM);
+        OCEAN = new Atmosphere("ocean", 6705, new RepeatingSound[]{
+                new RepeatingSound("ambient.inwater")}, NO_RANDOM);
 
         // Schedule tasks.
         RepeatingTask.of(this::updateChannels).schedule(1L);
@@ -100,7 +104,9 @@ public class AmbientSoundManager {
 
     private Atmosphere determinateAtmosphere(Player key) {
         Block b = key.getWorld().getHighestBlockAt(key.getLocation());
-        if (b.getLocation().getY() > key.getEyeLocation().getY()) {
+        if (Blocks.isWater(key.getEyeLocation().getBlock())) {
+            return OCEAN;
+        } else if (b.getLocation().getY() > key.getEyeLocation().getY()) {
             if (key.getLocation().getY() < 50) {
                 return CAVE;
             } else {

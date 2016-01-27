@@ -26,6 +26,8 @@
  */
 package eu.matejkormuth.starving.sounds;
 
+import org.bukkit.entity.Player;
+
 /**
  * Enumeration of all available sounds.
  */
@@ -105,8 +107,26 @@ public final class Sounds {
 
     public static final Sound MACHETE_HIT = new Sound("melee.machete.hit", 32f, SoundType.SINGLE);
 
+    public static final Sound SUITCASE_HIT = new Sound("melee.suitcase.hit", 16f, SoundType.SINGLE);
+
     // Boxing.
     public static final Sound HAND_HIT = new Sound("melee.hand.hit", 16f, SoundType.SINGLE);
     public static final Sound HAND_SWING = new Sound("melee.hand.swing", 8f, SoundType.SINGLE);
+
+    public static final Sound DEATH = new Sound("death", 16f, SoundType.SINGLE);
+    public static final Sound DRAMATIC = new Sound("dramatic", 16f, SoundType.SINGLE);
+    public static final Sound BLANK = new Sound("blank", 16f, SoundType.SINGLE);
+
+    /**
+     * Stops all playing sounds for specified player.
+     *
+     * @param player player to stop all sounds to
+     */
+    public static void stopAll(Player player) {
+        int CLIENT_MAX_SOUNDS = 45;
+        for (int i = 0; i < CLIENT_MAX_SOUNDS; i++) {
+            BLANK.play(player.getEyeLocation(), player);
+        }
+    }
 
 }

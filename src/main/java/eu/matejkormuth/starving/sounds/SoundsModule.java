@@ -28,9 +28,20 @@ package eu.matejkormuth.starving.sounds;
 
 import eu.matejkormuth.bmboot.Dependency;
 import eu.matejkormuth.bmboot.internal.Module;
+import eu.matejkormuth.starving.main.DelayedTask;
+import eu.matejkormuth.starving.main.Time;
 import eu.matejkormuth.starving.nms.NMSModule;
+import eu.matejkormuth.starving.sounds.emitters.SoundEmitter;
+import eu.matejkormuth.starving.sounds.tasks.SoundEmittersEmitTask;
 import lombok.experimental.Delegate;
+import lombok.extern.slf4j.Slf4j;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Slf4j
 public class SoundsModule extends Module {
 
     @Dependency
@@ -39,11 +50,32 @@ public class SoundsModule extends Module {
     @Delegate
     private SoundProcessor soundProcessor;
 
+    /**
+     * All sound emmiters.
+     */
+    private List<SoundEmitter> emitters = new ArrayList<>();
+
     @Override
     public void onEnable() {
         soundProcessor = new SoundProcessor(nmsModule.getNms());
 
         Sound.module = this;
+
+        DelayedTask.of(() -> {
+            log.info("Registering sound emitters...");
+            // Load emitters from database.
+            SoundEmitter soundEmitter = new SoundEmitter();
+            soundEmitter.setSound(Sounds.DRAMATIC);
+            soundEmitter.setLocation(new Location(Bukkit.getWorld("flatworld"), 2308, 25, 2090));
+            soundEmitter.setSoundLength(6000);
+
+            emitters.add(soundEmitter);
+
+        }).schedule(Time.ofSeconds(15));
+        // Static initializtion.
+
+        // Start tasks.
+        new SoundEmittersEmitTask().schedule(Time.ofTicks(1L));
     }
 
     @Override
@@ -53,5 +85,9 @@ public class SoundsModule extends Module {
 
     public SoundProcessor getSoundProcessor() {
         return soundProcessor;
+    }
+
+    public List<SoundEmitter> getEmitters() {
+        return emitters;
     }
 }
