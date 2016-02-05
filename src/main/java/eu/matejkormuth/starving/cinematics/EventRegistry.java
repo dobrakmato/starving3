@@ -24,30 +24,43 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.matejkormuth.starving.cinematics.v4.streams;
+package eu.matejkormuth.starving.cinematics;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import eu.matejkormuth.starving.cinematics.updates.CameraEvent;
+import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.UUID;
+import javax.annotation.Nonnull;
 
-public class V4InputStream extends DataInputStream {
+@Slf4j
+@UtilityClass
+public final class EventRegistry {
 
-    public V4InputStream(InputStream in) {
-        super(in);
+    private static BiMap<Short, Class<? extends SceneEvent>> mapping = HashBiMap.create();
+
+    static {
+        // Register all events.
+        mapping.put((short) 0, CameraEvent.class);
     }
 
-    public Location readLocation() throws IOException {
-        float x = this.readFloat();
-        float y = this.readFloat();
-        float z = this.readFloat();
-        float yaw = this.readFloat();
-        float pitch = this.readFloat();
-        UUID uuid = new UUID(this.readLong(), this.readLong());
-        return new Location(Bukkit.getWorld(uuid), x, y, z, yaw, pitch);
+    public static short getId(@Nonnull Class<? extends SceneEvent> clazz) {
+        if (mapping.containsValue(clazz)) {
+            return mapping.inverse().get(clazz);
+        }
+        return -1;
     }
 
+    public static SceneEvent getInstance(short id) {
+        if (mapping.containsKey(id)) {
+            try {
+                return mapping.get(id).newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                // Be silent?
+                log.error("Can't create instance of " + mapping.get(id), e);
+            }
+        }
+        return null;
+    }
 }

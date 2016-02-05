@@ -24,59 +24,9 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.matejkormuth.starving.cinematics;
+package eu.matejkormuth.starving.cinematics.studio;
 
-import eu.matejkormuth.bmboot.Dependency;
-import eu.matejkormuth.bmboot.internal.Module;
-import eu.matejkormuth.starving.cinematics.studio.Session;
-import eu.matejkormuth.starving.filestorage.FileStorageModule;
-import org.bukkit.entity.Player;
-
-import javax.annotation.Nonnull;
-import java.util.Map;
-import java.util.WeakHashMap;
-
-public class CinematicsModule extends Module {
-
-    @Dependency
-    private FileStorageModule fileStorageModule;
-
-    /**
-     * Map of user sessions.
-     */
-    private Map<Player, Session> playerSessions = new WeakHashMap<>();
-
-    @Override
-    public void onEnable() {
-
-    }
-
-    @Override
-    public void onDisable() {
-
-    }
-
-    /**
-     * Returns existing player session or creates new if not found.
-     *
-     * @param player player as session context
-     * @return new or existing session assigned to specified player
-     */
-    public Session getPlayerSession(@Nonnull Player player) {
-        playerSessions.putIfAbsent(player, createSession());
-        return playerSessions.get(player);
-    }
-
-    /**
-     * Creates a new session.
-     *
-     * @return new session
-     */
-    public Session createSession() {
-        return new Session();
-    }
-
-    public Clip loadCompiledClip(String name) {
-        return null;
-    }
+public enum InterpolationType {
+    LERP,
+    SLERP
 }

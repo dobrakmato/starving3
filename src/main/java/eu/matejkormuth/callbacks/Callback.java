@@ -24,48 +24,20 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.matejkormuth.starving.cinematics.v4.frameactions;
+package eu.matejkormuth.callbacks;
 
-import java.io.IOException;
+/**
+ * Represents callback.
+ *
+ * @param <T> callback argument type
+ */
+@FunctionalInterface
+public interface Callback<T> {
 
-import eu.matejkormuth.starving.cinematics.frameactions.CameraLocationAction;
-import eu.matejkormuth.starving.cinematics.v4.streams.V4InputStream;
-import eu.matejkormuth.starving.cinematics.v4.streams.V4OutputStream;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-
-public class V4CameraLocationAction extends AbstractAction implements
-        CameraLocationAction {
-
-    private Location location;
-
-    @Override
-    public void execute(Player player) {
-        this.getClipPlayer().getCamera().setLocation(this.location);
-    }
-
-    @Override
-    public Location getLocation() {
-        return this.location;
-    }
-
-    void setLocation(Location location) {
-        this.location = location;
-    }
-
-    @Override
-    public boolean isGlobal() {
-        return true;
-    }
-
-    @Override
-    public void writeTo(V4OutputStream os) throws IOException {
-        os.writeLocation(this.location);
-    }
-
-    @Override
-    public void readFrom(V4InputStream os) throws IOException {
-        this.location = os.readLocation();
-    }
-
+    /**
+     * Callback argument(s).
+     *
+     * @param argument argument provided to this callback, may be null
+     */
+    void call(T argument);
 }

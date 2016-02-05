@@ -24,15 +24,28 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.matejkormuth.starving.cinematics.v4;
+package eu.matejkormuth.starving.cinematics.studio;
 
-import eu.matejkormuth.starving.cinematics.v4.streams.V4InputStream;
-import eu.matejkormuth.starving.cinematics.v4.streams.V4OutputStream;
+import eu.matejkormuth.starving.main.Time;
+import lombok.Data;
+import org.bukkit.util.Vector;
 
-import java.io.IOException;
+@Data
+public class Node {
 
-public interface V4Serializable {
-    void writeTo(V4OutputStream os) throws IOException;
+    /**
+     * Position of camera.
+     */
+    private Vector position = new Vector(0, 0, 0);
 
-    void readFrom(V4InputStream os) throws IOException;
+    /**
+     * Look at position in the world.
+     */
+    private Vector lookAtPoint = new Vector(0, 0, 0);
+
+    /**
+     * Length of travel from this node to next.
+     */
+    private Time time = Time.ofSeconds(1L);
+
 }

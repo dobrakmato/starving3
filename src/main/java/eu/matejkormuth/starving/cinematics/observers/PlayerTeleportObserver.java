@@ -24,68 +24,35 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.matejkormuth.starving.cinematics.v4;
+package eu.matejkormuth.starving.cinematics.observers;
 
 import eu.matejkormuth.starving.cinematics.Camera;
-import eu.matejkormuth.starving.main.bukkitfixes.Metadata;
-import org.bukkit.GameMode;
+import eu.matejkormuth.starving.cinematics.CameraObserver;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+/**
+ * Represents basic player observer based on teleporting player to camera location.
+ */
+public class PlayerTeleportObserver implements CameraObserver {
 
+    private final Player player;
 
-public class V4Camera implements Camera {
-
-    public static final String LAST_GAME_MODE = "lastGameMode";
-
-    private Set<Player> observers;
-    private Location location;
-
-    public V4Camera() {
-        this.observers = new HashSet<>();
+    public PlayerTeleportObserver(Player player) {
+        this.player = player;
     }
 
     @Override
-    public void addObserver(Player observer) {
-        this.observers.add(observer);
-
-        // Saves his game mode.
-        observer.setMetadata(LAST_GAME_MODE, new Metadata(observer.getGameMode()));
-        // Update to spectator.
-        observer.setGameMode(GameMode.SPECTATOR);
-    }
-
-    @Override
-    public void removeObserver(Player observer) {
-        this.observers.remove(observer);
-
-        // Revert his previous game mode.
-        observer.setGameMode((GameMode) observer.getMetadata(LAST_GAME_MODE).get(0).value());
-    }
-
-    @Override
-    public Location getLocation() {
-        return this.location;
-    }
-
-    @Override
-    public Collection<Player> getObservers() {
-        return this.observers;
-    }
-
-    @Override
-    public void setLocation(Location location) {
-        this.location = location;
-        this.broadcastNewLoc();
-    }
-
-    private void broadcastNewLoc() {
-        for (Player observer : this.observers) {
-            observer.teleport(this.location);
+    public void notify(Camera camera) {
+        // Fix flying.
+        if (!player.isFlying()) {
+            player.setFlying(true);
         }
+
+        // Teleport player to new camera location.
+        Location location = camera.getPosition().toLocation(camera.getWorld(), camera.getYaw(), camera.getPitch());
+        player.teleport(location);
+        //Bukkit.broadcastMessage("" + location);
     }
 
 }

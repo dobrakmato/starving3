@@ -26,35 +26,146 @@
  */
 package eu.matejkormuth.starving.cinematics;
 
-public interface ClipPlayer {
-    Camera getCamera();
+import eu.matejkormuth.callbacks.CallbackList;
+import eu.matejkormuth.starving.main.RepeatingTask;
+import eu.matejkormuth.starving.main.Time;
+import lombok.Data;
+import lombok.experimental.Delegate;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 
-    Clip getClip();
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 
-    void play();
+/**
+ * Responsible for update mechanism of scene and clip.
+ */
+@Data
+public class ClipPlayer {
 
-    void pause();
+    // Represents tick source.
+    private static SyncGenerator sync = new SyncGenerator();
 
-    void stop();
+    private static class SyncGenerator extends RepeatingTask {
+        private static final int FREQUENCY = 20;
+        @Delegate
+        private final List<ClipPlayer> targets = new ArrayList<>();
 
-    void nextFrame();
+        // Schedule to execute each tick.
+        {
+            this.schedule(Time.EACH_TICK);
+        }
 
-    int getCurrentFrame();
-
-    int getLength();
-
-    boolean isPlaying();
-
-    void addListener(ClipPlayerListener listener);
-
-    abstract class ClipPlayerListener {
-        public void onStop(ClipPlayer clipPlayer) {
-        };
-
-        public void onPause(ClipPlayer clipPlayer) {
-        };
-
-        public void onPlay(ClipPlayer clipPlayer) {
-        };
+        @Override
+        public void run() {
+            List<ClipPlayer> view = targets.subList(0, targets.size() == 0 ? 0 : targets.size() - 1);
+            for(ClipPlayer player : view) {
+                player.tick();
+            }
+        }
     }
+
+    /**
+     * Currently played clip.
+     */
+    private final Clip clip;
+
+    /**
+     * Scene for currently played clip.
+     */
+    private final Scene scene;
+
+    /**
+     * Callbacks called on clip start.
+     */
+    private final CallbackList<Void> callbacksOnStart = new CallbackList<>();
+    /**
+     * Callbacks called on clip end.
+     */
+    private final CallbackList<Void> callbacksOnEnd = new CallbackList<>();
+
+    private int ticksPerFrame = 0; //clip.getFps() / SyncGenerator.FREQUENCY;
+    private int ticksSinceFrame = 0;
+    private int currentFrame = 0;
+    private boolean playing = false;
+
+    public ClipPlayer(@Nonnull Clip clip, @Nonnull World world) {
+        this.clip = clip;
+        this.scene = new Scene(world);
+        this.ticksPerFrame = clip.getFps() / SyncGenerator.FREQUENCY;
+
+        Bukkit.broadcastMessage("Created ClipPlayer!");
+        Bukkit.broadcastMessage("Clip: " + clip.getName());
+        Bukkit.broadcastMessage("Fps: " + clip.getFps());
+        Bukkit.broadcastMessage("Frames: " + clip.getFrames().size());
+    }
+
+    private void tick() {
+        ticksSinceFrame++;
+        if (ticksSinceFrame >= ticksPerFrame) {
+            if (currentFrame != clip.size()) {
+                nextFrame();
+            } else {
+                // End of clip.
+                stop();
+            }
+        }
+    }
+
+    private void nextFrame() {
+        Frame frame = clip.get(currentFrame);
+
+        // Perform all updates.
+        for (SceneEvent event : frame.getEvents()) {
+            event.updateScene(this.scene);
+        }
+
+        currentFrame++;
+    }
+
+    /**
+     * Starts playing the clip if not playing already.
+     */
+    public void play() {
+        if (playing) {
+            return;
+        }
+        playing = true;
+
+        // Register to sync.
+        sync.add(this);
+
+        // Fire all callbacks.
+        callbacksOnStart.call(null);
+        Bukkit.broadcastMessage("Player playing.");
+    }
+
+    /**
+     * Stops clips if not stopped already.
+     */
+    public void stop() {
+        if (!playing) {
+            return;
+        }
+        playing = false;
+
+        // First all callbacks.
+        callbacksOnEnd.call(null);
+
+        // Unregister from sync.
+        sync.remove(this);
+
+        Bukkit.broadcastMessage("Player stopping.");
+    }
+
+    /**
+     * Resets clip play position.
+     */
+    public void reset() {
+        stop();
+
+        currentFrame = 0;
+    }
+
 }

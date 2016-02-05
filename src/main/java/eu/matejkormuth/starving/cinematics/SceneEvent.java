@@ -26,20 +26,21 @@
  */
 package eu.matejkormuth.starving.cinematics;
 
-import org.bukkit.entity.Player;
+import lombok.Data;
+
+import javax.annotation.Nonnull;
 
 /**
- * Represents executable data / action, that is executed to play cinematic
- * correctly. It could be data and code for camera position changing.
+ * Represents action, a change that can occur in scene and is serializable
+ * using DataSerializable interface.
  */
-public interface FrameAction {
-    /**
-     * Executes this action of specified player.
-     * 
-     * @param player player to execute action to
-     */
-    void execute(Player player);
+@Data
+public abstract class SceneEvent implements DataSerializable {
 
-    // I can't remember use case of this, sorry.
-    boolean isGlobal();
+    /**
+     * Applies this scene update to specified scene.
+     *
+     * @param scene scene to apply this update to
+     */
+    public abstract void updateScene(@Nonnull Scene scene);
 }

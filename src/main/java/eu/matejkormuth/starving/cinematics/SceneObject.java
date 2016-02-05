@@ -24,28 +24,10 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.matejkormuth.starving.cinematics.v4.streams;
+package eu.matejkormuth.starving.cinematics;
 
-import org.bukkit.Location;
-
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-
-public class V4OutputStream extends DataOutputStream {
-
-    public V4OutputStream(OutputStream out) {
-        super(out);
-    }
-
-    public void writeLocation(Location location) throws IOException {
-        this.writeFloat((float) location.getX());
-        this.writeFloat((float) location.getY());
-        this.writeFloat((float) location.getZ());
-        this.writeFloat(location.getYaw());
-        this.writeFloat(location.getPitch());
-        this.writeLong(location.getWorld().getUID().getMostSignificantBits());
-        this.writeLong(location.getWorld().getUID().getLeastSignificantBits());
-    }
-
+/**
+ * Represents top level type of any scene object (NPC entity, etc...).
+ */
+public abstract class SceneObject {
 }

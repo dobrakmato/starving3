@@ -24,94 +24,87 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.matejkormuth.starving.cinematics;
+package eu.matejkormuth.starving.cinematics.studio;
 
-import lombok.Data;
-import org.bukkit.World;
+import eu.matejkormuth.starving.main.Time;
 import org.bukkit.util.Vector;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Represents view to scene, usually called Camera.
- */
-@Data
-public class Camera {
+public class Session {
+
+    private List<Node> nodes = new ArrayList<>();
 
     /**
-     * Scene where this camera is placed at.
-     */
-    private final Scene scene;
-
-    /**
-     * List of all camera position observers.
-     */
-    private List<CameraObserver> observers = new ArrayList<>();
-
-    /**
-     * World tha camera is in. Does not change during the scene.
-     */
-    private final World world;
-
-    /**
-     * Current position of camera.
-     */
-    private Vector position;
-
-    /**
-     * Current yaw of camera.
-     */
-    private float yaw;
-
-    /**
-     * Current pitch of camera.
-     */
-    private float pitch;
-
-    /**
-     * Notifies all observers about camera update.
-     */
-    public void notifyObservers() {
-        for (CameraObserver observer : observers) {
-            observer.notify(this);
-        }
-    }
-
-    public boolean addObserver(@Nonnull CameraObserver cameraObserver) {
-        return observers.add(cameraObserver);
-    }
-
-    public int observerCount() {
-        return observers.size();
-    }
-
-    public boolean isEmpty() {
-        return observers.isEmpty();
-    }
-
-    public CameraObserver getObserver(int index) {
-        return observers.get(index);
-    }
-
-    public void clearObservers() {
-        observers.clear();
-    }
-
-    public boolean removeObserver(@Nonnull CameraObserver o) {
-        return observers.remove(o);
-    }
-
-    /**
-     * Disallowed.
+     * Adds specified node to list.
      *
-     * @deprecated do not use. thanks!
-     * @param world world to set
-     * @throws UnsupportedOperationException always
+     * @param node node to add
      */
-    @Deprecated
-    public void setWorld(World world) {
-        throw new UnsupportedOperationException();
+    public void addNode(@Nonnull Node node) {
+        nodes.add(node);
+    }
+
+    /**
+     * Sets the position of last node.
+     *
+     * @param position new position
+     */
+    public void setPosition(@Nonnull Vector position) {
+        lastNode().setPosition(position);
+    }
+
+    /**
+     * Sets the position of specified node.
+     *
+     * @param position new position
+     */
+    public void setPosition(int node, @Nonnull Vector position) {
+        nodes.get(node).setPosition(position);
+    }
+
+    /**
+     * Sets look at of previous node.
+     *
+     * @param point new look at
+     */
+    public void setLookAtPoint(@Nonnull Vector point) {
+        lastNode().setLookAtPoint(point);
+    }
+
+    /**
+     * Sets look at of previous node.
+     *
+     * @param point new look at
+     */
+    public void setLookAtPoint(int node, @Nonnull Vector point) {
+        nodes.get(node).setLookAtPoint(point);
+    }
+
+    /**
+     * Sets the length of travel from last node to next node.
+     *
+     * @param length length of last node
+     */
+    public void setTime(Time length) {
+        lastNode().setTime(length);
+    }
+
+    /**
+     * Returns the last node in the list.
+     *
+     * @return last node
+     */
+    public Node lastNode() {
+        if (nodes.size() == 0) {
+            throw new RuntimeException("Node list is empty!");
+        }
+
+        return nodes.get(nodes.size() - 1);
+    }
+
+    public void removeNode(@Nonnull Node node) {
+        nodes.remove(node);
     }
 }

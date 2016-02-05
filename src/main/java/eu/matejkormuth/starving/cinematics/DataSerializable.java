@@ -26,10 +26,29 @@
  */
 package eu.matejkormuth.starving.cinematics;
 
-public interface PlayerServer {
+import javax.annotation.Nonnull;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
-    void addClipPlayer(ClipPlayer player);
+/**
+ * Represents that this object is serializable using ObjectOutputStream / ObjectInputStream.
+ */
+public interface DataSerializable {
 
-    void removeClipPlayer(ClipPlayer player);
+    /**
+     * Serializes this object to specified output stream.
+     *
+     * @param stream stream to serialize object to
+     * @throws IOException when exception occurs
+     */
+    void serialize(@Nonnull ObjectOutputStream stream) throws IOException;
 
+    /**
+     * Deserializes object in stream to this instance.
+     *
+     * @param stream stream to deserialize from
+     * @throws IOException when exception occurs
+     */
+    void deserialize(@Nonnull ObjectInputStream stream) throws IOException;
 }

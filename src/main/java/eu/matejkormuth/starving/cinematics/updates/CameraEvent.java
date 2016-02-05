@@ -24,74 +24,76 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.matejkormuth.starving.cinematics;
+package eu.matejkormuth.starving.cinematics.updates;
 
+import eu.matejkormuth.starving.cinematics.Scene;
+import eu.matejkormuth.starving.cinematics.SceneEvent;
 import lombok.Data;
-import lombok.experimental.Delegate;
+import org.bukkit.util.Vector;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Represents set of scene events that occurs at discrete step of time, usually
- * called a Frame.
+ * Represents update of camera position.
  */
 @Data
-public class Frame implements DataSerializable {
+public class CameraEvent extends SceneEvent {
 
-    /**
-     * Maximum amount of scene events per one frame.
-     */
-    private final int MAX_EVENTS = Short.MAX_VALUE;
+    private float x;
+    private float y;
+    private float z;
+    private float yaw;
+    private float pitch;
 
-    /**
-     * List of all scene events that occur in this frame.
-     */
-    @Delegate
-    private List<SceneEvent> events = new ArrayList<>();
+    public CameraEvent() {
+    }
+
+    public CameraEvent(float x, float y, float z, float yaw, float pitch) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.yaw = yaw;
+        this.pitch = pitch;
+    }
+
+    public void setPosition(@Nonnull Vector position) {
+        this.x = (float) position.getX();
+        this.y = (float) position.getY();
+        this.z = (float) position.getZ();
+    }
+
+    public void setRotation(float pitch, float yaw) {
+        this.pitch = pitch;
+        this.yaw = yaw;
+    }
+
+    @Override
+    public void updateScene(@Nonnull Scene scene) {
+        scene.getCamera().setPosition(new Vector(x, y, z));
+        scene.getCamera().setYaw(yaw);
+        scene.getCamera().setPitch(pitch);
+
+        scene.getCamera().notifyObservers();
+    }
 
     @Override
     public void serialize(@Nonnull ObjectOutputStream stream) throws IOException {
-        if (events.size() > MAX_EVENTS) {
-            throw new IOException("This frame has more events (" + events.size() + ") than maximum (32767)!");
-        }
-
-        // Write amount of scene events.
-        stream.writeShort(events.size());
-
-        // Write each scene event.
-        for (SceneEvent event : events) {
-            short type = EventRegistry.getId(event.getClass());
-
-            if (type == -1) {
-                throw new RuntimeException("Can't find ID for class " + event.getClass());
-            }
-
-            stream.writeShort(type);
-            event.serialize(stream);
-        }
+        stream.writeFloat(x);
+        stream.writeFloat(y);
+        stream.writeFloat(z);
+        stream.writeFloat(yaw);
+        stream.writeFloat(pitch);
     }
 
     @Override
     public void deserialize(@Nonnull ObjectInputStream stream) throws IOException {
-        // Read amount of scene events.
-        short eventCount = stream.readShort();
-        events = new ArrayList<>(eventCount);
-
-        // Read all scene events.
-        for (int i = 0; i < eventCount; i++) {
-            short type = stream.readShort();
-            SceneEvent event = EventRegistry.getInstance(type);
-
-            if (event == null) {
-                throw new RuntimeException("Can't find class for ID " + type);
-            }
-
-            event.deserialize(stream);
-        }
+        x = stream.readFloat();
+        y = stream.readFloat();
+        z = stream.readFloat();
+        yaw = stream.readFloat();
+        pitch = stream.readFloat();
     }
 }

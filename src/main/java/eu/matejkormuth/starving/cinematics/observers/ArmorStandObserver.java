@@ -24,56 +24,30 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.matejkormuth.starving.cinematics.v4;
+package eu.matejkormuth.starving.cinematics.observers;
 
-import eu.matejkormuth.starving.cinematics.*;
+import eu.matejkormuth.starving.cinematics.Camera;
+import eu.matejkormuth.starving.cinematics.CameraObserver;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.EntityType;
 
-import java.nio.file.Path;
+import javax.annotation.Nonnull;
 
-public class V4Cinematics extends Cinematics {
+public class ArmorStandObserver implements CameraObserver {
 
-    private static final String IMPLEMENTATION_NAME = "V4";
-    private PlayerServer server;
+    protected ArmorStand armorStand;
 
-    public V4Cinematics() {
-        this.server = new V4ClipPlayerServer();
+    public ArmorStandObserver(World world) {
+        armorStand = (ArmorStand) world.spawnEntity(world.getSpawnLocation(), EntityType.ARMOR_STAND);
+        armorStand.setVisible(false);
+        armorStand.setGravity(false);
     }
 
     @Override
-    public String getImplementationName() {
-        return IMPLEMENTATION_NAME;
+    public void notify(@Nonnull Camera camera) {
+        Location location = camera.getPosition().toLocation(camera.getWorld(), camera.getYaw(), camera.getPitch());
+        armorStand.teleport(location);
     }
-
-    @Override
-    public Clip createClip() {
-        return new V4Clip();
-    }
-
-    @Override
-    public ClipPlayer createPlayer(Clip clip) {
-        return new V4ClipPlayer((V4Clip) clip);
-    }
-
-    @Override
-    public Frame createFrame() {
-        return new V4Frame();
-    }
-
-    @Override
-    public PlayerServer getServer() {
-        return this.server;
-    }
-
-    @Override
-    public Clip loadClip(Path file) {
-        return V4Writer.load(file.toFile());
-    }
-
-    @Override
-    public void saveClip(Clip clip, Path file) {
-        if (clip instanceof V4Clip) {
-            V4Writer.save((V4Clip) clip, file.toFile());
-        }
-    }
-
 }

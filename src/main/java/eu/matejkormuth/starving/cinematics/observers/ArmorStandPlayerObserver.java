@@ -24,25 +24,13 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.matejkormuth.starving.cinematics.v4.frameactions;
+package eu.matejkormuth.starving.cinematics.observers;
 
-import eu.matejkormuth.starving.cinematics.FrameAction;
-import eu.matejkormuth.starving.cinematics.v4.V4ClipPlayer;
-import eu.matejkormuth.starving.cinematics.v4.V4Serializable;
+import org.bukkit.entity.Player;
 
-/**
- * Abstract action. Implements {@link V4Serializable} and {@link FrameAction}.
- * Contains useful field of {@link V4ClipPlayer}.
- */
-public abstract class AbstractAction implements FrameAction, V4Serializable {
-
-    private V4ClipPlayer clipPlayer;
-
-    public V4ClipPlayer getClipPlayer() {
-        return clipPlayer;
-    }
-
-    void setClipPlayer(V4ClipPlayer clipPlayer) {
-        this.clipPlayer = clipPlayer;
+public class ArmorStandPlayerObserver extends ArmorStandObserver {
+    public ArmorStandPlayerObserver(Player player) {
+        super(player.getWorld());
+        armorStand.setPassenger(player);
     }
 }

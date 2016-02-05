@@ -28,74 +28,37 @@ package eu.matejkormuth.starving.cinematics;
 
 import lombok.Data;
 import lombok.experimental.Delegate;
-import lombok.extern.slf4j.Slf4j;
+import org.bukkit.World;
 
 import javax.annotation.Nonnull;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents set of frames usually called 'Clip'.
+ * Holds scene objects and scene camera.
  */
-@Slf4j
 @Data
-public class Clip implements DataSerializable {
+public class Scene {
 
     /**
-     * Version of file format.
+     * World the scene is placed in.
      */
-    private static final int MAGIC_VERSION = 5;
+    private final World world;
 
     /**
-     * Name of the clip (optional). Must be at least blank string! Can't
-     * be null.
+     * Main camera in this scene.
      */
-    private String name = ""; // Must be at least blank! Can't be null!
-    /**
-     * Frames per second in this clip.
-     */
-    private short fps;
+    private final Camera camera;
 
     /**
-     * List of all frames in this clip.
+     * All scene objects in this scene.
      */
     @Delegate
-    private List<Frame> frames = new ArrayList<>();
+    private List<SceneObject> objects = new ArrayList<>();
 
-    @Override
-    public void serialize(@Nonnull ObjectOutputStream stream) throws IOException {
-        stream.write(MAGIC_VERSION);
-        stream.writeUTF(name);
-        stream.writeShort(fps);
-
-        // frames
-        stream.writeInt(frames.size());
-        for (Frame frame : frames) {
-            frame.serialize(stream);
-        }
+    public Scene(@Nonnull World world) {
+        this.world = world;
+        this.camera = new Camera(this, world);
     }
 
-    @Override
-    public void deserialize(@Nonnull ObjectInputStream stream) throws IOException {
-        int version;
-        if ((version = stream.readInt()) != MAGIC_VERSION) {
-            log.warn("Decoding from version {} to version {}!", version, MAGIC_VERSION);
-        }
-
-        name = stream.readUTF();
-        fps = stream.readShort();
-
-        // frames
-        int frameCount = stream.readInt();
-        frames = new ArrayList<>(frameCount);
-
-        for (int i = 0; i < frameCount; i++) {
-            Frame currentFrame = new Frame();
-            currentFrame.deserialize(stream);
-            frames.add(currentFrame);
-        }
-    }
 }

@@ -26,57 +26,65 @@
  */
 package eu.matejkormuth.starving.cinematics;
 
-import eu.matejkormuth.bmboot.Dependency;
-import eu.matejkormuth.bmboot.internal.Module;
-import eu.matejkormuth.starving.cinematics.studio.Session;
-import eu.matejkormuth.starving.filestorage.FileStorageModule;
-import org.bukkit.entity.Player;
+import eu.matejkormuth.callbacks.Callback;
+import org.bukkit.World;
 
-import javax.annotation.Nonnull;
-import java.util.Map;
-import java.util.WeakHashMap;
+public class ClipPlayerBuilder {
 
-public class CinematicsModule extends Module {
+    private Clip clip;
+    private ClipPlayer player;
 
-    @Dependency
-    private FileStorageModule fileStorageModule;
-
-    /**
-     * Map of user sessions.
-     */
-    private Map<Player, Session> playerSessions = new WeakHashMap<>();
-
-    @Override
-    public void onEnable() {
-
+    private ClipPlayerBuilder(Clip clip) {
+        this.clip = clip;
     }
 
-    @Override
-    public void onDisable() {
-
+    public static ClipPlayerBuilder use(Clip clip) {
+        return new ClipPlayerBuilder(clip);
     }
 
-    /**
-     * Returns existing player session or creates new if not found.
-     *
-     * @param player player as session context
-     * @return new or existing session assigned to specified player
-     */
-    public Session getPlayerSession(@Nonnull Player player) {
-        playerSessions.putIfAbsent(player, createSession());
-        return playerSessions.get(player);
+    public ClipPlayerBuilder world(World world) {
+        player = new ClipPlayer(clip, world);
+        return this;
     }
 
-    /**
-     * Creates a new session.
-     *
-     * @return new session
-     */
-    public Session createSession() {
-        return new Session();
+    public ClipPlayerBuilder observer(CameraObserver cameraObserver) {
+        player.getScene().getCamera().addObserver(cameraObserver);
+        return this;
     }
 
-    public Clip loadCompiledClip(String name) {
-        return null;
+    public ClipPlayerBuilder observers(CameraObserver... cameraObservers) {
+        for (CameraObserver co : cameraObservers) {
+            player.getScene().getCamera().addObserver(co);
+        }
+        return this;
+    }
+
+    public ClipPlayerBuilder onStart(Callback<Void> callback) {
+        player.getCallbacksOnStart().add(callback);
+        return this;
+    }
+
+    public ClipPlayerBuilder onEnd(Callback<Void> callback) {
+        player.getCallbacksOnEnd().add(callback);
+        return this;
+    }
+
+    public ClipPlayerBuilder play() {
+        player.play();
+        return this;
+    }
+
+    public ClipPlayerBuilder stop() {
+        player.stop();
+        return this;
+    }
+
+    public ClipPlayerBuilder reset() {
+        player.reset();
+        return this;
+    }
+
+    public ClipPlayer player() {
+        return player;
     }
 }

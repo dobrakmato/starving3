@@ -24,46 +24,49 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.matejkormuth.starving.cinematics.v4;
+package eu.matejkormuth.callbacks;
 
-import eu.matejkormuth.starving.cinematics.ClipPlayer;
-import eu.matejkormuth.starving.cinematics.PlayerServer;
-import eu.matejkormuth.starving.main.RepeatingTask;
-import eu.matejkormuth.starving.main.Time;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.util.HashSet;
-import java.util.Set;
+/**
+ * Represents list of callbacks.
+ *
+ * @param <T> type of callback argument
+ */
+public class CallbackList<T> {
 
-public class V4ClipPlayerServer implements Runnable, PlayerServer {
+    /**
+     * Internal list of callbacks.
+     */
+    private final List<Callback<T>> callbacks = new ArrayList<>();
 
-    private Set<V4ClipPlayer> players;
-
-    public V4ClipPlayerServer() {
-        this.players = new HashSet<>();
-
-        RepeatingTask.of(this).schedule(Time.ofSeconds(2).toLongTicks(),
-                Time.ofTicks(1).toLongTicks());
+    /**
+     * Adds new callback.
+     *
+     * @param callback new callback
+     */
+    public void add(Callback<T> callback) {
+        callbacks.add(callback);
     }
 
-    @Override
-    public void addClipPlayer(ClipPlayer player) {
-        this.players.add((V4ClipPlayer) player);
+    /**
+     * Removes existing callback.
+     *
+     * @param callback callback to remove
+     */
+    public void remove(Callback<T> callback) {
+        callbacks.remove(callback);
     }
 
-    @Override
-    public void removeClipPlayer(ClipPlayer player) {
-        this.players.remove(player);
-    }
-
-    @Override
-    public void run() {
-        this.tick();
-    }
-
-    private void tick() {
-        this.players
-                .stream()
-                .filter(V4ClipPlayer::isPlaying)
-                .forEach(eu.matejkormuth.starving.cinematics.v4.V4ClipPlayer::nextFrame);
+    /**
+     * Calls all registered callbacks with specified optional argument(s).
+     *
+     * @param argument argument(s)
+     */
+    public void call(T argument) {
+        for (Callback<T> callback : callbacks) {
+            callback.call(argument);
+        }
     }
 }

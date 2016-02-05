@@ -24,42 +24,45 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.matejkormuth.starving.cinematics;
+package eu.matejkormuth.starving.cinematics.studio;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import org.bukkit.util.Vector;
 
-public abstract class Cinematics {
+import javax.annotation.Nonnull;
 
-    String cinematicsStorage;
-
-    public abstract String getImplementationName();
-
-    public abstract Clip createClip();
-
-    public abstract ClipPlayer createPlayer(Clip clip);
-
-    public abstract Frame createFrame();
-
-    public abstract PlayerServer getServer();
-
-    public String getCinematicsFolder() {
-        return cinematicsStorage;
+public final class Interpolation {
+    private Interpolation() {
     }
 
-    public Path getCinematicFile(String... parts) {
-        return Paths.get(cinematicsStorage, parts);
+    public static Vector slerp(@Nonnull Vector from, @Nonnull Vector to, float p) {
+        if (p < 0 || p > 1) {
+            throw new IllegalArgumentException("Percentage must be between 0.0 and 1.0!");
+        }
+
+        double dot = from.dot(to);
+        double normalizedDot = Math.max(0.0, Math.min(1.0, dot));
+        double theta = Math.acos(normalizedDot) * p;
+        Vector relative = to.clone().subtract(from.clone().multiply(dot));
+        return from.clone().multiply(Math.cos(theta)).add(relative.multiply(Math.sin(theta)));
     }
 
-    public abstract Clip loadClip(Path file);
+    public static Vector lerp(@Nonnull Vector from, @Nonnull Vector to, float p) {
+        if (p < 0 || p > 1) {
+            throw new IllegalArgumentException("Percentage must be between 0.0 and 1.0!");
+        }
 
-    public Clip loadClip(String... parts) {
-        return loadClip(getCinematicFile(parts));
+        double x = lerp(from.getX(), to.getX(), p);
+        double y = lerp(from.getY(), to.getY(), p);
+        double z = lerp(from.getZ(), to.getZ(), p);
+
+        return new Vector(x, y, z);
     }
 
-    public abstract void saveClip(Clip clip, Path file);
+    public static double lerp(double from, double to, float p) {
+        if (p < 0 || p > 1) {
+            throw new IllegalArgumentException("Percentage must be between 0.0 and 1.0!");
+        }
 
-    public void saveClip(Clip clip, String... parts) {
-        saveClip(clip, getCinematicFile(parts));
+        return from + (to - from) * p;
     }
 }

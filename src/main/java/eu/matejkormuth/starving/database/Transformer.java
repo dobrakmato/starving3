@@ -24,11 +24,9 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.matejkormuth.starving.cinematics.frameactions;
+package eu.matejkormuth.starving.database;
 
-import eu.matejkormuth.starving.cinematics.FrameAction;
-import org.bukkit.Location;
-
-public interface CameraLocationAction extends FrameAction {
-    Location getLocation();
+@FunctionalInterface
+public interface Transformer<F, T> {
+    T transform(F from);
 }

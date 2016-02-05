@@ -24,39 +24,21 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.matejkormuth.starving.cinematics.v4;
+package eu.matejkormuth.starving.cinematics;
 
-import eu.matejkormuth.starving.cinematics.v4.streams.V4InputStream;
-import eu.matejkormuth.starving.cinematics.v4.streams.V4OutputStream;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.annotation.Nonnull;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+/**
+ * Represents observer of camera. Implementation will usually just teleport player at camera location
+ * but creating this interface leaves us space to further implement more esoteric observing techniques
+ * as putting the player on flying item stack and etc...
+ */
+public interface CameraObserver {
 
-
-public class V4Writer {
-
-    private static final Logger log = LoggerFactory.getLogger(V4Writer.class);
-
-    public static void save(V4Clip clip, File file) {
-        try {
-            clip.writeTo(new V4OutputStream(new FileOutputStream(file)));
-        } catch (IOException e) {
-            log.error("Can't save V4Clip!", e);
-        }
-    }
-
-    public static V4Clip load(File file) {
-        V4Clip clip = new V4Clip();
-        try {
-            clip.readFrom(new V4InputStream(new FileInputStream(file)));
-            return clip;
-        } catch (IOException e) {
-            log.error("Can't load V4Clip!", e);
-        }
-        return null;
-    }
+    /**
+     * Notifies this observer about changes in camera.
+     *
+     * @param camera updated camera
+     */
+    void notify(@Nonnull Camera camera);
 }
