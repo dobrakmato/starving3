@@ -80,6 +80,7 @@ public class CommandsModule extends Module {
 
     /**
      * Registers specified name as new command with specified command executor.
+     * Effectively the same as calling register(String, CommandExecutor).
      *
      * @param name     name of the new command
      * @param executor executor of the new command
