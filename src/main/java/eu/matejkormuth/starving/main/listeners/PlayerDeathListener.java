@@ -24,54 +24,17 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.matejkormuth.starving.main;
+package eu.matejkormuth.starving.main.listeners;
 
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import eu.matejkormuth.starving.sounds.Sounds;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 
-/**
- * Represents amount of time.
- */
-@EqualsAndHashCode
-@ToString
-public class Time {
+public class PlayerDeathListener implements Listener {
 
-    public static final Time EACH_TICK = Time.ofTicks(1L);
-    public static final Time EACH_SECOND = Time.ofSeconds(1L);
-    public static final Time EACH_MINUTE = Time.ofMinutes(1L);
-
-    // Amount in milliseconds.
-    private final long milis;
-
-    private Time(long l) {
-        this.milis = l;
-    }
-
-    public static Time ofMinutes(long minutes) {
-        return new Time(minutes * 60 * 1000);
-    }
-
-    public static Time ofTicks(long ticks) {
-        return new Time((long) (ticks / 20f * 1000f));
-    }
-
-    public static Time ofSeconds(long seconds) {
-        return new Time(seconds * 1000);
-    }
-
-    public long toMiliseconds() {
-        return this.milis;
-    }
-
-    public long toSeconds() {
-        return this.milis / 1000;
-    }
-
-    public int toTicks() {
-        return (int) (this.milis / 1000f * 20f);
-    }
-
-    public long toLongTicks() {
-        return (long) (this.milis / 1000f * 20f);
+    @EventHandler
+    private void onPlayerDeath(final PlayerDeathEvent event) {
+        Sounds.DEATH.play(event.getEntity().getLocation(), event.getEntity());
     }
 }
