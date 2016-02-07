@@ -28,9 +28,9 @@ package eu.matejkormuth.starving.cinematics.observers;
 
 import org.bukkit.entity.Player;
 
-public class ArmorStandPlayerObserver extends ArmorStandObserver {
-    public ArmorStandPlayerObserver(Player player) {
+public class ItemStackPlayerObserver extends ItemStackObserver {
+    public ItemStackPlayerObserver(Player player) {
         super(player.getWorld(), player.getLocation());
-        armorStand.setPassenger(player);
+        droppedItem.setPassenger(player);
     }
 }

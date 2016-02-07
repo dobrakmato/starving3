@@ -26,11 +26,32 @@
  */
 package eu.matejkormuth.starving.cinematics.observers;
 
-import org.bukkit.entity.Player;
+import eu.matejkormuth.starving.cinematics.Camera;
+import eu.matejkormuth.starving.cinematics.CameraObserver;
+import lombok.extern.slf4j.Slf4j;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.entity.Item;
+import org.bukkit.inventory.ItemStack;
 
-public class ArmorStandPlayerObserver extends ArmorStandObserver {
-    public ArmorStandPlayerObserver(Player player) {
-        super(player.getWorld(), player.getLocation());
-        armorStand.setPassenger(player);
+import javax.annotation.Nonnull;
+
+@Slf4j
+public class ItemStackObserver implements CameraObserver {
+
+    protected Item droppedItem;
+
+    public ItemStackObserver(World world, Location spawnLocation) {
+        droppedItem = world.dropItem(spawnLocation, new ItemStack(Material.DIAMOND_SWORD));
+        // This value sets pickup delay to infinite. It also stops
+        // multiple dropped items to combine with this item entity.
+        droppedItem.setPickupDelay(32767);
+    }
+
+    @Override
+    public void notify(@Nonnull Camera camera) {
+        Location location = camera.getPosition().toLocation(camera.getWorld(), camera.getYaw(), camera.getPitch());
+        droppedItem.setVelocity(location.toVector());
     }
 }

@@ -220,8 +220,8 @@ public class ClipBuilder {
             float yaw = (float) Math.atan2(dir.getX(), dir.getZ());
 
             event.setPosition(framePosition);
-            event.setPitch((float) Math.toDegrees(pitch));
-            event.setYaw((float) Math.toDegrees(yaw));
+            event.setPitch((float) Math.toDegrees(pitch) * -1);
+            event.setYaw((float) Math.toDegrees(yaw) * -1);
 
             // Add camera event.
             frame.add(event);

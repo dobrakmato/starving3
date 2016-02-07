@@ -29,9 +29,11 @@ package eu.matejkormuth.starving.cinematics.observers;
 import eu.matejkormuth.starving.cinematics.Camera;
 import eu.matejkormuth.starving.cinematics.CameraObserver;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 
@@ -39,9 +41,12 @@ public class ArmorStandObserver implements CameraObserver {
 
     protected ArmorStand armorStand;
 
-    public ArmorStandObserver(World world) {
-        armorStand = (ArmorStand) world.spawnEntity(world.getSpawnLocation(), EntityType.ARMOR_STAND);
-        armorStand.setVisible(false);
+    public ArmorStandObserver(World world, Location spawnLocation) {
+        spawnLocation.setYaw(0);
+        spawnLocation.setPitch(0);
+        armorStand = (ArmorStand) world.spawnEntity(spawnLocation, EntityType.ARMOR_STAND);
+        armorStand.setVisible(true);
+        armorStand.setItemInHand(new ItemStack(Material.DIAMOND_SWORD));
         armorStand.setGravity(false);
     }
 
