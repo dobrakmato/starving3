@@ -28,8 +28,11 @@ package eu.matejkormuth.starving.main;
 
 import eu.matejkormuth.bmboot.Dependency;
 import eu.matejkormuth.bmboot.internal.Module;
+import eu.matejkormuth.starving.commands.CommandFilters;
 import eu.matejkormuth.starving.commands.CommandsModule;
 import eu.matejkormuth.starving.filestorage.FileStorageModule;
+import eu.matejkormuth.starving.main.commands.SpeedCommandExecutor;
+import eu.matejkormuth.starving.main.commands.TpToCommandExecutor;
 import eu.matejkormuth.starving.main.listeners.BlockFadeListener;
 import eu.matejkormuth.starving.main.listeners.MobDropsListener;
 import eu.matejkormuth.starving.main.listeners.PlayerDeathListener;
@@ -75,6 +78,10 @@ public class MainModule extends Module {
                 }
             }
         });
+
+        commandsModule.command("speed", CommandFilters.opOnly(new SpeedCommandExecutor()));
+        commandsModule.command("tpto", CommandFilters.opOnly(new TpToCommandExecutor()));
+
         commandsModule.command("sit", (sender, command, label, args) -> {
             sender.sendMessage("/sit <sittedOn> <sitter>");
             int sittedId = Integer.parseInt(args[0]);

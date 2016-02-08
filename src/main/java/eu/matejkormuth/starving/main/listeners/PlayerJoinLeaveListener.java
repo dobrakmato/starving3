@@ -27,8 +27,6 @@
 package eu.matejkormuth.starving.main.listeners;
 
 import eu.matejkormuth.starving.main.Data;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -45,13 +43,13 @@ public class PlayerJoinLeaveListener implements Listener {
         // Create or load data for player.
         Data.of(event.getPlayer());
 
-        event.setJoinMessage(ChatColor.RED + "[★★★] Sudruh " + event.getPlayer().getName() + " sa pripojil!");
+        //event.setJoinMessage(ChatColor.RED + "[★★★] Sudruh " + event.getPlayer().getName() + " sa pripojil!");
 
-        if (Math.random() > 0.8f) {
-            Bukkit.broadcastMessage(ChatColor.RED + "=====================================");
-            Bukkit.broadcastMessage("V komunistickej spoločnosti, kde nikto nemá výhradné pole pôsobnosti, ale každý sa môže stať vynikajúcim v hociktorom odbore, v ktorom si želá, spoločnosť reguluje všeobecnú produkciu a toto mi robí príležitosť robiť jednu vec dnes a inú vec zajtra, poľovať ráno, rybárčiť popoludní, večer pásť dobytok, kritizovať po obede tak ako chcem, bez toho aby som sa stal poľovníkom, rybárom, pastierom alebo kritikom.");
-            Bukkit.broadcastMessage(ChatColor.RED + "=====================================");
-        }
+        //if (Math.random() > 0.8f) {
+        //    Bukkit.broadcastMessage(ChatColor.RED + "=====================================");
+        //    Bukkit.broadcastMessage("V komunistickej spoločnosti, kde nikto nemá výhradné pole pôsobnosti, ale každý sa môže stať vynikajúcim v hociktorom odbore, v ktorom si želá, spoločnosť reguluje všeobecnú produkciu a toto mi robí príležitosť robiť jednu vec dnes a inú vec zajtra, poľovať ráno, rybárčiť popoludní, večer pásť dobytok, kritizovať po obede tak ako chcem, bez toho aby som sa stal poľovníkom, rybárom, pastierom alebo kritikom.");
+        //    Bukkit.broadcastMessage(ChatColor.RED + "=====================================");
+        //}
     }
 
     @EventHandler
@@ -60,6 +58,6 @@ public class PlayerJoinLeaveListener implements Listener {
         log.info("Saving data of player {}.", event.getPlayer().getName());
         Data.of(event.getPlayer()).save();
 
-        event.setQuitMessage(ChatColor.RED + "[★★★] Sudruh " + event.getPlayer().getName() + " sa odpojil!");
+        //event.setQuitMessage(ChatColor.RED + "[★★★] Sudruh " + event.getPlayer().getName() + " sa odpojil!");
     }
 }
