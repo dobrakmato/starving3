@@ -33,7 +33,7 @@ public class ZombiesModule extends Module {
     @Override
     public void onEnable() {
         // Here we need to patch in custom zombies.
-        new Patcher().patchAll();
+        // new Patcher().patchAll();
 
         // Initialize listeners.
         // listener(new ZombieSpawnListener());

@@ -65,9 +65,9 @@ public class SoundsModule extends Module {
             log.info("Registering sound emitters...");
             // Load emitters from database.
             SoundEmitter soundEmitter = new SoundEmitter();
-            soundEmitter.setSound(Sounds.DRAMATIC);
+            soundEmitter.setSound(Sounds.STUPID1);
             soundEmitter.setLocation(new Location(Bukkit.getWorld("flatworld"), 2308, 25, 2090));
-            soundEmitter.setSoundLength(6000);
+            soundEmitter.setSoundLength(48 * 1000);
 
             emitters.add(soundEmitter);
 

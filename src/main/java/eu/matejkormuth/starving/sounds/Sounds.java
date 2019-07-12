@@ -115,6 +115,7 @@ public final class Sounds {
 
     public static final Sound DEATH = new Sound("death", 16f, SoundType.SINGLE);
     public static final Sound DRAMATIC = new Sound("dramatic", 16f, SoundType.SINGLE);
+    public static final Sound STUPID1 = new Sound("stupid1", 16f, SoundType.SINGLE);
     public static final Sound BLANK = new Sound("blank", 16f, SoundType.SINGLE);
 
     /**

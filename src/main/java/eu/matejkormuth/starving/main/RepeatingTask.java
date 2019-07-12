@@ -29,6 +29,7 @@ package eu.matejkormuth.starving.main;
 import eu.matejkormuth.bmboot.facades.Container;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
+import org.spigotmc.CustomTimingsHandler;
 
 /**
  * Represents repeating task that cloud be canceled.
@@ -37,6 +38,10 @@ public abstract class RepeatingTask implements Runnable {
 
     // Reference to plugin.
     private static final Plugin plugin = Container.get(Plugin.class);
+
+    // Name of this task.
+    private String name;
+    CustomTimingsHandler timings = new CustomTimingsHandler("RepeatingTask: No name");
 
     // Id of current task.
     private int id;
@@ -51,9 +56,27 @@ public abstract class RepeatingTask implements Runnable {
         return new RepeatingTask() {
             @Override
             public void run() {
+                if (this.timings != null) {
+                    this.timings.startTiming();
+                }
                 runnable.run();
+                if (this.timings != null) {
+                    this.timings.stopTiming();
+                }
             }
         };
+    }
+
+    /**
+     * Sets the name of this repeating task to specified one.
+     *
+     * @param name new name for this task
+     * @return instance of itself useful for method chaining
+     */
+    public RepeatingTask name(String name) {
+        this.name = name;
+        this.timings = new CustomTimingsHandler("RepeatingTask: " + name);
+        return this;
     }
 
     /**

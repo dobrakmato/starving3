@@ -2,17 +2,17 @@
  * Starving - Bukkit API server mod with Zombies.
  * Copyright (c) 2015, Matej Kormuth <http://www.github.com/dobrakmato>
  * All rights reserved.
- * <p>
+ *
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
- * <p>
+ *
  * 1. Redistributions of source code must retain the above copyright notice, this
  * list of conditions and the following disclaimer.
- * <p>
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation and/or
  * other materials provided with the distribution.
- * <p>
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -420,8 +420,32 @@ public abstract class Firearm extends Item {
         player.setVelocity(recoil);
     }
 
-    protected void toggleScope(Player player, ItemStack is) {
+    /**
+     * Toggles scope on specified item stack.
+     *
+     * @param player player who owns this item stack
+     * @param is     item stack
+     */
+    public void toggleScope(Player player, ItemStack is) {
         this.toggleScope(player, is, 2);
+    }
+
+    /**
+     * Toggle scoped item off to specified slot. Throws exception is item is not scoped.
+     *
+     * @param player player who owns the item
+     * @param is     item
+     * @param slotId slot to scope off the firearm
+     */
+    public void toggleScopeOff(Player player, ItemStack is, int slotId) {
+        // Transform item.
+        ItemStack nonScoped = firearmTransformer.fromScoped(is);
+
+        // TODO: Convert to getInventory().setSlot().
+        DelayedTask.of(() -> player.getInventory().setItem(slotId, nonScoped)).schedule(Time.ofTicks(1));
+
+        // Remove slowness from scope.
+        player.removePotionEffect(PotionEffectType.SLOW);
     }
 
     protected void toggleScope(Player player, ItemStack is, int slownessLevel) {
@@ -431,7 +455,7 @@ public abstract class Firearm extends Item {
             ItemStack nonScoped = firearmTransformer.fromScoped(is);
 
             // TODO: Convert to getInventory().setSlot().
-            DelayedTask.of(() -> player.setItemInHand(nonScoped)).schedule(Time.ofTicks(5));
+            DelayedTask.of(() -> player.setItemInHand(nonScoped)).schedule(Time.ofTicks(1));
 
             // Remove slowness from scope.
             player.removePotionEffect(PotionEffectType.SLOW);
@@ -440,7 +464,7 @@ public abstract class Firearm extends Item {
             ItemStack scoped = firearmTransformer.toScoped(is);
 
             // TODO: Convert to getInventory().setSlot().
-            DelayedTask.of(() -> player.setItemInHand(scoped)).schedule(Time.ofTicks(5));
+            DelayedTask.of(() -> player.setItemInHand(scoped)).schedule(Time.ofTicks(1));
 
             // Add slowness from scope.
             player.addPotionEffect(

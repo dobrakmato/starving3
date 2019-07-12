@@ -41,6 +41,11 @@ import org.bukkit.entity.Player;
 public class Sound {
 
     /**
+     * Constant that specifies the length of sound is undefined.
+     */
+    public static final long LENGTH_UNDEFINED = -1024L;
+
+    /**
      * Reference to sound module to allow sounds to play.
      */
     static SoundsModule module;
@@ -49,6 +54,11 @@ public class Sound {
      * Internal name of currently played sound effect.
      */
     private final String name;
+
+    /**
+     * Length of the sound in milliseconds.
+     */
+    private final long length = LENGTH_UNDEFINED;
 
     /**
      * Volume of played sound.

@@ -26,8 +26,6 @@
  */
 package eu.matejkormuth.starving.missions;
 
-import eu.matejkormuth.starving.cinematics.Clip;
-import eu.matejkormuth.starving.cinematics.ClipPlayer;
 import eu.matejkormuth.starving.main.Alpha;
 import eu.matejkormuth.starving.missions.rewards.ItemStackReward;
 import eu.matejkormuth.starving.missions.storage.PlayerMissionContext;
@@ -63,21 +61,21 @@ public class AlphaMissions {
             @Override
             public void onCompleted(PlayerMissionContext context) {
                 // Play cinematic.
-                Clip clip = m.getCinematicsModule().getCinematics().loadClip("alpha_2");
-                ClipPlayer player = m.getCinematicsModule().getCinematics().createPlayer(clip);
-                player.getCamera().addObserver(context.getPlayer());
-                player.addListener(new ClipPlayer.ClipPlayerListener() {
-                    @Override
-                    public void onStop(ClipPlayer clipPlayer) {
-                        // Dajme hracovi veci.
-                        context.getPlayer().getInventory().addItem();
-
-                        // Prepnime na dalsiu misiu.
-                        mission1.complete(context.getPlayer());
-                        mission2.start(context.getPlayer());
-                    }
-                });
-                player.play();
+                //Clip clip = m.getCinematicsModule().getCinematics().loadClip("alpha_2");
+                //ClipPlayer player = m.getCinematicsModule().getCinematics().createPlayer(clip);
+                //player.getCamera().addObserver(context.getPlayer());
+                //player.addListener(new ClipPlayer.ClipPlayerListener() {
+                //    @Override
+                //    public void onStop(ClipPlayer clipPlayer) {
+                //        // Dajme hracovi veci.
+                //        context.getPlayer().getInventory().addItem();
+//
+                //        // Prepnime na dalsiu misiu.
+                //        mission1.complete(context.getPlayer());
+                //        mission2.start(context.getPlayer());
+                //    }
+                //});
+                //player.play();
             }
         };
 

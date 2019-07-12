@@ -2,17 +2,17 @@
  * Starving - Bukkit API server mod with Zombies.
  * Copyright (c) 2015, Matej Kormuth <http://www.github.com/dobrakmato>
  * All rights reserved.
- * <p>
+ *
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
- * <p>
+ *
  * 1. Redistributions of source code must retain the above copyright notice, this
  * list of conditions and the following disclaimer.
- * <p>
+ *
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation and/or
  * other materials provided with the distribution.
- * <p>
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -26,6 +26,7 @@
  */
 package eu.matejkormuth.starving.database;
 
+import eu.matejkormuth.collections.Maps;
 import eu.matejkormuth.starving.database.annotations.AutoRegisterColumns;
 import eu.matejkormuth.starving.database.annotations.PerformsQuery;
 import org.slf4j.Logger;
@@ -46,6 +47,18 @@ import java.util.*;
 public class EntityData {
 
     private static final Logger log = LoggerFactory.getLogger(EntityData.class);
+
+    /**
+     * Transformers used to create specific type FROM database string representation.
+     */
+    private static final Map<Class<?>, Transformer<String, ?>> transformersFromDb = Maps
+            .of(UUID.class, UUID::fromString);
+
+    /**
+     * Transformers used to create string representation of object in java.
+     */
+    private static final Map<Class<?>, Transformer<?, String>> transformersToDb = Maps
+            .of(UUID.class, (Transformer<UUID, String>) UUID::toString);
 
     private final Class<? extends Entity> clazz;
     private Constructor<? extends Entity> ctr;
@@ -131,6 +144,21 @@ public class EntityData {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    @PerformsQuery(PerformsQuery.When.SOMETIMES)
+    public void save(Entity entity) {
+        if (!entity.getClass().equals(clazz)) {
+            throw new IllegalArgumentException("Tried to save entity of type " + entity.getClass().getName() + " using EntityData of " + clazz.getName() + "!");
+        }
+
+        if (entity.persisted) {
+            // Perform update.
+
+        } else {
+            // Perform insert.
+
         }
     }
 
@@ -242,7 +270,17 @@ public class EntityData {
         }
         for (Field field : columns) {
             try {
-                field.set(entity, resultSet.getObject(field.getName(), field.getType()));
+                Transformer<String, ?> transformer;
+                // Whether this type is transformed.
+                if (transformersFromDb.containsKey(field.getType())) {
+                    // Use transformer to get correct type.
+                    transformer = transformersFromDb.get(field.getType());
+                    Object value = transformer.transform(resultSet.getString(field.getName()));
+                    field.set(entity, value);
+                } else {
+                    // We assume that this type is supported!
+                    field.set(entity, resultSet.getObject(field.getName(), field.getType()));
+                }
             } catch (IllegalAccessException | SQLException e) {
                 log.error("Can't set value of " + clazz + " model!", e);
             }

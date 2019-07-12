@@ -26,7 +26,7 @@
         <plugin.author>Matej Kormuth</plugin.author>
         <plugin.name>Starving</plugin.name>
         <plugin.version>3.5</plugin.version>
-        <plugin.description>Zombie game in minecraft</plugin.description>
+        <plugin.description>Zombie game in Minecraft</plugin.description>
 
     </properties>
 
@@ -82,6 +82,14 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Other plugin hooks. -->
+        <dependency>
+            <groupId>fr.xephi</groupId>
+            <artifactId>authme</artifactId>
+            <version>5.2-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- This one is special. -->
         <dependency>
             <groupId>spigot</groupId>
@@ -117,12 +125,27 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>xephi-repo</id>
+            <url>http://ci.xephi.fr/plugin/repository/everything/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
     </repositories>
 
     <pluginRepositories>
         <pluginRepository>
             <id>matejkormuth-repo</id>
             <url>http://repo.matejkormuth.eu/</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>sonatype-releases</id>
+            <url>http://oss.sonatype.org/content/repositories/releases</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>clojars.org</id>
+            <url>http://clojars.org/repo</url>
         </pluginRepository>
     </pluginRepositories>
 
@@ -138,6 +161,16 @@
         </resources>
 
         <plugins>
+            <plugin>
+                <groupId>com.code54.mojo</groupId>
+                <artifactId>buildversion-plugin</artifactId>
+                <version>1.0.3</version>
+                <executions>
+                    <execution>
+                        <goals><goal>set-properties</goal></goals>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- Use Java 1.8 -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -213,7 +246,7 @@
                                         <Implementation-Title>${project.name}</Implementation-Title>
                                         <Implementation-Version>${project.version}</Implementation-Version>
                                         <Implementation-Build-Number>${build.number}</Implementation-Build-Number>
-                                        <Implementation-SCM-Revision>${build.revision}</Implementation-SCM-Revision>
+                                        <Implementation-SCM-Revision>${build-commit}</Implementation-SCM-Revision>
                                     </manifestEntries>
                                 </transformer>
                             </transformers>

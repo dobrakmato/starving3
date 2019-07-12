@@ -26,13 +26,12 @@
  */
 package eu.matejkormuth.starving.particles;
 
-import org.bukkit.Location;
-import org.bukkit.util.Vector;
-
 import com.darkblade12.particleeffect.ParticleEffect;
 import com.darkblade12.particleeffect.ParticleEffect.ParticleColor;
 import com.darkblade12.particleeffect.ParticleEffect.ParticleData;
 import com.darkblade12.particleeffect.ParticleEffect.ParticleProperty;
+import org.bukkit.Location;
+import org.bukkit.util.Vector;
 
 public class ParticleEmitter {
 
@@ -51,7 +50,20 @@ public class ParticleEmitter {
     private float offsetY;
     private float offsetZ;
 
+    private int interval = 1;
+
+    public int getInterval() {
+        return interval;
+    }
+
+    public void setInterval(int interval) {
+        this.interval = interval;
+    }
+
     private boolean showLines;
+
+    public ParticleEmitter() {
+    }
 
     public ParticleEmitter(Location location, float speed, int amount,
             ParticleEffect effect) {
@@ -77,6 +89,18 @@ public class ParticleEmitter {
         return effect;
     }
 
+    public void setEffect(ParticleEffect effect) {
+        this.effect = effect;
+    }
+
+    public void setLocation(Location location) {
+        if(location.getWorld() == null) {
+            throw new IllegalArgumentException("World is null!");
+        }
+
+        this.location = location;
+    }
+
     public void emit() {
         if (this.location == null) {
             System.out.println("Can't emit particle. Location null.");
@@ -99,26 +123,6 @@ public class ParticleEmitter {
             } else {
                 this.effect.display(offsetX, offsetY, offsetZ, speed, amount,
                         this.location, Double.MAX_VALUE);
-            }
-        }
-
-        if (Math.random() > 0.5f) {
-            for (float x = -1; x < 1; x += 0.2f) {
-                ParticleEffect.REDSTONE.display(
-                        new ParticleEffect.OrdinaryColor(255, 0, 0),
-                        this.location.clone().add(x, 0, 0), Double.MAX_VALUE);
-
-            }
-            for (float y = -1; y < 1; y += 0.2f) {
-                ParticleEffect.REDSTONE.display(
-                        new ParticleEffect.OrdinaryColor(1, 255, 1),
-                        this.location.clone().add(0, y, 0), Double.MAX_VALUE);
-
-            }
-            for (float z = -1; z < 1; z += 0.2f) { 
-                ParticleEffect.REDSTONE.display(
-                        new ParticleEffect.OrdinaryColor(1, 1, 255),
-                        this.location.clone().add(0, 0, z), Double.MAX_VALUE);
             }
         }
     }

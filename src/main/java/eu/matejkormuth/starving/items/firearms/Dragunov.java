@@ -60,7 +60,7 @@ public class Dragunov extends Firearm {
     }
 
     @Override
-    protected void toggleScope(Player player, ItemStack is) {
+    public void toggleScope(Player player, ItemStack is) {
         this.toggleScope(player, is, 6);
     }
 }

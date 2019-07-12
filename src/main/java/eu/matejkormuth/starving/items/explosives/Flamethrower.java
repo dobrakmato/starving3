@@ -55,11 +55,38 @@ public class Flamethrower extends Item {
     @Override
     public InteractResult onInteract(Player player, Action action, Block clickedBlock, BlockFace clickedFace) {
         if (Actions.isRightClick(action)) {
-            this.emitFire(player);
+            //this.emitFire(player);
+            this.emitFire2(player);
             this.emitSound(player);
         }
 
         return InteractResult.useNone();
+    }
+
+    private void emitFire2(Player player) {
+        ParticleEffect effect = ParticleEffect.CRIT;
+
+        Vector fix = new Vector(0.5, 0.5, 0.5);
+
+        Vector direction = player.getEyeLocation().getDirection().multiply(1.25D);
+        Location spawn = player.getLocation().add(direction.clone()).add(0, 1.30D, 0);
+
+        Runnable work = () -> {
+            for (int i = 0; i < 35; i++) {
+                Vector direction2 = player.getEyeLocation().getDirection().multiply(1.25D);
+                Vector random = Vector.getRandom().subtract(fix).multiply(0.25f);
+                effect.display(direction2.clone().add(random), (float) (1 + Math.random() * 2), spawn, Double.MAX_VALUE);
+            }
+        };
+
+        work.run();
+        DelayedTask.of(work)
+                .schedule(1L)
+                .schedule(2L)
+                .schedule(3L)
+                .schedule(4L)
+                .schedule(5L)
+                .schedule(6L);
     }
 
     private void emitSound(Player player) {
@@ -108,7 +135,7 @@ public class Flamethrower extends Item {
             ParticleEffect.FLAME.display(a[0], a[0], a[0], 0f, 5, loc, Double.MAX_VALUE);
             loc.add(dir);
             a[0] += 0.1f;
-            if(a[0] > 0.7f) {
+            if (a[0] > 0.7f) {
                 ParticleEffect.SMOKE_LARGE.display(0.5f, 0.5f, 0.5f, 0f, 4, loc.clone().add(0, 1, 0), Double.MAX_VALUE);
             }
         };

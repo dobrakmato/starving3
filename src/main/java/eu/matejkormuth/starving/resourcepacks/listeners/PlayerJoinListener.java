@@ -27,6 +27,7 @@
 package eu.matejkormuth.starving.resourcepacks.listeners;
 
 import eu.matejkormuth.starving.main.Data;
+import fr.xephi.authme.events.LoginEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -39,6 +40,11 @@ public class PlayerJoinListener implements Listener {
 
     @EventHandler
     private void onPlayerJoin(final PlayerJoinEvent event) {
+        // no more pls.
+    }
+
+    @EventHandler
+    private void onLogin(final LoginEvent event) {
         // Read data and send resource pack.
         String rp = Data.of(event.getPlayer()).getResourcePack();
         if (rp.equalsIgnoreCase("builders")) {

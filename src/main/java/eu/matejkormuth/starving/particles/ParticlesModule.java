@@ -26,17 +26,53 @@
  */
 package eu.matejkormuth.starving.particles;
 
+import com.darkblade12.particleeffect.ParticleEffect;
 import eu.matejkormuth.bmboot.internal.Module;
+import eu.matejkormuth.starving.main.DelayedTask;
+import eu.matejkormuth.starving.main.Time;
+import eu.matejkormuth.starving.particles.tasks.ParticleEmittersEmitTask;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.util.Vector;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ParticlesModule extends Module {
-    
+
+    private List<ParticleEmitter> emitters = new ArrayList<>();
+
     @Override
     public void onEnable() {
+        DelayedTask.of(() -> {
+            // Load emitters from database.
+            ParticleEmitter dym1 = new ParticleEmitter();
+            dym1.setEffect(ParticleEffect.SMOKE_LARGE);
+            dym1.setLocation(new Location(Bukkit.getWorld("flatworld"), 2299.5, 34.5, 2186.5));
+            dym1.setAmount(20);
+            dym1.setOffsets(1, 1, 1);
+            dym1.setDirection(new Vector(-1, 0.1, 0));
 
+            ParticleEmitter dym2 = new ParticleEmitter();
+            dym2.setEffect(ParticleEffect.SMOKE_LARGE);
+            dym2.setLocation(new Location(Bukkit.getWorld("flatworld"), 2325, 36, 2085.5));
+            dym2.setAmount(20);
+            dym2.setOffsets(1, 1, 1);
+            dym2.setDirection(new Vector(-1, 0.2, 0));
+
+            emitters.add(dym1);
+            emitters.add(dym2);
+        }).schedule(20 * 10);
+
+        // Start tasks.
+        new ParticleEmittersEmitTask(this).schedule(Time.ofTicks(1));
     }
 
     @Override
     public void onDisable() {
+    }
 
+    public List<ParticleEmitter> getEmitters() {
+        return emitters;
     }
 }

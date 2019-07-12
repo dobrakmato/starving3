@@ -26,13 +26,11 @@
  */
 package eu.matejkormuth.starving.npc.behaviours;
 
-import eu.matejkormuth.starving.main.NMSHooks;
+import eu.matejkormuth.starving.main.TrigMath;
 import eu.matejkormuth.starving.npc.behaviours.base.AbstractBehaviour;
 import eu.matejkormuth.starving.persistence.Persist;
-import org.bukkit.craftbukkit.v1_8_R3.TrigMath;
 import org.bukkit.entity.Player;
 
-@NMSHooks(version = "v1_8_R3")
 public class LookAtPlayerBehaviour extends AbstractBehaviour {
 
     @Persist(key = "MAX_FOLLOW_DIST")
@@ -62,7 +60,7 @@ public class LookAtPlayerBehaviour extends AbstractBehaviour {
         if (target == null) {
             this.owner.getNearbyPlayers(MAX_FOLLOW_DIST)
                     .stream()
-                    .filter(p -> this.owner.hasLineOfSight(p))
+                    .filter(this.owner::hasLineOfSight)
                     .forEach(p -> this.target = p);
         }
     }
@@ -70,9 +68,9 @@ public class LookAtPlayerBehaviour extends AbstractBehaviour {
     private void rotate() {
         float yaw = -1
                 * (float) (TrigMath.atan2(target.getLocation().getX()
-                        - this.owner.getLocation().getX(), target.getLocation()
-                        .getZ()
-                        - this.owner.getLocation().getZ()) * 180 / Math.PI);
+                - this.owner.getLocation().getX(), target.getLocation()
+                .getZ()
+                - this.owner.getLocation().getZ()) * 180 / Math.PI);
         this.owner.setYaw(yaw);
     }
 

@@ -59,6 +59,10 @@ public class Time {
         return new Time(seconds * 1000);
     }
 
+    public static Time ofMilliseconds(long milliseconds) {
+        return new Time(milliseconds);
+    }
+
     public long toMiliseconds() {
         return this.milis;
     }

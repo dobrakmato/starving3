@@ -11,6 +11,8 @@
     "eu.matejkormuth.starving.commands.CommandsModule",
     "eu.matejkormuth.starving.configuration.ConfigurationsModule",
     "eu.matejkormuth.starving.database.DatabaseModule",
+    "eu.matejkormuth.starving.events.EventsModule",
+    "eu.matejkormuth.starving.experimental.ExperimentalModule",
     "eu.matejkormuth.starving.explosions.ExplosionsModule",
     "eu.matejkormuth.starving.filestorage.FileStorageModule",
     "eu.matejkormuth.starving.herbology.HerbologyModule",

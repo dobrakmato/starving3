@@ -48,7 +48,6 @@ import eu.matejkormuth.starving.items.melee.*;
 import eu.matejkormuth.starving.items.misc.*;
 import eu.matejkormuth.starving.items.ranged.Crossbow;
 import eu.matejkormuth.starving.items.ranged.LoadedCrossbow;
-import eu.matejkormuth.starving.main.Data;
 import eu.matejkormuth.starving.main.DelayedTask;
 import eu.matejkormuth.starving.main.Time;
 import eu.matejkormuth.starving.nms.NMSModule;
@@ -60,7 +59,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -72,6 +70,7 @@ import org.bukkit.inventory.ItemStack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -113,6 +112,7 @@ public class ItemManager implements Listener {
         this.register(new DisinfectionTablets());
         this.register(new Flashlight());
 
+        this.registerAttachableTiles();
         this.registerFood();
         this.registerFirearms();
         this.registerRanged();
@@ -122,6 +122,47 @@ public class ItemManager implements Listener {
         this.registerClothing();
         this.registerBlocks();
         this.registerExplosives();
+    }
+
+    private void registerAttachableTiles() {
+        this.register(new AttachableTileItem(Material.WOOD, 0, false));
+        this.register(new AttachableTileItem(Material.WOOD, 1, false));
+        this.register(new AttachableTileItem(Material.WOOD, 2, false));
+        this.register(new AttachableTileItem(Material.WOOD, 3, false));
+        this.register(new AttachableTileItem(Material.WOOD, 4, false));
+        this.register(new AttachableTileItem(Material.WOOD, 5, false));
+
+        this.register(new AttachableTileItem(Material.STONE, 2, false));
+        this.register(new AttachableTileItem(Material.STONE, 4, false));
+        this.register(new AttachableTileItem(Material.STONE, 6, false));
+
+        this.register(new AttachableTileItem(Material.RED_SANDSTONE, 0, false));
+        this.register(new AttachableTileItem(Material.RED_SANDSTONE, 1, false));
+        this.register(new AttachableTileItem(Material.RED_SANDSTONE, 2, false));
+        this.register(new AttachableTileItem(Material.MONSTER_EGGS, 0, false));
+        this.register(new AttachableTileItem(Material.MONSTER_EGGS, 1, false));
+
+        this.register(new AttachableTileItem(Material.MOSSY_COBBLESTONE, 0, false));
+        this.register(new AttachableTileItem(Material.COBBLESTONE, 0, false));
+        this.register(new AttachableTileItem(Material.BRICK, 0, false));
+        this.register(new AttachableTileItem(Material.MONSTER_EGGS, 2, false));
+        this.register(new AttachableTileItem(Material.MONSTER_EGGS, 3, false));
+        this.register(new AttachableTileItem(Material.MONSTER_EGGS, 4, false));
+        this.register(new AttachableTileItem(Material.MONSTER_EGGS, 5, false));
+
+        this.register(new AttachableTileItem(Material.SMOOTH_BRICK, 0, false));
+        this.register(new AttachableTileItem(Material.SMOOTH_BRICK, 1, false));
+        this.register(new AttachableTileItem(Material.SMOOTH_BRICK, 2, false));
+        this.register(new AttachableTileItem(Material.SMOOTH_BRICK, 3, false));
+
+        this.register(new AttachableTileItem(Material.NETHER_BRICK, 0, false));
+
+        for (int i = 0; i < 16; i++) {
+            this.register(new AttachableTileItem(Material.STAINED_CLAY, i, false));
+            this.register(new AttachableTileItem(Material.WOOL, i, false));
+        }
+
+        this.register(new AttachableTileItem(Material.HARD_CLAY, 0, false));
     }
 
     private void registerExplosives() {
@@ -147,6 +188,7 @@ public class ItemManager implements Listener {
         this.register(new Axe());
         this.register(new Machete());
         this.register(new Guitar());
+        this.register(new Suitcase());
     }
 
     private void registerFood() {
@@ -161,6 +203,8 @@ public class ItemManager implements Listener {
     }
 
     private void registerBlocksWithData() {
+        this.register(new Cabinet3());
+
         this.register(new LogD12());
         this.register(new LogD13());
         this.register(new LogD14());
@@ -241,7 +285,7 @@ public class ItemManager implements Listener {
         this.register(new Splint());
     }
 
-    private void register(final Item item) {
+    public void register(@Nonnull final Item item) {
         if (this.items.contains(item)) {
             // Do not register more then once.
             return;
@@ -407,6 +451,14 @@ public class ItemManager implements Listener {
                                 event.getDamage());
                         event.setCancelled(true);
                     }
+
+                    if (item instanceof Suitcase) {
+                        ((Suitcase) item).onAttack(
+                                (Player) event.getDamager(),
+                                (LivingEntity) event.getEntity(),
+                                event.getDamage());
+                        event.setCancelled(true);
+                    }
                 }
             }
         }
@@ -415,13 +467,13 @@ public class ItemManager implements Listener {
     // Used to unscope firearms, when changing slots.
     @EventHandler
     private void onSelectedSlotChanged(final PlayerItemHeldEvent event) {
-        Data data = Data.of(event.getPlayer());
+        ItemStack possibleFirearmStack = event.getPlayer().getInventory().getItem(event.getPreviousSlot());
+        Item possibleFirearm = findItem(possibleFirearmStack);
 
-        if (data.isScoped()) {
-            Item item = findItem(event.getPlayer().getInventory().getItem(event.getPreviousSlot()));
-            if (item instanceof Firearm) {
-                // Unscope him.
-                item.onInteract(event.getPlayer(), Action.LEFT_CLICK_AIR, null, null);
+        // TODO: Prevent duplication bug.
+        if (possibleFirearm instanceof Firearm) {
+            if (((Firearm) possibleFirearm).isScoped()) {
+                ((Firearm) possibleFirearm).toggleScopeOff(event.getPlayer(), possibleFirearmStack, event.getPreviousSlot());
             }
         }
     }

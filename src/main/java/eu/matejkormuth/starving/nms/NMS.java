@@ -65,14 +65,14 @@ public class NMS {
     private List<Material> badMaterials = Arrays.asList(Material.LONG_GRASS, Material.LEAVES, Material.LEAVES_2, Material.AIR);
 
     public void displayMaterialBreak(Location loc) {
-        if (badMaterials.contains(loc.getBlock().getType())) {
+        if (badMaterials.contains(loc.getBlock().getType()) || loc.getBlock().getType().isSolid()) {
             return;
         }
 
         Bukkit.getOnlinePlayers()
                 .stream()
                 .filter(p -> p.getLocation().distanceSquared(loc) < 16384)
-                .forEach(p -> sendPacket(p, new PacketPlayOutBlockBreakAnimation(random.nextInt(), new BlockPosition(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()), random.nextInt(2) + 4)));
+                .forEach(p -> sendPacket(p, new PacketPlayOutBlockBreakAnimation(random.nextInt(), new BlockPosition(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()), random.nextInt(4) + 5)));
     }
 
     public void displayBloodEffects(Location loc) {
@@ -83,7 +83,7 @@ public class NMS {
         Bukkit.getOnlinePlayers()
                 .stream()
                 .filter(p -> p.getLocation().distanceSquared(loc) < 16384)
-                .forEach(p -> sendPacket(p, new PacketPlayOutBlockBreakAnimation(random.nextInt(), new BlockPosition(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()), random.nextInt(2) + 1)));
+                .forEach(p -> sendPacket(p, new PacketPlayOutBlockBreakAnimation(random.nextInt(), new BlockPosition(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()), random.nextInt(3) + 1)));
     }
 
     public void playNamedSoundEffect(Player player, String soundEffectName, Location location, float volume, float pitch) {

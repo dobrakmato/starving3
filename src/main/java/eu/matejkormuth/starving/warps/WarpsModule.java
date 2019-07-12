@@ -63,6 +63,19 @@ public class WarpsModule extends Module {
         // Register commands.
         commandsModule.command("warp", this::warpTo);
         commandsModule.command("setwarp", CommandFilters.opOnly(this::setWarp));
+        commandsModule.command("warps", this::listWarps);
+    }
+
+    private boolean listWarps(CommandSender sender, Command command, String label, String[] args) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Warps: ");
+        for(String warp : basePath.toFile().list()) {
+            stringBuilder.append(warp.replace(".yml", ""));
+            stringBuilder.append(", ");
+        }
+        sender.sendMessage(stringBuilder.toString());
+
+        return true;
     }
 
     private boolean setWarp(CommandSender commandSender, Command command, String label, String[] args) {

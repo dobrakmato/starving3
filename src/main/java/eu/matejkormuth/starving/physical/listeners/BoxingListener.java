@@ -27,6 +27,7 @@
 package eu.matejkormuth.starving.physical.listeners;
 
 import eu.matejkormuth.starving.sounds.Sounds;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -37,7 +38,9 @@ public class BoxingListener implements Listener {
     @EventHandler
     private void onPlayerDamagedPlayer(final EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player && event.getEntity() instanceof Player) {
-            Sounds.HAND_HIT.play(((Player) event.getEntity()).getEyeLocation());
+            if (((Player) event.getDamager()).getItemInHand() == null ||
+                    ((Player) event.getDamager()).getItemInHand().getType() == Material.ANVIL)
+                Sounds.HAND_HIT.play(((Player) event.getEntity()).getEyeLocation());
         }
     }
 }

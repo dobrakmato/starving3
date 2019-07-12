@@ -26,6 +26,7 @@
  */
 package eu.matejkormuth.starving.nms;
 
+import eu.matejkormuth.bmboot.facades.Container;
 import eu.matejkormuth.bmboot.internal.Module;
 import eu.matejkormuth.starving.main.NMSHooks;
 import org.slf4j.Logger;
@@ -43,6 +44,9 @@ public class NMSModule extends Module {
 
         // Create NMS.
         nms = new NMS();
+
+        // Exports.
+        Container.put(NMS.class, nms);
     }
 
     private void checkCompatible() {
